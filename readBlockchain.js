@@ -12,3 +12,5 @@ provider.getBlockNumber()
     .catch((error) => {
         console.error("Error connecting to Infura:", error);
     });
+
+//test 
