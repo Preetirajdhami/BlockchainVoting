@@ -26,7 +26,7 @@ const Hero = () => {
     </Link>
   </div>
   <div className="w-full max-w-xs">
-    <Link href="/admin/login">
+    <Link href="/admin/adminLogin">
       <button className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition duration-300">
         Admin Login
       </button>

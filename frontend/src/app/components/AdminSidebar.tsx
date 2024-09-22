@@ -5,6 +5,7 @@ import { FaRegAddressCard } from "react-icons/fa6";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
+import { GrPowerReset } from "react-icons/gr";
 
 // Sidebar component
 const AdminSidebar = () => {
@@ -37,6 +38,12 @@ const AdminSidebar = () => {
                         <Link href="/admin/voting-status" className="flex items-center py-2 px-4 hover:bg-blue-700">
                         <IoStatsChartSharp className="mr-3 text-xl"/>
                             <span>Voting Status</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/admin/voting-status" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <GrPowerReset className="mr-3 text-xl"/>
+                            <span>Reset</span>
                         </Link>
                     </li>
                     <li>
