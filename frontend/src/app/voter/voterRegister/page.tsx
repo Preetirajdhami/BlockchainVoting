@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-import Header from "../components/Header";
-import { useCreateUserMutation } from "../lib/services/auth";
+import Header from "../../components/Header";
+import { useCreateUserMutation } from "../../lib/services/auth";
 import { useRouter } from "next/navigation";
 
 // Define form values types
@@ -183,7 +183,7 @@ const Register = () => {
           {/* Login Link */}
           <p className="text-center text-sm mt-4">
             Already have an account?{" "}
-            <Link href="/voterLogin" className="text-blue-500 hover:underline">Login</Link>
+            <Link href="/voter/voterLogin" className="text-blue-500 hover:underline">Login</Link>
           </p>
         </form>
       </div>

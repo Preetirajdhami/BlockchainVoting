@@ -2,7 +2,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import React from 'react';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { useRouter } from 'next/navigation';
 
 const VoterLogin = () => {
@@ -19,7 +19,7 @@ const VoterLogin = () => {
     }),
     onSubmit: (values) => {
       console.log('Form Data', values);
-      router.push('/voter/profile')
+      router.push('/voter/voterPanel/profile')
       // Add your login logic here
     },
   });
@@ -101,7 +101,7 @@ const VoterLogin = () => {
             </p>
             <p className="text-center text-gray-600 text-sm mt-4">
               Not Registered?{' '}
-              <a href="/voterRegister" className="text-navBlue hover:text-blue-700">
+              <a href="/voter/voterRegister" className="text-navBlue hover:text-blue-700">
                 Register here
               </a>
             </p>

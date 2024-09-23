@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import VoterLayout from "../VoterLayout";
+
+
 
 interface VoterProfile {
   name: string;
@@ -27,7 +30,8 @@ const VoterProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
+    <VoterLayout>
+       <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <div className="max-w-lg w-full bg-white rounded-lg shadow-md p-6">
         <h2 className="text-3xl font-bold mb-6 text-center">Voter Profile</h2>
 
@@ -62,6 +66,8 @@ const VoterProfilePage = () => {
         </div>
       </div>
     </div>
+    </VoterLayout>
+   
   );
 };
 

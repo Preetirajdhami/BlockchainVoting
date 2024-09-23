@@ -20,7 +20,7 @@ const AdminLogin = () => {
     }),
     onSubmit: (values) => {
       console.log('Form Data', values);
-      router.push('/admin/dashboard'); // Redirect to admin dashboard after login
+      router.push('/admin/adminPanel/candidate-details'); // Redirect to admin dashboard after login
       // Add your login logic here
     },
   });

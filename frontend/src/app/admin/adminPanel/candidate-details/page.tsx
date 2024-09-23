@@ -1,7 +1,10 @@
+
 "use client";
-
 import { useState, useEffect } from "react";
+import AdminLayout from "../AdminLayout";
 
+
+// Candidate Profile interface
 interface CandidateProfile {
   name: string;
   email: string;
@@ -10,6 +13,7 @@ interface CandidateProfile {
 }
 
 const CandidateDetailsPage = () => {
+  // Candidate profile state
   const [candidateProfile, setCandidateProfile] = useState<CandidateProfile>({
     name: "Jane Smith",
     email: "janesmith@example.com",
@@ -17,22 +21,25 @@ const CandidateDetailsPage = () => {
     party: "Independent",
   });
 
-  // Fetch profile data (dummy useEffect for now)
+  // Effect for fetching candidate data (simulated for now)
   useEffect(() => {
     // Example: fetch data from backend and set candidateProfile
     // fetchCandidateData().then(data => setCandidateProfile(data));
   }, []);
 
+  // Handler for updating candidate details
   const handleUpdateDetails = () => {
-    // Add logic to handle candidate details update
     console.log("Update Details button clicked!");
+    // Add logic to update the details when the button is clicked
   };
 
   return (
+    <AdminLayout >
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <div className="max-w-lg w-full bg-white rounded-lg shadow-md p-6">
         <h2 className="text-3xl font-bold mb-6 text-center">Candidate Details</h2>
 
+        {/* Candidate name */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Name
@@ -40,6 +47,7 @@ const CandidateDetailsPage = () => {
           <p className="bg-gray-200 p-3 rounded">{candidateProfile.name}</p>
         </div>
 
+        {/* Candidate email */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Email
@@ -47,6 +55,7 @@ const CandidateDetailsPage = () => {
           <p className="bg-gray-200 p-3 rounded">{candidateProfile.email}</p>
         </div>
 
+        {/* Candidate ID */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Candidate ID
@@ -54,6 +63,7 @@ const CandidateDetailsPage = () => {
           <p className="bg-gray-200 p-3 rounded">{candidateProfile.candidateID}</p>
         </div>
 
+        {/* Candidate party */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Party
@@ -61,6 +71,7 @@ const CandidateDetailsPage = () => {
           <p className="bg-gray-200 p-3 rounded">{candidateProfile.party}</p>
         </div>
 
+        {/* Update Details button */}
         <div className="flex justify-center">
           <button
             onClick={handleUpdateDetails}
@@ -71,6 +82,7 @@ const CandidateDetailsPage = () => {
         </div>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 

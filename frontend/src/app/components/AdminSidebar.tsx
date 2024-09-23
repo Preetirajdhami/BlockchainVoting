@@ -1,4 +1,6 @@
 "use client"
+import React from 'react';
+
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { FaRegAddressCard } from "react-icons/fa6";
@@ -12,7 +14,7 @@ const AdminSidebar = () => {
     const router = useRouter();
 
     const handleLogout = async () => {
-        router.push('/');
+        router.push('/admin/adminLogin');
     };
 
     return (
@@ -23,25 +25,25 @@ const AdminSidebar = () => {
             <nav className="mt-8">
                 <ul className="space-y-4">
                     <li>
-                        <Link href="/admin/candidate-details" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/candidate-details" className="flex items-center py-2 px-4 hover:bg-blue-700">
                         <FaRegAddressCard className="mr-3 text-2xl"/>
                            <span>Candidate Details</span> 
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/add-candidate" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/add-details" className="flex items-center py-2 px-4 hover:bg-blue-700">
                         <IoAddCircleOutline className="mr-3 text-2xl"/>
                            <span>Add Candidate</span> 
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/voting-status" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/votingStatus" className="flex items-center py-2 px-4 hover:bg-blue-700">
                         <IoStatsChartSharp className="mr-3 text-xl"/>
                             <span>Voting Status</span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/voting-status" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/reset" className="flex items-center py-2 px-4 hover:bg-blue-700">
                         <GrPowerReset className="mr-3 text-xl"/>
                             <span>Reset</span>
                         </Link>
