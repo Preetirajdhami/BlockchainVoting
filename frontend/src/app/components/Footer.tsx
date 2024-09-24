@@ -18,8 +18,8 @@ const Footer = () => {
           {/* Contact Information */}
           <div className="mb-4 md:mb-0 text-center">
             <h3 className="text-xl font-semibold mb-2">Contact Us</h3>
-            <p>Email: support@votingapp.com</p>
-            <p>Phone: +123 456 7890</p>
+            <p>Email: quickvote450@gmail.com</p>
+            <p>Phone: +977-9804030403</p>
           </div>
         </div>
 
