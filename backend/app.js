@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/connectdb.js';
 import passport from 'passport';
 import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js'
 import './config/passport-jwt-strategy.js';
 
 import express from 'express';
@@ -34,6 +35,8 @@ app.use(cookieParser());
 
 // Load Routes
 app.use("/api/user", userRoutes);
+
+app.use('/api/admin', adminRoutes);
 
 // Start server
 app.listen(port, () => {
