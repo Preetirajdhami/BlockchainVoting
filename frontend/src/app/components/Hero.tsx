@@ -19,7 +19,7 @@ const Hero = () => {
 
 <div className="w-full md:w-1/2 flex flex-col md:flex-row justify-center items-center gap-4">
   <div className="w-full max-w-xs">
-    <Link href="/voterLogin">
+    <Link href="/voter/voterLogin">
       <button className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition duration-300">
         Voter Login
       </button>

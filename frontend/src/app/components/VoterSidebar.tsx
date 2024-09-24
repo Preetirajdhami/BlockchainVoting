@@ -10,7 +10,7 @@ import { IoIosLogOut } from "react-icons/io";
 const VoterSidebar = () => {
     const router = useRouter();
     const handleLogout = async () =>{
-        router.push('/');
+        router.push('/voter/voterLogin');
 
     }
   return (
@@ -21,19 +21,19 @@ const VoterSidebar = () => {
       <nav className="mt-8">
         <ul className="space-y-4">
           <li>
-            <Link href="/voter/profile" className="flex items-center py-2 px-4 hover:bg-blue-700">
+            <Link href="/voter/voterPanel/profile" className="flex items-center py-2 px-4 hover:bg-blue-700">
             <CgProfile className="mr-3 text-2xl"/>
             <span>Profile</span>
             </Link>
           </li>
           <li>
-            <Link href="/voter/settings" className="flex items-center py-2 px-4 hover:bg-blue-700">
+            <Link href="/voter/voterPanel/voting-area" className="flex items-center py-2 px-4 hover:bg-blue-700">
             <MdOutlineHowToVote className="mr-3 text-2xl"/>
               <span>Voting Area</span>
             </Link>
           </li>
           <li>
-            <Link href="/voter/vote" className="flex items-center py-2 px-4 hover:bg-blue-700">
+            <Link href="/voter/voterPanel/result" className="flex items-center py-2 px-4 hover:bg-blue-700">
             <MdQueryStats className="mr-3 text-2xl"/>
               <span>Result</span>
             </Link>

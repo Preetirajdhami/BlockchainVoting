@@ -2,13 +2,11 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import React from 'react';
-import Header from '@/app/components/Header';
+import Header from '../../components/Header';
 import { useRouter } from 'next/navigation';
 
-
-const AdminLogin = () => {
-  const router = useRouter();
-
+const VoterLogin = () => {
+    const router = useRouter(); 
   // Formik Hook for form handling
   const formik = useFormik({
     initialValues: {
@@ -21,7 +19,7 @@ const AdminLogin = () => {
     }),
     onSubmit: (values) => {
       console.log('Form Data', values);
-      router.push('/admin/adminPanel/candidate-details'); // Redirect to admin dashboard after login
+      router.push('/voter/voterPanel/profile')
       // Add your login logic here
     },
   });
@@ -33,8 +31,8 @@ const AdminLogin = () => {
         {/* Left Column with Image */}
         <div className="w-full md:w-1/2 bg-gray-200 flex items-center justify-center">
           <img
-            src="/path-to-your-admin-image.jpg" // Replace with appropriate image
-            alt="Admin"
+            src="/path-to-your-image.jpg"
+            alt="Voting"
             className="h-full w-full object-cover"
           />
         </div>
@@ -42,7 +40,7 @@ const AdminLogin = () => {
         {/* Right Column with Login Form */}
         <div className="w-full md:w-1/2 bg-white flex items-center justify-center p-8">
           <div className="max-w-md w-full">
-            <h2 className="text-3xl font-semibold text-center mb-8">Admin Login</h2>
+            <h2 className="text-3xl font-semibold text-center mb-8">Voter Login</h2>
             <form onSubmit={formik.handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -97,13 +95,13 @@ const AdminLogin = () => {
             </form>
             <p className="text-center text-gray-600 text-sm mt-4">
               Forgot your password?{' '}
-              <a href="/admin/reset-password" className="text-navBlue hover:text-blue-700">
+              <a href="/reset-password" className="text-navBlue hover:text-blue-700">
                 Reset it here
               </a>
             </p>
             <p className="text-center text-gray-600 text-sm mt-4">
               Not Registered?{' '}
-              <a href="/admin/register" className="text-navBlue hover:text-blue-700">
+              <a href="/voter/voterRegister" className="text-navBlue hover:text-blue-700">
                 Register here
               </a>
             </p>
@@ -114,4 +112,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default VoterLogin;
