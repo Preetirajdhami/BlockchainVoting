@@ -14,6 +14,10 @@ interface FormValues {
   email: string;
   password: string;
   password_confirmation: string;
+  dob: string;
+  address: string;
+  mobile: string;
+  photo: File | null;
 }
 
 const Register = () => {
@@ -31,6 +35,10 @@ const Register = () => {
       email: "",
       password: "",
       password_confirmation: "",
+      dob: "",
+      address: "",
+      mobile: "",
+      photo: null,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
@@ -39,10 +47,24 @@ const Register = () => {
       password_confirmation: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Password confirmation is required"),
+      dob: Yup.date().required("Date of birth is required"),
+      address: Yup.string().required("Address is required"),
+      mobile: Yup.string().matches(/^\d{10}$/, "Mobile number must be 10 digits").required("Mobile number is required"),
+      photo: Yup.mixed().required("Photo is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await createUser(values);
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        formData.append("password", values.password);
+        formData.append("password_confirmation", values.password_confirmation);
+        formData.append("dob", values.dob);
+        formData.append("address", values.address);
+        formData.append("mobile", values.mobile);
+        if (values.photo) formData.append("photo", values.photo);
+
+        const response = await createUser(formData);
         console.log(response);
 
         // Clear error and set success message on successful registration
@@ -144,32 +166,100 @@ const Register = () => {
             )}
           </div>
 
+          {/* Date of Birth Field */}
+          <div className="mb-4">
+            <label htmlFor="dob" className="block text-sm font-medium mb-1">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              id="dob"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                formik.touched.dob && formik.errors.dob ? "border-red-500" : ""
+              }`}
+              {...formik.getFieldProps("dob")}
+            />
+            {formik.touched.dob && formik.errors.dob && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.dob}</div>
+            )}
+          </div>
+
+          {/* Address Field */}
+          <div className="mb-4">
+            <label htmlFor="address" className="block text-sm font-medium mb-1">
+              Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                formik.touched.address && formik.errors.address ? "border-red-500" : ""
+              }`}
+              {...formik.getFieldProps("address")}
+            />
+            {formik.touched.address && formik.errors.address && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.address}</div>
+            )}
+          </div>
+
+          {/* Mobile Field */}
+          <div className="mb-4">
+            <label htmlFor="mobile" className="block text-sm font-medium mb-1">
+              Mobile
+            </label>
+            <input
+              type="text"
+              id="mobile"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                formik.touched.mobile && formik.errors.mobile ? "border-red-500" : ""
+              }`}
+              {...formik.getFieldProps("mobile")}
+            />
+            {formik.touched.mobile && formik.errors.mobile && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.mobile}</div>
+            )}
+          </div>
+
+          {/* Upload Photo Field */}
+          <div className="mb-4">
+            <label htmlFor="photo" className="block text-sm font-medium mb-1">
+              Upload Photo
+            </label>
+            <input
+              type="file"
+              id="photo"
+              className="w-full p-2 border border-gray-300 rounded"
+              onChange={(event) => {
+                if (event.currentTarget.files) {
+                  formik.setFieldValue("photo", event.currentTarget.files[0]);
+                }
+              }}
+            />
+            {formik.touched.photo && formik.errors.photo && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.photo}</div>
+            )}
+          </div>
+
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="w-full p-2 bg-blue-500 text-white rounded mt-4"
+            disabled={formik.isSubmitting}
           >
             Register
           </button>
 
-          {/* Success Message */}
-          {formSuccess && (
-            <div className="mt-4 text-green-500 text-center">{formSuccess}</div>
-          )}
-
-          {/* Error Handling */}
-          {formError && (
-            <div className="mt-4 text-red-500 text-center">{formError}</div>
-          )}
-
-          {/* Login Link */}
-          <p className="text-center text-sm mt-4">
-            Already have an account?{" "}
-            <Link href="/voterLogin" className="text-blue-500 hover:underline">
-              Login
-            </Link>
-          </p>
+          {/* Display form error or success messages */}
+          {formError && <div className="text-red-500 text-sm mt-2">{formError}</div>}
+          {formSuccess && <div className="text-green-500 text-sm mt-2">{formSuccess}</div>}
         </form>
+
+        <div className="mt-4">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-500">
+            Login
+          </Link>
+        </div>
       </div>
     </>
   );
