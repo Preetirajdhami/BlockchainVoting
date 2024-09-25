@@ -19,9 +19,10 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "expres": "^0.0.5",
     "express": "^5.0.0-beta.3",
-    "mongoose": "^8.5.2",
-    "nodemailer": "^6.9.14",
+    "mongoose": "^8.6.3",
+    "nodemailer": "^6.9.15",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1"
   }

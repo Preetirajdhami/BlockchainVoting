@@ -18,6 +18,25 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    date_of_birth: {
+        type: Date,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    mobile: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    photo: {
+        type: String,
+        required: false, // Can be optional depending on your logic
+    },
     is_verified: {
         type: Boolean,
         default: false
@@ -27,10 +46,11 @@ const userSchema = new mongoose.Schema({
         enum: ["user", "admin"],
         default: ["user"]
     },
+}, {
+    timestamps: true // Automatically creates 'createdAt' and 'updatedAt' fields
+});
 
-})
-//model
+// Model
+const UserModel = mongoose.model("User", userSchema);
 
-const UserModel = mongoose.model("user", userSchema)
-
-export default UserModel
+export default UserModel;
