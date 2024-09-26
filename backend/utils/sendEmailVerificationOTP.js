@@ -11,7 +11,7 @@ const sendEmailVerificationOTP = async(req, user) => {
  await new EmailVerificationModel({ userId: user._id, otp: otp}).save();
 
  //OTP Verification Link
- const otpVerificationLink = `${process.env.FRONTEND_HOST}/account/verify-email`;
+ const otpVerificationLink = `${process.env.FRONTEND_HOST}/voter/verify-email`;
 
  await transporter.sendMail({
     from: process.env.EMAIL_FROM,

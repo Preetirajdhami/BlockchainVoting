@@ -4,7 +4,7 @@ const setTokensCookies = (res, accessToken, refreshToken,
         const refreshTokenMaxAge = (newRefreshTokenExp - Math.floor(Date.now()/1000))*1000;
 
         //Set Cookie for Access Token 
-        res.cookie('accesstoken', accessToken,{
+        res.cookie('accessToken', accessToken,{
             httpOnly: true,
             secure: true,
             maxAge: accessTokenMaxAge,

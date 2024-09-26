@@ -5,84 +5,101 @@ import EmailVerificationModel from "../models/EmailVerification.js";
 import setTokensCookies from "../utils/setTokensCookies.js";
 import generateTokens from "../utils/generateTokens.js";
 import refreshAccessToken from "../utils/refreshAccessToken.js";
+import path from "path";
+import { join } from 'path';
+import fs from "fs";
 
 class UserController {
     //user Registration
 
     static userRegistration = async (req, res) => {
         try {
-            //extract request body parameters
+            // Extract request body parameters and file (photo)
             const {
                 name,
                 email,
                 password,
-                password_confirmation
-            } =
-            req.body;
-
-            //check if all required feilds are provided
-            if (!name || !email || !password || !password_confirmation) {
+                password_confirmation,
+                dob,
+                address,
+                mobile
+            } = req.body;
+    
+            const photo = req.file; // Assuming you're using multer for file uploads
+    
+            // Check if all required fields are provided
+            if (!name || !email || !password || !password_confirmation || !dob || !address || !mobile || !photo) {
                 return res.status(400).json({
                     status: "failed",
                     message: "All fields are required"
                 });
             }
-
-            //check if password and password_confirmation match
+    
+            // Check if password and password_confirmation match
             if (password !== password_confirmation) {
                 return res.status(400).json({
                     status: "failed",
-                    message: "Password and confirm password don't match "
+                    message: "Password and confirm password don't match"
                 });
             }
-
-            //check if email already exists
-            const existingUser = await UserModel.findOne({
-                email
-            });
+    
+            // Check if email already exists
+            const existingUser = await UserModel.findOne({ email });
             if (existingUser) {
                 return res.status(409).json({
                     status: "failed",
                     message: "Email already exists"
                 });
-
             }
-            //Generate salt and hassh password
+    
+            // Generate salt and hash password
             const salt = await bcrypt.genSalt(Number(process.env.SALT));
             const hashedPassword = await bcrypt.hash(password, salt);
-
-            //Create new user
+    
+            // Ensure photo is uploaded correctly and get its path
+            const photoPath = photo.path; // Get the full path from multer
+    
+            // Check if photoPath is defined
+            if (!photoPath) {
+                return res.status(400).json({
+                    status: "failed",
+                    message: "Photo upload failed"
+                });
+            }
+    
+            // Create new user
             const newUser = await new UserModel({
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                dob,
+                address,
+                mobile,
+                photo: photoPath // Store photo path
             }).save();
-
-            sendEmailVerificationOTP(req, newUser)
-
-            //send success response
+    
+            // Send email verification OTP
+            sendEmailVerificationOTP(req, newUser);
+    
+            // Send success response
             res.status(201).json({
-                status: "succcess",
-                message: "Registration Success",
+                status: "success",
+                message: "Registration successful",
                 user: {
                     id: newUser._id,
                     email: newUser.email
                 }
             });
-
-
-
+    
         } catch (error) {
             console.error(error);
             res.status(500).json({
                 status: "failed",
-                message: "unable to register, please try again later"
+                message: "Unable to register, please try again later"
             });
-
-
         }
-
-    }
+    };
+    
     //User Email Verification
 
     static verifyEmail = async (req, res) => {
@@ -300,6 +317,7 @@ class UserController {
     //change password
     //profile or logged in user
     static userProfile =  async(req, res) => {
+        console.log(req.user);
         res.send({"user":req.user })
     }
     //send password reset email

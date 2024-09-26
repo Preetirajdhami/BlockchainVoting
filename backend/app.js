@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js'
 import './config/passport-jwt-strategy.js';
 
+
 import express from 'express';
 const app = express();
 const port = process.env.PORT || 8000;
@@ -37,6 +38,8 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 
 app.use('/api/admin', adminRoutes);
+
+
 
 // Start server
 app.listen(port, () => {
