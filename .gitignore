@@ -1,7 +1,11 @@
+# Ignore node_modules directory
 node_modules/
+
+# Ignore .env files
 .env
-.vscode/
-.next/
-backend/node_modules/
-/backend/utils/hashPassword.js
-.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore specific files
+hashPassword.js
