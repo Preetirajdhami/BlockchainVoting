@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// Define the schema with the corresponding fields from the frontend
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
