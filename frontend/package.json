@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
+    "ethers": "^6.13.2",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "next": "^14.2.7",

@@ -1,12 +1,14 @@
-"use client"
+"use client";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
 import { useRouter } from 'next/navigation';
 
 const VoterLogin = () => {
-    const router = useRouter(); 
+  const router = useRouter(); 
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+
   // Formik Hook for form handling
   const formik = useFormik({
     initialValues: {
@@ -17,10 +19,35 @@ const VoterLogin = () => {
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().required('Password is required'),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log('Form Data', values);
-      router.push('/voter/voterPanel/profile')
-      // Add your login logic here
+      try {
+        const response = await fetch('http://localhost:8000/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Handle specific error messages from the backend
+          if (data.status === "failed") {
+            setErrorMessage(data.message); // Set error message from backend
+          } else {
+            setErrorMessage('Login failed. Please try again.'); // Generic error message
+          }
+          return; // Exit the function if there's an error
+        }
+
+        // Login successful, redirect to voter panel profile
+        router.push('/voter/voterPanel/profile');
+      } catch (error) {
+        setErrorMessage('Unable to login, please try again'); // Set error for network issues
+        console.error('Login Error:', error);
+      }
     },
   });
 
@@ -41,6 +68,11 @@ const VoterLogin = () => {
         <div className="w-full md:w-1/2 bg-white flex items-center justify-center p-8">
           <div className="max-w-md w-full">
             <h2 className="text-3xl font-semibold text-center mb-8">Voter Login</h2>
+
+            {errorMessage && (
+              <p className="text-red-500 text-xs italic mb-4 text-center">{errorMessage}</p>
+            )}
+
             <form onSubmit={formik.handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">

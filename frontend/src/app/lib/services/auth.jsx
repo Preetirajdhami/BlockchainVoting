@@ -1,4 +1,4 @@
-// Need to use the React-specific entry point to import createApi
+// Importing the necessary functions from Redux Toolkit
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Define a service using a base URL and expected endpoints
@@ -7,21 +7,19 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api/user' }),
   endpoints: (builder) => ({
     createUser: builder.mutation({
-      query: (user) => {
-        // console.log('Create User Data', user);
+      query: (userData) => {
         return {
-          url: 'register', // specify the correct endpoint here
-          method: 'POST', // use POST for creating a user
-          body: user, // sending user data in the request body
-          headers: {
-            'Content-type':'application/json'
-          }
+          url: 'register', 
+          method: 'POST',   
+          body: userData,   // Sending user data in the request body
+          // Remove the Content-Type header so the browser can set it automatically
+          // headers: {
+          //   'Content-type': 'application/json'
+          // }
         };
       },
     }),
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const { useCreateUserMutation } = authApi;
