@@ -1,19 +1,25 @@
-// import { ethers } from 'ethers';
+import { ethers } from 'ethers';
 
-// const connectMetaMask = async () => {
-//   try {
-//     // Request account access
-//     await window.ethereum.request({ method: 'eth_requestAccounts' });
-//     console.log("MetaMask connected");
-    
-//     // Set up provider and signer
-//     const provider = new ethers.providers.Web3Provider(window.ethereum);
-//     const signer = provider.getSigner();
-    
-//     return { provider, signer };
-//   } catch (error) {
-//     console.error("Error connecting MetaMask:", error);
-//   }
-// };
-
-// export default connectMetaMask;
+// Connect MetaMask
+async function walletConnect() {
+  if (window.ethereum) {
+    try {
+      // Create a new provider
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      
+      // Request accounts
+      await provider.send("eth_requestAccounts", []); // Provide an empty array as the second argument
+      
+      // Get the signer
+      const signer = await provider.getSigner(); // Await the getSigner() method
+      
+      console.log("Wallet connected:", await signer.getAddress()); // Now this line works
+      return signer;
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+    }
+  } else {
+    console.log("Install MetaMask");
+  }
+}
+ export default walletConnect

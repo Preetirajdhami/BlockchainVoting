@@ -178,7 +178,7 @@ const contractABI = [
   }
 ];
 
-export const getContractInstance = async () => {
+ const getContractInstance = async () => {
   // Check if MetaMask (or another Ethereum wallet) is installed
   if (!window.ethereum) {
     throw new Error("MetaMask not installed");
@@ -192,3 +192,4 @@ export const getContractInstance = async () => {
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
   return contract;
 };
+ export default getContractInstance
