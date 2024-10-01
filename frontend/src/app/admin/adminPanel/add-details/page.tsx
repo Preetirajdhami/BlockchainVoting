@@ -1,125 +1,107 @@
 "use client"
-import { useState, useEffect } from 'react';
-import getContractInstance from '../../../utility/contract.js';
+import { useState } from 'react';
+import { ethers, isAddress } from 'ethers';// Ensure ethers is imported properly
+ 
+import getContractInstance from "../../../utility/contract.js"; 
 
-// Define the Candidate interface
-interface Candidate {
-  firstName: string;
-  lastName: string;
-  position: string;
-  addressInfo: string;
-  voteCount: number;
-}
+const AddCandidate = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    position: '',
+    addressInfo: '',
+  });
 
-const CandidatesPage = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [position, setPosition] = useState('');
-  const [addressInfo, setAddressInfo] = useState('');
-  const [candidates, setCandidates] = useState<Candidate[]>([]); // Specify the type
-  const [candidateCount, setCandidateCount] = useState(0);
-
-  const fetchCandidates = async () => {
-    const contract = await getContractInstance();
-    const count = await contract.candidateCount();
-    setCandidateCount(count.toNumber());
-    const candidatesList: Candidate[] = []; // Specify the type
-
-    for (let i = 1; i <= count; i++) {
-      const candidate = await contract.getCandidate(i);
-      candidatesList.push({
-        firstName: candidate.firstName,
-        lastName: candidate.lastName,
-        position: candidate.position,
-        addressInfo: candidate.addressInfo,
-        voteCount: candidate.voteCount.toNumber(), // Convert to number
-      });
-    }
-    setCandidates(candidatesList);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    fetchCandidates();
-  }, []);
+  const addCandidate = async () => {
+    const provider = new ethers.BrowserProvider(window.ethereum); // Initialize provider
+    const signer = await provider.getSigner(); // Get the signer
+    if (!signer) {
+      console.error('Signer not available. Connect your wallet first.');
+      return;
+    }
 
-  const handleAddCandidate = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const contract = await getContractInstance();
+    // Trim the addressInfo to remove any leading/trailing spaces
+    // let resolvedAddress: string | null = formData.addressInfo.trim();
+
+    // Check if the input is an Ethereum address
+    // if (!isAddress(resolvedAddress)) {
+    //   try {
+    //     // Attempt to resolve the name as an ENS name
+    //     resolvedAddress = await signer.resolveName(resolvedAddress);
+    //     if (!resolvedAddress) {
+    //       throw new Error('Invalid ENS name or address');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error resolving ENS name:', error);
+    //     return;
+    //   }
+    // }
+
+    // Ensure resolvedAddress is a string before proceeding
+    // if (resolvedAddress === null) {
+    //   console.error('Resolved address is null');
+    //   return;
+    // }
 
     try {
-      const tx = await contract.addCandidate(firstName, lastName, position, addressInfo);
+      const contract = await getContractInstance();
+      const tx = await contract.addCandidate(
+        formData.firstName,
+        formData.lastName,
+        formData.position,
+        formData.addressInfo
+        // resolvedAddress // Use the resolved address here
+      );
       await tx.wait();
       alert('Candidate added successfully!');
-      setFirstName('');
-      setLastName('');
-      setPosition('');
-      setAddressInfo('');
-      
-      // Refresh candidates list
-      await fetchCandidates(); // Call the fetch function
     } catch (error) {
       console.error('Error adding candidate:', error);
-      alert('Failed to add candidate');
     }
   };
 
   return (
-    <div className="container mx-auto my-10 p-5 bg-gray-100 rounded-md shadow-md">
-      <h1 className="text-2xl font-bold mb-5">Manage Candidates</h1>
-      <form onSubmit={handleAddCandidate} className="mb-5">
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-          className="p-2 border border-gray-300 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-          className="p-2 border border-gray-300 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="Position"
-          value={position}
-          onChange={(e) => setPosition(e.target.value)}
-          required
-          className="p-2 border border-gray-300 rounded mb-2 w-full"
-        />
-        <input
-          type="text"
-          placeholder="Address Info"
-          value={addressInfo}
-          onChange={(e) => setAddressInfo(e.target.value)}
-          required
-          className="p-2 border border-gray-300 rounded mb-2 w-full"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Add Candidate
-        </button>
-      </form>
-      
-      <h2 className="text-xl font-semibold mb-3">Candidates List</h2>
-      <ul className="space-y-2">
-        {candidates.map((candidate, index) => (
-          <li key={index} className="p-4 bg-white border border-gray-200 rounded shadow">
-            <h3 className="font-bold">{candidate.firstName} {candidate.lastName}</h3>
-            <p><strong>Position:</strong> {candidate.position}</p>
-            <p><strong>Address:</strong> {candidate.addressInfo}</p>
-            <p><strong>Votes:</strong> {candidate.voteCount}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="p-4 bg-gray-100 rounded shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Add Candidate</h2>
+      <input
+        type="text"
+        name="firstName"
+        placeholder="First Name"
+        className="mb-2 p-2 border rounded w-full"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="lastName"
+        placeholder="Last Name"
+        className="mb-2 p-2 border rounded w-full"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="position"
+        placeholder="Position"
+        className="mb-2 p-2 border rounded w-full"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="addressInfo"
+        placeholder="Address"
+        className="mb-2 p-2 border rounded w-full"
+        onChange={handleChange}
+      />
+      <button
+        onClick={addCandidate}
+        className="px-4 py-2 bg-green-600 text-white rounded"
+      >
+        Add Candidate
+      </button>
     </div>
   );
 };
 
-export default CandidatesPage;
+export default AddCandidate;

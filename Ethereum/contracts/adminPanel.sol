@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Election {
-    
+contract adminPanel {
     // Struct to hold candidate details
     struct Candidate {
         string firstName;
@@ -12,7 +11,7 @@ contract Election {
         uint256 voteCount;
     }
 
-    // Address of the election authority (admin)
+    // Address of the election authority (admin) state variable
     address public electionAuthority;
 
     // Mapping to store candidates with an incremental ID
@@ -21,7 +20,10 @@ contract Election {
 
     // Modifier to restrict certain functions to only the admin (electionAuthority)
     modifier onlyAdmin() {
-        require(msg.sender == electionAuthority, "Only admin can perform this action");
+        require(
+            msg.sender == electionAuthority,
+            "Only admin can perform this action"
+        );
         _;
     }
 
@@ -66,13 +68,19 @@ contract Election {
     }
 
     // Function to get candidate details by ID
-    function getCandidate(uint256 candidateID) public view returns (
-        string memory firstName,
-        string memory lastName,
-        string memory position,
-        string memory addressInfo,
-        uint256 voteCount
-    ) {
+    function getCandidate(
+        uint256 candidateID
+    )
+        public
+        view
+        returns (
+            string memory firstName,
+            string memory lastName,
+            string memory position,
+            string memory addressInfo,
+            uint256 voteCount
+        )
+    {
         Candidate memory candidate = candidates[candidateID];
         return (
             candidate.firstName,

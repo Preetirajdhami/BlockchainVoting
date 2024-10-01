@@ -1,25 +1,34 @@
-import { ethers } from 'ethers';
+import { useState } from 'react'
+import { ethers } from 'ethers'
 
-// Connect MetaMask
-async function walletConnect() {
-  if (window.ethereum) {
-    try {
-      // Create a new provider
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      
-      // Request accounts
-      await provider.send("eth_requestAccounts", []); // Provide an empty array as the second argument
-      
-      // Get the signer
-      const signer = await provider.getSigner(); // Await the getSigner() method
-      
-      console.log("Wallet connected:", await signer.getAddress()); // Now this line works
-      return signer;
-    } catch (error) {
-      console.error("Failed to connect wallet:", error);
+const WalletConnect = () => {
+  const [account, setAccount] = useState<string | null>(null)
+
+  const connectWallet = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        const accounts = await provider.send("eth_requestAccounts", [])
+        setAccount(accounts[0])
+      } catch (error) {
+        console.error("Error connecting to MetaMask:", error)
+      }
+    } else {
+      alert("MetaMask is not installed")
     }
-  } else {
-    console.log("Install MetaMask");
   }
+
+  return (
+    <div className="text-center">
+      <button
+        onClick={connectWallet}
+        className="px-4 py-2 bg-blue-600 text-white rounded"
+      >
+        Connect Wallet
+      </button>
+      {account && <p>Connected: {account}</p>}
+    </div>
+  )
 }
- export default walletConnect
+
+export default WalletConnect

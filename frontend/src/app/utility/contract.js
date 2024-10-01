@@ -1,35 +1,9 @@
 import { ethers } from 'ethers';
 
-const contractAddress = "0x358AA13c52544ECCEF6B0ADD0f801012ADAD5eE3";
-const contractABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "firstName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "lastName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "position",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "addressInfo",
-        "type": "string"
-      }
-    ],
-    "name": "addCandidate",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
+
+
+const contractAddress = "0xbf790d6E257eC1367AC1552D5317F2A066595aF6";
+const contractABI =  [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -83,7 +57,8 @@ const contractABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -122,7 +97,8 @@ const contractABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -135,6 +111,35 @@ const contractABI = [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "firstName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "lastName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "position",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "addressInfo",
+        "type": "string"
+      }
+    ],
+    "name": "addCandidate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -174,10 +179,10 @@ const contractABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ];
-
  const getContractInstance = async () => {
   // Check if MetaMask (or another Ethereum wallet) is installed
   if (!window.ethereum) {
@@ -185,8 +190,8 @@ const contractABI = [
   }
 
   // Set up provider and signer
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
 
   // Create and return the contract instance
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
