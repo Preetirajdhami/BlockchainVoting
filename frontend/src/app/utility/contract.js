@@ -2,8 +2,8 @@ import { ethers } from 'ethers';
 
 
 
-const contractAddress = "0xbf790d6E257eC1367AC1552D5317F2A066595aF6";
-const contractABI =  [
+const contractAddress = "0xea430983a38b971D15FC0D58b70f465C31B34AbE";
+const contractABI = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -41,6 +41,18 @@ const contractABI =  [
         "internalType": "string",
         "name": "addressInfo",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "profileImageHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "logoImageHash",
+        "type": "string"
       }
     ],
     "name": "CandidateAdded",
@@ -57,8 +69,7 @@ const contractABI =  [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -91,14 +102,23 @@ const contractABI =  [
         "type": "string"
       },
       {
+        "internalType": "string",
+        "name": "profileImageHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "logoImageHash",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
         "name": "voteCount",
         "type": "uint256"
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -111,8 +131,7 @@ const contractABI =  [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -134,6 +153,16 @@ const contractABI =  [
       {
         "internalType": "string",
         "name": "addressInfo",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "profileImageHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "logoImageHash",
         "type": "string"
       }
     ],
@@ -173,14 +202,23 @@ const contractABI =  [
         "type": "string"
       },
       {
+        "internalType": "string",
+        "name": "profileImageHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "logoImageHash",
+        "type": "string"
+      },
+      {
         "internalType": "uint256",
         "name": "voteCount",
         "type": "uint256"
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ];
  const getContractInstance = async () => {

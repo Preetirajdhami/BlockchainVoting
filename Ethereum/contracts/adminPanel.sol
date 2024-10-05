@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract adminPanel {
+contract AdminPanel {
     // Struct to hold candidate details
     struct Candidate {
         string firstName;
         string lastName;
         string position;
         string addressInfo; // Address as string
+        string profileImageHash; // IPFS hash for profile image
+        string logoImageHash;    // IPFS hash for logo
         uint256 voteCount;
     }
 
@@ -38,7 +40,9 @@ contract adminPanel {
         string firstName,
         string lastName,
         string position,
-        string addressInfo
+        string addressInfo,
+        string profileImageHash,
+        string logoImageHash
     );
 
     // Function to add a candidate (Only admin can add)
@@ -46,7 +50,9 @@ contract adminPanel {
         string memory firstName,
         string memory lastName,
         string memory position,
-        string memory addressInfo
+        string memory addressInfo,
+        string memory profileImageHash, // New parameter for profile image
+        string memory logoImageHash      // New parameter for logo image
     ) public onlyAdmin {
         candidateCount++; // Increment candidate ID
         candidates[candidateCount] = Candidate({
@@ -54,6 +60,8 @@ contract adminPanel {
             lastName: lastName,
             position: position,
             addressInfo: addressInfo,
+            profileImageHash: profileImageHash, // Store profile image hash
+            logoImageHash: logoImageHash,       // Store logo image hash
             voteCount: 0 // Initialize vote count to zero
         });
 
@@ -63,7 +71,9 @@ contract adminPanel {
             firstName,
             lastName,
             position,
-            addressInfo
+            addressInfo,
+            profileImageHash, // Include profile image hash in event
+            logoImageHash     // Include logo image hash in event
         );
     }
 
@@ -78,6 +88,8 @@ contract adminPanel {
             string memory lastName,
             string memory position,
             string memory addressInfo,
+            string memory profileImageHash, // New return value for profile image hash
+            string memory logoImageHash,     // New return value for logo image hash
             uint256 voteCount
         )
     {
@@ -87,6 +99,8 @@ contract adminPanel {
             candidate.lastName,
             candidate.position,
             candidate.addressInfo,
+            candidate.profileImageHash, // Return profile image hash
+            candidate.logoImageHash,     // Return logo image hash
             candidate.voteCount
         );
     }
