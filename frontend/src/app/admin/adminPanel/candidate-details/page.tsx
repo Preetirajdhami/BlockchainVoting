@@ -1,89 +1,101 @@
-
 "use client";
 import { useState, useEffect } from "react";
-import AdminLayout from "../AdminLayout";
+import { ethers } from "ethers";
+import getContractInstance from "../../../utility/contract.js"; 
 
-
-// Candidate Profile interface
-interface CandidateProfile {
-  name: string;
-  email: string;
-  candidateID: string;
-  party: string;
+interface Candidate {
+  firstName: string;
+  lastName: string;
+  position: string;
+  addressInfo: string;
+  profileImageHash: string;
+  logoImageHash: string;
+  voteCount: number;
 }
 
-const CandidateDetailsPage = () => {
-  // Candidate profile state
-  const [candidateProfile, setCandidateProfile] = useState<CandidateProfile>({
-    name: "Jane Smith",
-    email: "janesmith@example.com",
-    candidateID: "987654321",
-    party: "Independent",
-  });
+const CandidateList = () => {
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Effect for fetching candidate data (simulated for now)
-  useEffect(() => {
-    // Example: fetch data from backend and set candidateProfile
-    // fetchCandidateData().then(data => setCandidateProfile(data));
-  }, []);
+  const fetchAllCandidates = async () => {
+    try {
+      setLoading(true);
+      const contract = await getContractInstance();
 
-  // Handler for updating candidate details
-  const handleUpdateDetails = () => {
-    console.log("Update Details button clicked!");
-    // Add logic to update the details when the button is clicked
+      // Fetch all candidates data from the smart contract
+      const candidateData: Candidate[] = await contract.getAllCandidates();
+      console.log("Fetched candidates data:", candidateData);
+
+      // Update state with the candidate details
+      setCandidates(candidateData);
+    } catch (err) {
+      console.error("Error fetching candidates:", err);
+      setError("Failed to fetch candidates. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchAllCandidates();
+  }, []);
+
+  if (loading) {
+    return <div>Loading candidates...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (candidates.length === 0) {
+    return <div>No candidates available.</div>;
+  }
+
   return (
-    <AdminLayout >
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
-      <div className="max-w-lg w-full bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-3xl font-bold mb-6 text-center">Candidate Details</h2>
-
-        {/* Candidate name */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Name
-          </label>
-          <p className="bg-gray-200 p-3 rounded">{candidateProfile.name}</p>
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">Candidate List</h2>
+      {candidates.map((candidate, index) => (
+        <div key={index} className="mb-6">
+          <h3 className="text-xl font-semibold">{candidate.firstName} {candidate.lastName}</h3>
+          <p><strong>Position:</strong> {candidate.position}</p>
+          <p><strong>Address:</strong> {candidate.addressInfo}</p>
+          <p><strong>Vote Count:</strong> {candidate.voteCount}</p>
+          <div className="mb-4">
+            <strong>Profile Image:</strong>
+            {candidate.profileImageHash ? (
+              <img
+                src={`https://ipfs.io/ipfs/${candidate.profileImageHash}`}
+                alt="Profile"
+                className="w-32 h-32 rounded-full"
+                onError={(e) => {
+                  e.currentTarget.src = "/default-profile.png"; // Fallback image
+                }}
+              />
+            ) : (
+              <p>No profile image available</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <strong>Logo Image:</strong>
+            {candidate.logoImageHash ? (
+              <img
+                src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
+                alt="Logo"
+                className="w-32 h-32"
+                onError={(e) => {
+                  e.currentTarget.src = "/default-logo.png"; // Fallback image
+                }}
+              />
+            ) : (
+              <p>No logo image available</p>
+            )}
+          </div>
         </div>
-
-        {/* Candidate email */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email
-          </label>
-          <p className="bg-gray-200 p-3 rounded">{candidateProfile.email}</p>
-        </div>
-
-        {/* Candidate ID */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Candidate ID
-          </label>
-          <p className="bg-gray-200 p-3 rounded">{candidateProfile.candidateID}</p>
-        </div>
-
-        {/* Candidate party */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Party
-          </label>
-          <p className="bg-gray-200 p-3 rounded">{candidateProfile.party}</p>
-        </div>
-
-        {/* Update Details button */}
-        <div className="flex justify-center">
-          <button
-            onClick={handleUpdateDetails}
-            className="bg-navBlue hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
-          >
-            Update Details
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
-    </AdminLayout>
   );
 };
 
-export default CandidateDetailsPage;
+export default CandidateList;

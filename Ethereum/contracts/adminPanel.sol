@@ -7,9 +7,9 @@ contract AdminPanel {
         string firstName;
         string lastName;
         string position;
-        string addressInfo; // Address as string
-        string profileImageHash; // IPFS hash for profile image
-        string logoImageHash;    // IPFS hash for logo
+        string addressInfo; 
+        string profileImageHash; 
+        string logoImageHash;    
         uint256 voteCount;
     }
 
@@ -19,6 +19,9 @@ contract AdminPanel {
     // Mapping to store candidates with an incremental ID
     mapping(uint256 => Candidate) public candidates;
     uint256 public candidateCount = 0;
+
+    // Array to keep track of candidate IDs
+    uint256[] public candidateIDs;
 
     // Modifier to restrict certain functions to only the admin (electionAuthority)
     modifier onlyAdmin() {
@@ -31,7 +34,7 @@ contract AdminPanel {
 
     // Constructor to initialize the contract with the admin's address
     constructor() {
-        electionAuthority = msg.sender; // Deployer of the contract is the electionAuthority
+        electionAuthority = msg.sender; 
     }
 
     // Event to log candidate addition
@@ -51,19 +54,22 @@ contract AdminPanel {
         string memory lastName,
         string memory position,
         string memory addressInfo,
-        string memory profileImageHash, // New parameter for profile image
-        string memory logoImageHash      // New parameter for logo image
+        string memory profileImageHash, 
+        string memory logoImageHash      
     ) public onlyAdmin {
-        candidateCount++; // Increment candidate ID
+        candidateCount++;
         candidates[candidateCount] = Candidate({
             firstName: firstName,
             lastName: lastName,
             position: position,
             addressInfo: addressInfo,
-            profileImageHash: profileImageHash, // Store profile image hash
-            logoImageHash: logoImageHash,       // Store logo image hash
-            voteCount: 0 // Initialize vote count to zero
+            profileImageHash: profileImageHash, 
+            logoImageHash: logoImageHash,       
+            voteCount: 0 
         });
+
+        // Add the new candidate ID to the array
+        candidateIDs.push(candidateCount);
 
         // Emit event when a candidate is added
         emit CandidateAdded(
@@ -72,8 +78,8 @@ contract AdminPanel {
             lastName,
             position,
             addressInfo,
-            profileImageHash, // Include profile image hash in event
-            logoImageHash     // Include logo image hash in event
+            profileImageHash, 
+            logoImageHash    
         );
     }
 
@@ -88,8 +94,8 @@ contract AdminPanel {
             string memory lastName,
             string memory position,
             string memory addressInfo,
-            string memory profileImageHash, // New return value for profile image hash
-            string memory logoImageHash,     // New return value for logo image hash
+            string memory profileImageHash, 
+            string memory logoImageHash,     
             uint256 voteCount
         )
     {
@@ -99,9 +105,18 @@ contract AdminPanel {
             candidate.lastName,
             candidate.position,
             candidate.addressInfo,
-            candidate.profileImageHash, // Return profile image hash
-            candidate.logoImageHash,     // Return logo image hash
+            candidate.profileImageHash, 
+            candidate.logoImageHash,     
             candidate.voteCount
         );
+    }
+
+    // Function to get all candidates' details
+    function getAllCandidates() public view returns (Candidate[] memory) {
+        Candidate[] memory allCandidates = new Candidate[](candidateCount);
+        for (uint256 i = 0; i < candidateCount; i++) {
+            allCandidates[i] = candidates[candidateIDs[i]];
+        }
+        return allCandidates;
     }
 }
