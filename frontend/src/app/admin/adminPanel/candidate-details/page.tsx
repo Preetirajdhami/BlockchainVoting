@@ -70,7 +70,7 @@ const CandidateList = () => {
                 alt="Profile"
                 className="w-32 h-32 rounded-full"
                 onError={(e) => {
-                  e.currentTarget.src = "/default-profile.png"; // Fallback image
+                  e.currentTarget.src = "/default-profile.png"; 
                 }}
               />
             ) : (
@@ -85,7 +85,7 @@ const CandidateList = () => {
                 alt="Logo"
                 className="w-32 h-32"
                 onError={(e) => {
-                  e.currentTarget.src = "/default-logo.png"; // Fallback image
+                  e.currentTarget.src = "/default-logo.png"; 
                 }}
               />
             ) : (

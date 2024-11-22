@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import getContractInstance from "../../../utility/contract.js"; 
 import { uploadToIPFS } from '@/app/utility/uploadToIpfs.js';
+import AdminLayout from '../AdminLayout';
 
 const AddCandidate = () => {
   const [formData, setFormData] = useState({
@@ -60,7 +61,8 @@ const AddCandidate = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded shadow-md">
+   <AdminLayout>
+     <div className="p-4 bg-gray-100 rounded shadow-md">
       <h2 className="text-xl font-semibold mb-4">Add Candidate</h2>
       <input
         type="text"
@@ -114,6 +116,8 @@ const AddCandidate = () => {
         Add Candidate
       </button>
     </div>
+
+   </AdminLayout>
   );
 };
 

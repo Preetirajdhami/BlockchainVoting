@@ -1,90 +1,110 @@
 "use client";
-
-import React from "react";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import getContractInstance from "../../../utility/contract.js";
 import VoterLayout from "../VoterLayout";
 
+
 interface Candidate {
-  id: number;
-  name: string;
-  post: string;
-  image: string;
-  partyLogo: string;
+  firstName: string;
+  lastName: string;
+  position: string;
+  addressInfo: string;
+  profileImageHash: string;
+  logoImageHash: string;
+  voteCount: number;
 }
 
-const candidates: Candidate[] = [
-  {
-    id: 1,
-    name: "Manoj Shrestha",
-    post: "CR",
-    image: "https://via.placeholder.com/100", // Placeholder image URL
-    partyLogo: "https://via.placeholder.com/50", // Placeholder for party logo
-  },
-  {
-    id: 2,
-    name: "Candidate Name",
-    post: "Post",
-    image: "https://via.placeholder.com/100", // Placeholder image URL
-    partyLogo: "https://via.placeholder.com/50", // Placeholder for party logo
-  },
-  {
-    id: 3,
-    name: "Candidate Name",
-    post: "Post",
-    image: "https://via.placeholder.com/100", // Placeholder image URL
-    partyLogo: "https://via.placeholder.com/50", // Placeholder for party logo
-  },
-];
+const CandidateList = () => {
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-const CandidateListWithPartyLogo = () => {
+  const fetchAllCandidates = async () => {
+    try {
+      setLoading(true);
+      const contract = await getContractInstance();
+
+      // Fetch all candidates data from the smart contract
+      const candidateData: Candidate[] = await contract.getAllCandidates();
+      console.log("Fetched candidates data:", candidateData);
+
+      // Update state with the candidate details
+      setCandidates(candidateData);
+    } catch (err) {
+      console.error("Error fetching candidates:", err);
+      setError("Failed to fetch candidates. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCandidates();
+  }, []);
+
+  if (loading) {
+    return <div>Loading candidates...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (candidates.length === 0) {
+    return <div>No candidates available.</div>;
+  }
+
   return (
     <VoterLayout>
-    <div className="min-h-screen bg-blue-100 flex flex-col items-center justify-center p-6 space-y-4">
-      {candidates.map((candidate) => (
-        <div
-          key={candidate.id}
-          className="bg-white rounded-lg shadow-md flex items-center justify-between w-full max-w-md p-4"
-        >
-          {/* Candidate Profile Picture */}
-          <div className="flex items-center space-x-4">
-            <img
-              src={candidate.image}
-              alt="Candidate Profile"
-              className="w-16 h-16 rounded-full"
-            />
-            {/* Name and Post */}
-            <div>
-              <p className="font-bold text-lg">{candidate.name}</p>
-              <p className="text-gray-500">({candidate.post})</p>
+      <div className="p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Candidate List</h2>
+        {candidates.map((candidate, index) => (
+          <div key={index} className="mb-6">
+            <h3 className="text-xl font-semibold">{candidate.firstName} {candidate.lastName}</h3>
+            <p><strong>Position:</strong> {candidate.position}</p>
+            <p><strong>Address:</strong> {candidate.addressInfo}</p>
+            <p><strong>Vote Count:</strong> {candidate.voteCount}</p>
+            <div className="mb-4">
+              <strong>Profile Image:</strong>
+              {candidate.profileImageHash ? (
+                <img
+                  src={`https://ipfs.io/ipfs/${candidate.profileImageHash}`}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full"
+                // onError={(e) => {
+                //   e.currentTarget.src = "/default-profile.png"; 
+                // }}
+                />
+              ) : (
+                <p>No profile image available</p>
+              )}
+            </div>
+            <div className="mb-4">
+              <strong>Logo Image:</strong>
+              {candidate.logoImageHash ? (
+                <img
+                  src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
+                  alt="Logo"
+                  className="w-32 h-32"
+                // onError={(e) => {
+                //   e.currentTarget.src = "/default-logo.png"; 
+                // }}
+                />
+              ) : (
+                <p>No logo image available</p>
+              )}
             </div>
           </div>
-
-          {/* Party Logo */}
-          <img
-            src={candidate.partyLogo}
-            alt="Party Logo"
-            className="w-15 h-15 rounded-full"
-          />
-
-          {/* Buttons */}
-          <div className="flex flex-col space-y-2">
-            <button
-              style={{ backgroundColor: "#cd4e35" }}
-              className="text-white py-2 px-4 rounded hover:opacity-90"
-            >
-              View Profile
-            </button>
-            <button
-              style={{ backgroundColor: "#cd4e35" }}
-              className="text-white py-2 px-4 rounded hover:opacity-90"
-            >
-              Vote
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
     </VoterLayout>
+
+
+
+
+
   );
 };
 
-export default CandidateListWithPartyLogo;
+export default CandidateList;

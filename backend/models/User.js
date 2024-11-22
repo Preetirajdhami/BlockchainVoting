@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   password_confirmation: {
-    type: String, // You can store this if needed, but generally, only the password is stored after hashing
+    type: String, 
     trim: true,
   },
   dob: {
@@ -36,10 +36,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    match: /^\d{10}$/, // Ensure mobile is 10 digits as per your frontend validation
+    match: /^\d{10}$/, 
   },
   photo: {
-    type: String, // Typically a URL or path to the uploaded image file
+    type: String, 
     required: true,
   },
   is_verified: {

@@ -256,7 +256,7 @@ const Register = () => {
 
         <div className="mt-4">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-500">
+          <Link href="/voter/voterLogin" className="text-blue-500">
             Login
           </Link>
         </div>

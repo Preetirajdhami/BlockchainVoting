@@ -7,10 +7,10 @@ interface VoterProfile {
   name: string;
   email: string;
   voterID: string;
-  dob: string; // Date of Birth
+  dob: string; 
   address: string;
   mobileNumber: string;
-  photo: string; // Photo URL
+  photo: string; 
 }
 
 const VoterProfilePage = () => {
@@ -21,7 +21,7 @@ const VoterProfilePage = () => {
     dob: "2002-03-25", 
     address: "Sangeet Chowk, Itahari",
     mobileNumber: "+977-9804030403",
-    photo: "https://via.placeholder.com/150", // Placeholder photo URL
+    photo: "https://via.placeholder.com/150", 
   });
 
   // Fetch profile data (dummy useEffect for now)
