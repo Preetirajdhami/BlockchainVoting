@@ -24,6 +24,9 @@ app.use(cors(corsOptions));
 
 // Connect to the database
 connectDB(DATABASE_URL);
+// Cookie parser middleware
+app.use(cookieParser());
+
 
 // Passport middleware
 app.use(passport.initialize());
@@ -31,8 +34,6 @@ app.use(passport.initialize());
 // Express JSON parser
 app.use(express.json());
 
-// Cookie parser middleware
-app.use(cookieParser());
 
 // Load Routes
 app.use("/api/user", userRoutes);

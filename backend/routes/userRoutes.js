@@ -3,8 +3,10 @@ const router = express.Router();
 import UserController from '../controllers/userControllers.js';
 
 import passport from 'passport';
-import upload from '../middleware/registerPhoto.js';
-import accessTokenAutoRefresh from '../middleware/accessTokenAutoRefresh.js';
+
+import accessTokenAutoRefresh from '../middlewares/accessTokenAutoRefresh.js';
+import upload from '../middlewares/registerPhoto.js';
+// import setAuthHeader from '../middlewares/setAuthHeader.js';
 
 
 
@@ -16,7 +18,7 @@ router.post('/refresh-token', UserController.getNewAccessToken)
 
 
 // protected routes
-router.get('/me',accessTokenAutoRefresh,  passport.authenticate('jwt',{session: false}), UserController.userProfile);
+router.get('/me', accessTokenAutoRefresh ,passport.authenticate('jwt', { session:false}), UserController.userProfile);
 
 
 
