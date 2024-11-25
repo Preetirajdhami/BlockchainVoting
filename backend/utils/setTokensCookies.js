@@ -5,7 +5,7 @@ const setTokensCookies = (res, accessToken, refreshToken,
 
         //Set Cookie for Access Token 
         res.cookie('accessToken', accessToken,{
-            path: '/',
+           
             httpOnly: true,
             secure: true,
             maxAge: accessTokenMaxAge,
@@ -13,7 +13,7 @@ const setTokensCookies = (res, accessToken, refreshToken,
 
         //Set Cookie for Refresh Token 
         res.cookie('refreshToken', refreshToken,{
-            path: '/',
+           
             httpOnly: true,
             secure: true,
             maxAge: refreshTokenMaxAge,

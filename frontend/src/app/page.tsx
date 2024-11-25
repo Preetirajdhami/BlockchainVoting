@@ -20,7 +20,11 @@ export default function Header() {
   <div className="lg:px-32 sm:px-6 md:px-8 mx-auto flex items-center justify-between py-4 px-4 relative">
     {/* Brand Name */}
     <Link href="/" className="text-2xl font-bold">
-      Voting App
+    <div className="flex justify-center items-center">
+  <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
+</div>
+
+
     </Link>
 
     {/* Hamburger Icon for Mobile View */}

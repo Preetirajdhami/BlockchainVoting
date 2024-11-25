@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 const VoterLogin = () => {
   const router = useRouter(); 
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [isLoading, setIsLoading] = useState(false); // Loading state for API request
 
   // Formik Hook for form handling
   const formik = useFormik({
@@ -20,31 +21,34 @@ const VoterLogin = () => {
       password: Yup.string().required('Password is required'),
     }),
     onSubmit: async (values) => {
-      console.log('Form Data', values);
+      // Clear previous error message
+      setErrorMessage('');
+      setIsLoading(true); // Set loading state to true while waiting for response
+
       try {
         const response = await fetch('http://localhost:8000/api/user/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include', // Ensure credentials are included with the request
           body: JSON.stringify(values),
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
+          const data = await response.json();
+          setIsLoading(false); // Set loading state to false after receiving response
+
           // Handle specific error messages from the backend
-          if (data.status === "failed") {
-            setErrorMessage(data.message); // Set error message from backend
-          } else {
-            setErrorMessage('Login failed. Please try again.'); // Generic error message
-          }
+          setErrorMessage(data.message || 'Login failed. Please try again.');
           return; // Exit the function if there's an error
         }
 
-        // Login successful, redirect to voter panel profile
+        // Successful login, redirect to voter panel profile
+        setIsLoading(false); // Stop loading
         router.push('/voter/voterPanel/profile');
       } catch (error) {
+        setIsLoading(false); // Stop loading on error
         setErrorMessage('Unable to login, please try again'); // Set error for network issues
         console.error('Login Error:', error);
       }
@@ -118,10 +122,11 @@ const VoterLogin = () => {
 
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-navBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                  className={`bg-navBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   type="submit"
+                  disabled={isLoading}
                 >
-                  Login
+                  {isLoading ? 'Logging in...' : 'Login'}
                 </button>
               </div>
             </form>
