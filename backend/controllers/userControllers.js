@@ -25,7 +25,7 @@ class UserController {
                 mobile
             } = req.body;
     
-            const photo = req.file; // Assuming you're using multer for file uploads
+            const photo = req.file; 
     
             // Check if all required fields are provided
             if (!name || !email || !password || !password_confirmation || !dob || !address || !mobile || !photo) {
@@ -175,7 +175,7 @@ class UserController {
 
     // User Login (unchanged)
     static userLogin = async (req, res) => {
-        // No changes needed here, leaving this as is
+        
         try {
             const { email, password } = req.body;
 

@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const isTokenExpired = (token) => {
     if (!token) {
-        return true; // No token provided, consider it expired
+        return true; // No token provided
     }
 
     const decodedToken = jwt.decode(token);
@@ -12,7 +12,7 @@ const isTokenExpired = (token) => {
         return true; // Invalid or no expiration in token, consider it expired
     }
 
-    const currentTime = Date.now() / 1000; // Convert current time to seconds
+    const currentTime = Date.now() / 1000;
     return decodedToken.exp < currentTime; // Return true if token is expired
 
     

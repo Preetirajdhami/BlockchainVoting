@@ -3,7 +3,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from "passport";
 
 // Configure options for the JWT strategy
-const opts = {
+var opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Extracts JWT from the Authorization header
     secretOrKey: process.env.JWT_ACCESS_TOKEN_SECRET_KEY // Secret key for verifying the token
 };
