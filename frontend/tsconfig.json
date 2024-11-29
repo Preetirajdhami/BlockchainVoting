@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,13 +22,23 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/utility/uploadToIpfs.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/utility/uploadToIpfs.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
-
 // {
 //   "compilerOptions": {
 //     "target": "es6",
@@ -43,4 +57,3 @@
 //   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 //   "exclude": ["node_modules"]
 // }
-

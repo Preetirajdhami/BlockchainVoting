@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Header from '../../components/Header';
 import { useRouter } from 'next/navigation';
 
+
 const VoterLogin = () => {
   const router = useRouter(); 
   const [errorMessage, setErrorMessage] = useState(''); // State for error message

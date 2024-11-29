@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         navBlue:'#207C9F',
         orange:'#CD4E35',
+        logoBlue:'#004b84'
 
       },
     },
