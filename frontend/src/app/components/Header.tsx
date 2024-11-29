@@ -46,27 +46,27 @@ const Header = () => {
           <div className="flex flex-col md:flex-row md:space-x-8">
             <Link
               href="/"
-              className="text-gray-900 active:text-logoBlue font-bold hover:text-logoBlue block py-2 px-4 md:py-0 md:px-0"
+              className="text-gray-900 active:text-logoBlue font-bold hover:text-green-400 block py-2 px-4 md:py-0 md:px-0"
             >
-              Home
+              HOME
             </Link>
             <Link
               href="/feature"
-              className="text-gray-900  active:text-logoBlue font-bold hover:text-logoBlue block py-2 px-4 md:py-0 md:px-0"
+              className="text-gray-900  active:text-logoBlue font-bold hover:text-green-400 block py-2 px-4 md:py-0 md:px-0"
             >
-              Feature
+              FEATURES
             </Link>
             <Link
               href="/aboutus"
-              className="text-gray-900  active:text-logoBlue font-bold hover:text-logoBlue block py-2 px-4 md:py-0 md:px-0"
+              className="text-gray-900  active:text-logoBlue font-bold hover:text-green-400 block py-2 px-4 md:py-0 md:px-0"
             >
-              About Us
+              ABOUT US
             </Link>
             <Link
               href="/contactus"
-              className="text-gray-900  active:text-logoBlue font-bold hover:text-logoBlue block py-2 px-4 md:py-0 md:px-0"
+              className="text-gray-900  active:text-logoBlue font-bold hover:text-green-400 block py-2 px-4 md:py-0 md:px-0"
             >
-              Contact Us
+              CONTACT US
             </Link>
           </div>
         </nav>
