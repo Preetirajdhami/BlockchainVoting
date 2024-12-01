@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/utility/uploadToIpfs.js"
-  ],
+, "src/app/components/Header.jsx"  ],
   "exclude": [
     "node_modules"
   ]

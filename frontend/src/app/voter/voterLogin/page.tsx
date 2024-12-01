@@ -60,14 +60,6 @@ const VoterLogin = () => {
     <>
       <Header />
       <div className="flex min-h-screen">
-        {/* Left Column with Image */}
-        <div className="w-full md:w-1/2 bg-gray-200 flex items-center justify-center">
-          <img
-            src="/path-to-your-image.jpg"
-            alt="Voting"
-            className="h-full w-full object-cover"
-          />
-        </div>
 
         {/* Right Column with Login Form */}
         <div className="w-full md:w-1/2 bg-white flex items-center justify-center p-8">

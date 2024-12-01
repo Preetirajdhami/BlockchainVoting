@@ -4,7 +4,7 @@ import { GoTriangleRight } from "react-icons/go";
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-400 text-white py-8 overflow-hidden">
+    <footer className="bg-bgBlue text-white py-8 overflow-hidden">
       <div className="px-8 md:px-16 text-xl">
         {/* Flexbox for the main footer content */}
         <div className="flex justify-between items-start gap-8">
@@ -12,24 +12,24 @@ const Footer = () => {
           {/* Logo and Description Section - Left aligned */}
           <div className="flex-1 text-start">
             <div className="flex flex-col items-start">
-              <img src="/quick.png" alt="QuickVote Logo" className="h-12 mb-4" />
+              <img src="/whitelogo.png" alt="QuickVote Logo" className="h-12 mb-4" />
               <p className="text-sm mb-4">
                 QuickVote is a blockchain platform ensuring secure, transparent, and accessible voting with real-time counting and user-friendly features.
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="hover:text-cyan-400" aria-label="Facebook">
+                <a href="#" className="hover:text-popBlue" aria-label="Facebook">
                   <FaFacebook />
                 </a>
-                <a href="#" className="hover:text-cyan-400" aria-label="Twitter">
+                <a href="#" className="hover:text-popBlue" aria-label="Twitter">
                   <FaTwitter />
                 </a>
-                <a href="#" className="hover:text-cyan-400" aria-label="LinkedIn">
+                <a href="#" className="hover:text-popBlue" aria-label="LinkedIn">
                   <FaLinkedin />
                 </a>
-                <a href="#" className="hover:text-cyan-400" aria-label="Instagram">
+                <a href="#" className="hover:text-popBlue" aria-label="Instagram">
                   <FaInstagram />
                 </a>
-                <a href="mailto:quickvote450@gmail.com" className="hover:text-cyan-400" aria-label="Email">
+                <a href="mailto:quickvote450@gmail.com" className="hover:text-popBlue" aria-label="Email">
                   <FaEnvelope />
                 </a>
               </div>
@@ -44,19 +44,19 @@ const Footer = () => {
                 {/* Flex to align icon with text */}
                 <li className="flex items-center justify-start space-x-2 transition-transform duration-200 hover:translate-x-2">
                   <GoTriangleRight className="text-sm" />
-                  <a href="/" className="hover:text-cyan-400">Home</a>
+                  <a href="/" className="hover:text-popBlue">Home</a>
                 </li>
                 <li className="flex items-center justify-start space-x-2 transition-transform duration-200 hover:translate-x-2">
                   <GoTriangleRight className="text-sm" />
-                  <a href="/feature" className="hover:text-cyan-400">Feature</a>
+                  <a href="/feature" className="hover:text-popBlue">Feature</a>
                 </li>
                 <li className="flex items-center justify-start space-x-2 transition-transform duration-200 hover:translate-x-2">
                   <GoTriangleRight className="text-sm" />
-                  <a href="/aboutus" className="hover:text-cyan-400">About Us</a>
+                  <a href="/aboutus" className="hover:text-popBlue">About Us</a>
                 </li>
                 <li className="flex items-center justify-start space-x-2 transition-transform duration-200 hover:translate-x-2">
                   <GoTriangleRight className="text-sm" />
-                  <a href="/contactus" className="hover:text-cyan-400">Contact Us</a>
+                  <a href="/contactus" className="hover:text-popBlue">Contact Us</a>
                 </li>
               </ul>
             </div>
