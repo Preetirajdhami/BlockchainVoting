@@ -83,6 +83,12 @@ contract AdminPanel {
         );
     }
 
+    // Function to increment the vote count for a candidate
+    function incrementVoteCount(uint256 candidateID) external {
+        require(candidateID > 0 && candidateID <= candidateCount, "Invalid candidate ID");
+        candidates[candidateID].voteCount += 1; // Increment the vote count
+    }
+
     // Function to get candidate details by ID
     function getCandidate(
         uint256 candidateID

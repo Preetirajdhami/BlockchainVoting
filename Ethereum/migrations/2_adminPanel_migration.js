@@ -1,5 +1,5 @@
-const adminPanel = artifacts.require("adminPanel");
+const AdminPanel = artifacts.require("AdminPanel");
 
 module.exports = function (deployer) {
-  deployer.deploy(adminPanel);
+  deployer.deploy(AdminPanel);
 };

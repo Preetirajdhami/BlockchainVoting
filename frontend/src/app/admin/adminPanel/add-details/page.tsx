@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { ethers } from 'ethers';
-import getContractInstance from "../../../utility/contract.js"; 
+import getAdminContractInstance from "../../../utility/adminContract.js"; 
 import { uploadToIPFS } from '@/app/utility/uploadToIpfs.js';
 import AdminLayout from '../AdminLayout';
 
@@ -44,7 +44,7 @@ const AddCandidate = () => {
       const profileImageHash = await uploadToIPFS(profileImage);
       const logoImageHash = await uploadToIPFS(logoImage);
 
-      const contract = await getContractInstance();
+      const contract = await getAdminContractInstance();
       const tx = await contract.addCandidate(
         formData.firstName,
         formData.lastName,
@@ -61,8 +61,7 @@ const AddCandidate = () => {
   };
 
   return (
-   <AdminLayout>
-     <div className="p-4 bg-gray-100 rounded shadow-md">
+    <div className="p-4 bg-gray-100 rounded shadow-md">
       <h2 className="text-xl font-semibold mb-4">Add Candidate</h2>
       <input
         type="text"
@@ -116,8 +115,6 @@ const AddCandidate = () => {
         Add Candidate
       </button>
     </div>
-
-   </AdminLayout>
   );
 };
 
