@@ -79,7 +79,7 @@ export default function Home() {
       <Hero />
 
       {/* Why Choose QuickVote Section */}
-      <section id="why-choose-quickvote" className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-4 mx-auto py-8">
+      <section id="why-choose-quickvote" className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-8 mx-auto py-8">
         <h1 className="text-logoBlue text-3xl md:text-4xl font-semibold mb-6 text-left">
           Why Choose QuickVote?
         </h1>
@@ -148,44 +148,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-4 mx-auto py-12">
-        <h2 className="text-logoBlue text-3xl md:text-4xl font-semibold mb-6 text-left">Frequently Asked Questions</h2>
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Left side: List of Questions */}
-          <div className="w-full lg:w-1/2">
-            <div className="space-y-6">
-              {faqItems.map((item, index) => (
-                <div key={index}>
-                  <div
-                    className="flex border-b items-center justify-between cursor-pointer"
-                    onClick={() => toggleQuestion(index)}
-                  >
-                    <h3 className="font-medium text-lg text-gray-800">{item.question}</h3>
-                    {openQuestion === index ? (
-                      <FiChevronUp className="text-gray-600" />
-                    ) : (
-                      <FiChevronDown className="text-gray-600" />
-                    )}
-                  </div>
-                  {openQuestion === index && (
-                    <p className="text-gray-600 mt-2">{item.answer}</p>
-                  )}
-                </div>
-              ))}
+{/* FAQ Section */}
+<section id="faq" className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-4 mx-auto py-12">
+  {/* FAQ Content */}
+  <div className="flex flex-col lg:flex-row-reverse gap-10 items-start">
+    {/* FAQ Image */}
+    <div className="w-full lg:w-1/4 mb-6 lg:mb-0 flex justify-center">
+      <img
+        src="/faq.png"
+        alt="FAQ Illustration"
+        className="rounded-lg shadow-lg object-contain w-full max-w-xs sm:max-w-sm"
+      />
+    </div>
+    {/* FAQ List */}
+    <div className="w-full lg:w-3/4">
+      <h2 className="text-logoBlue text-2xl md:text-4xl font-semibold mb-6 text-left">
+        Frequently Asked Questions
+      </h2>
+      <div className="space-y-6">
+        {faqItems.map((item, index) => (
+          <div key={index}>
+            <div
+              className="flex border-b items-center justify-between cursor-pointer"
+              onClick={() => toggleQuestion(index)}
+            >
+              <h3 className="font-medium text-lg text-gray-800">{item.question}</h3>
+              {openQuestion === index ? (
+                <FiChevronUp className="text-gray-600" />
+              ) : (
+                <FiChevronDown className="text-gray-600" />
+              )}
             </div>
+            {openQuestion === index && (
+              <p className="text-gray-600 mt-2">{item.answer}</p>
+            )}
           </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-          {/* Right side: FAQ Image */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-            <img
-              src="/faq.png" // Use your actual image path here
-              alt="FAQ Illustration"
-              className="rounded-lg shadow-lg w-full max-w-xs lg:max-w-sm" // Smaller image size
-            />
-          </div>
-        </div>
-      </section>
+
 
       <Footer />
     </>
