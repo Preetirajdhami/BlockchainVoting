@@ -18,38 +18,38 @@ const AdminSidebar = () => {
     };
 
     return (
-        <div className="w-64 h-screen bg-navBlue text-white fixed top-0 left-0">
+        <div className="w-64 h-screen bg-logoBlue text-white fixed top-0 left-0">
             <div className="p-6 text-center">
-                <h2 className="text-2xl font-bold">Admin Panel</h2>
+                <h2 className="text-2xl text-popBlue text-left font-bold">Admin Panel</h2>
             </div>
             <nav className="mt-8">
                 <ul className="space-y-4">
                     <li>
-                        <Link href="/admin/adminPanel/candidate-details" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/candidate-details" className="flex items-center py-2 px-4 hover:bg-popBlue">
                         <FaRegAddressCard className="mr-3 text-2xl"/>
                            <span>Candidate Details</span> 
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/adminPanel/add-details" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/add-details" className="flex items-center py-2 px-4 hover:bg-popBlue">
                         <IoAddCircleOutline className="mr-3 text-2xl"/>
                            <span>Add Candidate</span> 
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/adminPanel/votingStatus" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/votingStatus" className="flex items-center py-2 px-4 hover:bg-popBlue">
                         <IoStatsChartSharp className="mr-3 text-xl"/>
                             <span>Voting Status</span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/adminPanel/reset" className="flex items-center py-2 px-4 hover:bg-blue-700">
+                        <Link href="/admin/adminPanel/reset" className="flex items-center py-2 px-4 hover:bg-popBlue">
                         <GrPowerReset className="mr-3 text-xl"/>
                             <span>Reset</span>
                         </Link>
                     </li>
                     <li>
-                        <button onClick={handleLogout} className="flex items-center py-2 px-4 text-left hover:bg-blue-700">
+                        <button onClick={handleLogout} className="w-full flex items-center py-2 px-4 text-left hover:bg-popBlue">
                         <IoIosLogOut className="mr-3 text-2xl"/>
                         <span>Logout</span>
                         </button>

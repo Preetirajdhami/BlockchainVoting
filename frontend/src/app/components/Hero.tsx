@@ -19,7 +19,7 @@ const Hero = () => {
   if (!isMounted) return null; // Prevent SSR from rendering the animation
 
   return (
-    <div className="lg:px-32 sm:px-6 md:px-8 mx-auto bg-bgBlue h-auto">
+    <div className="lg:px-32 sm:px-6 md:px-8 mx-auto bg-bgBlue h-screen">
       <div className="px-4 mx-auto py-8">
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
           {/* Left Content */}
@@ -39,14 +39,14 @@ const Hero = () => {
             <div className="w-full flex flex-col md:flex-row gap-4 mt-6">
               <div className="w-full md:w-1/2">
                 <Link href="/voter/voterLogin">
-                  <button className="w-full border-[2px] border-popBlue bg-bgBlue text-white text-2xl py-2 rounded-full hover:bg-popBlue hover:text-logoBlue transition duration-300">
+                  <button className="w-full border-[2px] border-popBlue bg-bgBlue text-white text-2xl font-semibold py-2 rounded-full hover:bg-popBlue transition duration-300">
                     Voter Login
                   </button>
                 </Link>
               </div>
               <div className="w-full md:w-1/2">
                 <Link href="/admin/adminLogin">
-                  <button className="w-full border-[2px] border-popBlue bg-bgBlue text-white text-2xl py-2 rounded-full hover:bg-popBlue hover:text-logoBlue transition duration-300">
+                  <button className="w-full border-[2px] border-popBlue bg-bgBlue text-white text-2xl font-semibold py-2 rounded-full hover:bg-popBlue transition duration-300">
                     Admin Login
                   </button>
                 </Link>

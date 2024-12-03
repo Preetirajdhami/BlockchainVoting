@@ -57,7 +57,7 @@ const VerifyEmail = () => {
   return (
     <div className="flex min-h-screen items-center justify-center p-6 bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center">Verify your account</h2>
+        <h2 className="text-2xl font-bold text-logoBlue mb-6 text-center">Verify your account</h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -104,7 +104,7 @@ const VerifyEmail = () => {
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-navBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-logoBlue hover:bg-popBlue text-white font-bold py-2 px-4 transition duration-300 rounded focus:outline-none focus:shadow-outline w-full"
             >
               Verify
             </button>

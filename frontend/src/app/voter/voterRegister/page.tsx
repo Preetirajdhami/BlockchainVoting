@@ -87,7 +87,7 @@ const Register = () => {
     <>
       <Header />
       <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-md rounded">
-        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <h2 className="text-2xl text-logoBlue font-bold mb-6">Register</h2>
 
         <form onSubmit={formik.handleSubmit}>
           {/* Name Field */}
@@ -243,7 +243,7 @@ const Register = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded mt-4"
+            className="w-full p-2 bg-logoBlue text-white font-bold rounded hover:bg-popBlue transition duration-300 mt-4"
             disabled={formik.isSubmitting}
           >
             Register
@@ -256,7 +256,7 @@ const Register = () => {
 
         <div className="mt-4">
           Already have an account?{" "}
-          <Link href="/voter/voterLogin" className="text-blue-500">
+          <Link href="/voter/voterLogin" className="text-blue-500 hover:text-popBlue">
             Login
           </Link>
         </div>

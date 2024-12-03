@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { FaFacebook, FaXTwitter, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa6";
 import { GoTriangleRight } from "react-icons/go";
 
 const Footer = () => {
@@ -21,7 +21,7 @@ const Footer = () => {
                   <FaFacebook />
                 </a>
                 <a href="#" className="hover:text-popBlue" aria-label="Twitter">
-                  <FaTwitter />
+                  <FaXTwitter />
                 </a>
                 <a href="#" className="hover:text-popBlue" aria-label="LinkedIn">
                   <FaLinkedin />
