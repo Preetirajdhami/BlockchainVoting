@@ -7,9 +7,9 @@ contract AdminPanel {
         string firstName;
         string lastName;
         string position;
-        string addressInfo; 
-        string profileImageHash; 
-        string logoImageHash;    
+        string addressInfo;
+        string profileImageHash;
+        string logoImageHash;
         uint256 voteCount;
     }
 
@@ -34,7 +34,7 @@ contract AdminPanel {
 
     // Constructor to initialize the contract with the admin's address
     constructor() {
-        electionAuthority = msg.sender; 
+        electionAuthority = msg.sender;
     }
 
     // Event to log candidate addition
@@ -48,14 +48,17 @@ contract AdminPanel {
         string logoImageHash
     );
 
+    // Event to log reset action
+    event CandidatesReset();
+
     // Function to add a candidate (Only admin can add)
     function addCandidate(
         string memory firstName,
         string memory lastName,
         string memory position,
         string memory addressInfo,
-        string memory profileImageHash, 
-        string memory logoImageHash      
+        string memory profileImageHash,
+        string memory logoImageHash
     ) public onlyAdmin {
         candidateCount++;
         candidates[candidateCount] = Candidate({
@@ -63,9 +66,9 @@ contract AdminPanel {
             lastName: lastName,
             position: position,
             addressInfo: addressInfo,
-            profileImageHash: profileImageHash, 
-            logoImageHash: logoImageHash,       
-            voteCount: 0 
+            profileImageHash: profileImageHash,
+            logoImageHash: logoImageHash,
+            voteCount: 0
         });
 
         // Add the new candidate ID to the array
@@ -78,8 +81,8 @@ contract AdminPanel {
             lastName,
             position,
             addressInfo,
-            profileImageHash, 
-            logoImageHash    
+            profileImageHash,
+            logoImageHash
         );
     }
 
@@ -87,6 +90,21 @@ contract AdminPanel {
     function incrementVoteCount(uint256 candidateID) external {
         require(candidateID > 0 && candidateID <= candidateCount, "Invalid candidate ID");
         candidates[candidateID].voteCount += 1; // Increment the vote count
+    }
+
+    // Function to reset all candidates
+    function resetCandidates() public onlyAdmin {
+        // Reset all candidate data
+        for (uint256 i = 1; i <= candidateCount; i++) {
+            delete candidates[i];
+        }
+
+        // Reset candidate count and clear candidate IDs
+        candidateCount = 0;
+        delete candidateIDs;
+
+        // Emit event for reset action
+        emit CandidatesReset();
     }
 
     // Function to get candidate details by ID
@@ -100,8 +118,8 @@ contract AdminPanel {
             string memory lastName,
             string memory position,
             string memory addressInfo,
-            string memory profileImageHash, 
-            string memory logoImageHash,     
+            string memory profileImageHash,
+            string memory logoImageHash,
             uint256 voteCount
         )
     {
@@ -111,8 +129,8 @@ contract AdminPanel {
             candidate.lastName,
             candidate.position,
             candidate.addressInfo,
-            candidate.profileImageHash, 
-            candidate.logoImageHash,     
+            candidate.profileImageHash,
+            candidate.logoImageHash,
             candidate.voteCount
         );
     }
@@ -124,5 +142,35 @@ contract AdminPanel {
             allCandidates[i] = candidates[candidateIDs[i]];
         }
         return allCandidates;
+    }
+
+    // Function to get the winner
+    function getWinner() public view returns (
+        uint256 winnerID,
+        string memory firstName,
+        string memory lastName,
+        string memory position,
+        uint256 voteCount
+    ) {
+        require(candidateCount > 0, "No candidates available.");
+
+        uint256 maxVotes = 0;
+        uint256 winningCandidateID = 0;
+
+        for (uint256 i = 1; i <= candidateCount; i++) {
+            if (candidates[i].voteCount > maxVotes) {
+                maxVotes = candidates[i].voteCount;
+                winningCandidateID = i;
+            }
+        }
+
+        Candidate memory winner = candidates[winningCandidateID];
+        return (
+            winningCandidateID,
+            winner.firstName,
+            winner.lastName,
+            winner.position,
+            winner.voteCount
+        );
     }
 }
