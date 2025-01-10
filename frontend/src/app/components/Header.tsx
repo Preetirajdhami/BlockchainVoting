@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const { pathname } = window.location; // Fallback to window.location for SSR
+      setCurrentPath(pathname);
+    }
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    // Header Section
     <header className="sticky top-0 bg-white shadow-md z-50 h-20">
       <div className="lg:px-32 sm:px-7 md:px-8 mx-auto flex items-center justify-between py-4 px-4 relative">
-        {/* Brand Name */}
         <Link href="/" className="text-2xl font-bold flex items-center space-x-2">
           <img src="/quick.png" alt="logo" className="h-12" />
         </Link>
 
-        {/* Hamburger Icon for Mobile View */}
         <div className="md:hidden">
           <button onClick={toggleDropdown} className="focus:outline-none">
             <svg
@@ -37,7 +43,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Navigation Links */}
         <nav
           className={`${
             isOpen ? 'block' : 'hidden'
@@ -46,25 +51,33 @@ const Header = () => {
           <div className="flex flex-col md:flex-row md:space-x-8">
             <Link
               href="/"
-              className="text-gray-900 font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0"
+              className={`${
+                currentPath === '/' ? 'text-popBlue' : 'text-gray-900'
+              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
             >
               HOME
             </Link>
             <Link
               href="/feature"
-              className="text-gray-900 font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0"
+              className={`${
+                currentPath === '/feature' ? 'text-popBlue' : 'text-gray-900'
+              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
             >
               FEATURES
             </Link>
             <Link
               href="/aboutus"
-              className="text-gray-900 font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0"
+              className={`${
+                currentPath === '/aboutus' ? 'text-popBlue' : 'text-gray-900'
+              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
             >
               ABOUT US
             </Link>
             <Link
               href="/contactus"
-              className="text-gray-900 font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0"
+              className={`${
+                currentPath === '/contactus' ? 'text-popBlue' : 'text-gray-900'
+              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
             >
               CONTACT US
             </Link>
