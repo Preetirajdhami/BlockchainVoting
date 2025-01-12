@@ -6,7 +6,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="flex">
       <VoterSidebar />
-      <main className="flex-1 p-4">{children}</main>
+      <main className="flex-1 ">{children}</main>
     </div>
   );
 };

@@ -1,8 +1,9 @@
-"use client"; // Add this at the top to make the file a client-side component in Next.js
+"use client";
 
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import getAdminContractInstance from "../../../utility/adminContract.js"; // Assuming this gets the contract instance
+import getAdminContractInstance from "../../../utility/adminContract.js";
+import AdminLayout from "../AdminLayout";
 
 interface Candidate {
   firstName: string;
@@ -69,49 +70,71 @@ const CandidateList = () => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Candidate List</h2>
-      {candidates.map((candidate, index) => (
-        <div key={index} className="mb-6">
-          <h3 className="text-xl font-semibold">
-            {candidate.firstName} {candidate.lastName}
-          </h3>
-          <p>
-            <strong>Position:</strong> {candidate.position}
-          </p>
-          <p>
-            <strong>Address:</strong> {candidate.addressInfo}
-          </p>
-          <p>
-            <strong>Vote Count:</strong> {candidate.voteCount}
-          </p>
-          <div className="mb-4">
-            <strong>Profile Image:</strong>
-            {candidate.profileImageHash ? (
-              <img
-                src={`https://ipfs.io/ipfs/${candidate.profileImageHash}`}
-                alt="Profile"
-                className="w-32 h-32 rounded-full"
-              />
-            ) : (
-              <p>No profile image available</p>
-            )}
+    <AdminLayout>
+       <main className="flex-1 p-6 bg-white rounded-lg ">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-9 text-gray-800">
+            Candidate List
+          </h2>
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {candidates.map((candidate, index) => (
+             <div
+             key={index}
+             className="p-6 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
+           >
+             {/* Profile Image */}
+             <div className="text-center mb-4">
+               <img
+                 src={
+                   candidate.profileImageHash
+                     ? `https://ipfs.io/ipfs/${candidate.profileImageHash}`
+                     : "https://via.placeholder.com/150" // Placeholder for no image
+                 }
+                 alt="Profile"
+                 className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto"
+               />
+               {!candidate.profileImageHash && (
+                 <p className="text-gray-500 mt-2">No profile image available</p>
+               )}
+             </div>
+           
+             {/* Candidate Details */}
+             <div className="text-center">
+               <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                 {candidate.firstName} {candidate.lastName}
+               </h3>
+               <p className="text-gray-600 mb-2">
+                 <strong>Position:</strong> {candidate.position}
+               </p>
+               <p className="text-gray-600 mb-2">
+                 <strong>Address:</strong> {candidate.addressInfo}
+               </p>
+               <p className="text-gray-600 mb-4">
+                 <strong>Vote Count:</strong> {candidate.voteCount}
+               </p>
+             </div>
+           
+             {/* Logo Image */}
+             {/* <div className="text-center mt-6">
+               <strong className="text-gray-700">Logo Image:</strong>
+               {candidate.logoImageHash ? (
+                 <img
+                   src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
+                   alt="Logo"
+                   className="w-20 h-20 md:w-28 md:h-28 mx-auto"
+                 />
+               ) : (
+                 <p className="text-gray-500 mt-2">No logo image available</p>
+               )}
+             </div> */}
+           </div>
+           
+            ))}
           </div>
-          <div className="mb-4">
-            <strong>Logo Image:</strong>
-            {candidate.logoImageHash ? (
-              <img
-                src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
-                alt="Logo"
-                className="w-32 h-32"
-              />
-            ) : (
-              <p>No logo image available</p>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
+        </main>
+    </AdminLayout>
+
+
+
   );
 };
 

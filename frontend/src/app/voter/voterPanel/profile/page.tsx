@@ -18,13 +18,13 @@ const VoterProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  
+
   useEffect(() => {
     const fetchVoterProfile = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/user/me", {
           method: "GET",
-          credentials: "include", 
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -42,7 +42,7 @@ const VoterProfilePage = () => {
           throw new Error("No voter profile data found.");
         }
 
-        setVoterProfile(data.user); 
+        setVoterProfile(data.user);
       } catch (err: any) {
         setError(err.message || "Something went wrong.");
       } finally {
@@ -53,9 +53,7 @@ const VoterProfilePage = () => {
     fetchVoterProfile();
   }, []);
 
-  const handleUpdateProfile = () => {
-    console.log("Update Profile button clicked!");
-  };
+
 
   if (loading) {
     return (
@@ -89,23 +87,29 @@ const VoterProfilePage = () => {
 
   return (
     <VoterLayout>
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
-        <div className="max-w-lg w-full bg-white rounded-lg shadow-md p-6">
+      <div className="min-h-screen  flex justify-center items-center pt-8 ">
+        <div className="max-w-lg w-full bg-white rounded-lg  p-6">
           <h2 className="text-3xl font-bold mb-6 text-center">Voter Profile</h2>
 
-      
+
           <div className="mb-6 flex justify-center">
             <img
-              src={voterProfile.photo.startsWith("http") ? voterProfile.photo : `http://localhost:8000/${voterProfile.photo}`}
+              src={
+                voterProfile.photo.startsWith('http')
+                  ? voterProfile.photo
+                  : `http://localhost:8000/${voterProfile.photo.replace(/\\/g, '/')}`
+              }
               alt="Voter Profile"
-              className="w-24 h-24 rounded-full object-cover shadow-md"
+              className="w-24 h-24 object-cover shadow-md"
             />
+
+
           </div>
 
           {[
             { label: "Name", value: voterProfile.name },
             { label: "Email", value: voterProfile.email },
-            { label: "Voter ID", value: voterProfile.voterID },
+            
             { label: "Date of Birth", value: new Date(voterProfile.dob).toLocaleDateString() },
             { label: "Address", value: voterProfile.address },
             { label: "Mobile Number", value: voterProfile.mobile },
@@ -116,14 +120,7 @@ const VoterProfilePage = () => {
             </div>
           ))}
 
-          <div className="flex justify-center">
-            <button
-              onClick={handleUpdateProfile}
-              className="bg-navBlue hover:bg-blue-700 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline"
-            >
-              Update Profile
-            </button>
-          </div>
+
         </div>
       </div>
     </VoterLayout>

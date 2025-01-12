@@ -5,9 +5,7 @@ import EmailVerificationModel from "../models/EmailVerification.js";
 import setTokensCookies from "../utils/setTokensCookies.js";
 import generateTokens from "../utils/generateTokens.js";
 import refreshAccessToken from "../utils/refreshAccessToken.js";
-import path from "path";
-import { join } from 'path';
-import fs from "fs";
+
 
 class UserController {
 
@@ -276,10 +274,16 @@ class UserController {
 
     //change password
     //profile or logged in user
-    static userProfile =  async(req, res) => {
-        console.log(req.user);
-        res.send({"user":req.user })
-    }
+    static userProfile = async (req, res) => {
+        try {
+          console.log('User from passport:', req.user);
+          res.send({ user: req.user });
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+          res.status(500).send({ error: 'Failed to fetch user profile' });
+        }
+      };
+      
     //send password reset email
 
     //password reset

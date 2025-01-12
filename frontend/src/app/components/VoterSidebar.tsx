@@ -7,7 +7,6 @@ import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi"; // Icons for menu toggle
 
-// Sidebar component
 const VoterSidebar = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false); // State to track menu toggle
@@ -16,19 +15,21 @@ const VoterSidebar = () => {
     router.push("/voter/voterLogin");
   };
 
+  const toggleSidebar = () => setIsOpen(!isOpen);
+
   return (
     <>
       {/* Mobile Navbar */}
-      <div className="lg:hidden bg-logoBlue text-white fixed w-full top-0 left-0 z-10 flex items-center justify-between px-6 py-4">
-        <h2 className="text-xl font-bold">Voter Panel</h2>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-2xl">
+      <div className="lg:hidden  text-logoBlue fixed w-full top-0 left-0 z-10 flex items-center px-2 sm:px-8 py-4">
+        <button onClick={toggleSidebar} className="text-3xl mr-4">
           {isOpen ? <FiX /> : <FiMenu />}
         </button>
+       
       </div>
 
-      {/* Sidebar for larger screens and mobile menu */}
+      {/* Sidebar */}
       <div
-        className={`lg:w-64 h-screen bg-logoBlue text-white fixed top-0 left-0 lg:block z-10 transform ${
+        className={`fixed top-0 left-0 w-64 h-screen bg-logoBlue text-white z-20 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 transition-transform duration-300`}
       >
@@ -77,9 +78,17 @@ const VoterSidebar = () => {
         </nav>
       </div>
 
-      {/* Page content shift for larger screens */}
-      <div className={`lg:ml-64 p-6 bg-gray-100 min-h-screen`}>
-        {/* Add page content here */}
+      {/* Overlay for mobile view */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+
+      
+      <div className={`lg:ml-64   min-h-screen`}>
+        
       </div>
     </>
   );

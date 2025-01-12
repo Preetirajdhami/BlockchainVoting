@@ -49,9 +49,9 @@ export default function AboutUsPage() {
                 className="w-38 h-40 mx-auto box-full rounded-lg mb-4"
               />
               <h3 className="text-xl font-semibold text-logoBlue mb-1">Preeti Rajdhami</h3>
-              <p className="text-gray-900 mb-4">(Blockchain Specialist)</p>
+              <p className="text-gray-900 mb-4">(Backend)</p>
               <p className="text-gray-600 text-left">
-              Preeti is an expert in blockchain technology, with a strong focus on creating secure, decentralized systems. She ensures the QuickVote platform operates with the highest standards of integrity and trust.
+              Preeti is an expert backend developer with a strong focus on building secure and efficient systems. She ensures the QuickVote platform operates seamlessly, maintaining the highest standards of performance, integrity, and trust.
               </p>
             </div>
 
@@ -63,7 +63,7 @@ export default function AboutUsPage() {
                 className="w-38 h-40 mx-auto box-full rounded-lg mb-4"
               />
               <h3 className="text-xl font-semibold text-logoBlue mb-1">Manoj Shrestha</h3>
-              <p className="text-gray-900 mb-4">(UI/UX Designer)</p>
+              <p className="text-gray-900 mb-4">(Frontend)</p>
               <p className="text-gray-600 text-left">
                 Manoj brings a user-centered design approach to QuickVote. He ensures that our platform is intuitive, visually appealing, and accessible to users of all backgrounds.
               </p>

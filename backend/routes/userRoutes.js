@@ -6,6 +6,7 @@ import passport from 'passport';
 
 import accessTokenAutoRefresh from '../middlewares/accessTokenAutoRefresh.js';
 import upload from '../middlewares/registerPhoto.js';
+
 // import setAuthHeader from '../middlewares/setAuthHeader.js';
 
 

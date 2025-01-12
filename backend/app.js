@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
+import path from 'path';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/connectdb.js';
 import passport from 'passport';
@@ -30,6 +31,11 @@ app.use(cookieParser());
 
 // Passport middleware
 app.use(passport.initialize());
+
+// Static Files - Serve uploads directory
+const __dirname = path.resolve(); // Ensure __dirname is defined
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Express JSON parser
 app.use(express.json());
