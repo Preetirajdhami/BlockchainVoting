@@ -2,7 +2,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useState } from "react";
-import { FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
 import Header from "../../components/Header";
 import { useRouter } from "next/navigation";
 
@@ -10,6 +10,12 @@ const VoterLogin = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [isLoading, setIsLoading] = useState(false); // Loading state for API request
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
 
   // Formik Hook for form handling
   const formik = useFormik({
@@ -110,19 +116,26 @@ const VoterLogin = () => {
               <div className="relative">
                 <FaLock className="absolute left-3 top-2/4 transform -translate-y-1/2 text-gray-400" />
                 <input
-                  className={`appearance-none border rounded w-full py-2 pl-10 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  className={`appearance-none border rounded w-full py-2 pl-10 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                     formik.touched.password && formik.errors.password
                       ? "border-red-500"
                       : ""
                   }`}
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"} // Toggle input type
                   placeholder="Enter your password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
+                <button
+                  type="button"
+                  className="absolute right-3 top-2/4 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
               {formik.touched.password && formik.errors.password ? (
                 <p className="text-red-500 text-xs italic">{formik.errors.password}</p>

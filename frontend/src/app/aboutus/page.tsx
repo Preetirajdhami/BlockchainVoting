@@ -77,9 +77,9 @@ export default function AboutUsPage() {
                 className="w-38 h-40 mx-auto box-full rounded-lg mb-4"
               />
               <h3 className="text-xl font-semibold text-logoBlue mb-1">Sohit Sharma Tiwari</h3>
-              <p className="text-gray-6900 mb-4">(Security Analyst)</p>
+              <p className="text-gray-6900 mb-4">(UI/UX)</p>
               <p className="text-gray-600 text-left">
-                Sohit focuses on ensuring the platform's security. He implements robust encryption methods to guarantee the protection of voter data and the integrity of the voting process.
+              Sohit focuses on enhancing the platform's UI/UX. He designs intuitive and user-friendly interfaces to ensure a seamless voting experience while maintaining accessibility and clarity across all user interactions.
               </p>
             </div>
           </div>

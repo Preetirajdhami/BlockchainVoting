@@ -5,10 +5,11 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Header from "@/app/components/Header";
-import { FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
 
 const AdminLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const router = useRouter();
 
   // Form validation schema using Yup
@@ -96,7 +97,7 @@ const AdminLogin = () => {
               <div className="relative">
                 <FaLock className="absolute left-3 top-2/4 transform -translate-y-1/2 text-gray-400" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -107,6 +108,13 @@ const AdminLogin = () => {
                       : "border-gray-300"
                   } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-2/4 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
               {formik.touched.password && formik.errors.password && (
                 <p className="text-red-500 text-sm mt-1">
