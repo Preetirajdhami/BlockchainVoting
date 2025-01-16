@@ -2,13 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import VoterLayout from "../VoterLayout";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import getAdminContractInstance from "../../../utility/adminContract";
 
-const Page = () => {
-  const [winner, setWinner] = useState<any>(null); // State to store winner details
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const ResultPage = () => {
+  const [candidates, setCandidates] = useState<any[]>([]); // State to store all candidates
   const [loading, setLoading] = useState<boolean>(false); // State for loading indicator
   const [isVotingActive, setIsVotingActive] = useState<boolean>(false); // State for voting status
-  const [statusLoading, setStatusLoading] = useState<boolean>(true); // Loading state for fetching voting status
+  const [statusLoading, setStatusLoading] = useState<boolean>(true); // Loading state for voting status
 
   // Fetch voting status
   const fetchVotingStatus = async () => {
@@ -26,40 +39,74 @@ const Page = () => {
     }
   };
 
-  // Fetch the winner from the contract
-  const fetchWinner = async () => {
+  // Fetch all candidates with votes from the smart contract
+  const fetchAllCandidates = async () => {
     try {
       setLoading(true);
       const contract = await getAdminContractInstance();
-      const winnerData = await contract.getWinner();
 
-      // Update the winner state with the fetched details
-      setWinner({
-        id: winnerData[0].toString(),
-        firstName: winnerData[1],
-        lastName: winnerData[2],
-        position: winnerData[3],
-        voteCount: winnerData[4].toString(),
-      });
+      // Fetch all candidates data
+      const candidateData: any[] = await contract.getAllCandidates();
+      const mappedCandidates = candidateData.map((data: any) => ({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        voteCount: Number(data.voteCount.toString()), // Ensure BigInt conversion
+      }));
+
+      setCandidates(mappedCandidates);
     } catch (error) {
-      console.error("Error fetching winner details:", error);
+      console.error("Error fetching candidates:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Call fetchVotingStatus on initial render
+  // Use useEffect to fetch data on mount
   useEffect(() => {
     fetchVotingStatus();
   }, []);
 
+  // Fetch candidates only if voting has ended
+  useEffect(() => {
+    if (!isVotingActive) fetchAllCandidates();
+  }, [isVotingActive]);
+
+  // Prepare data for the chart
+  const chartData = {
+    labels: candidates.map(
+      (candidate) => `${candidate.firstName} ${candidate.lastName}`
+    ),
+    datasets: [
+      {
+        label: "Votes",
+        data: candidates.map((candidate) => candidate.voteCount),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
   return (
     <VoterLayout>
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 text-center">
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="max-w-4xl w-full bg-white rounded-lg p-6 text-center">
           <h2 className="text-3xl font-bold mb-4">Election Results</h2>
 
-          {/* Display message if voting is still active */}
+          {/* Display loading or active voting status */}
           {statusLoading ? (
             <p>Loading voting status...</p>
           ) : isVotingActive ? (
@@ -67,26 +114,34 @@ const Page = () => {
               Voting is still active. Results will be available after voting ends.
             </p>
           ) : (
-            <button
-              onClick={fetchWinner}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mb-4"
-              disabled={loading}
-            >
-              {loading ? "Fetching Results..." : "View Results"}
-            </button>
-          )}
+            <>
+              {/* Show loading state for fetching candidates */}
+              {loading ? (
+                <p>Loading results...</p>
+              ) : (
+                <>
+                  {/* Bar Graph */}
+                  <div className="mt-6">
+                    <Bar data={chartData} options={chartOptions} />
+                  </div>
 
-          {/* Display winner details if available */}
-          {winner && (
-            <div className="mt-4 text-left">
-              <h3 className="text-lg font-semibold">Winner Details</h3>
-              
-              <p>
-                <strong>Name:</strong> {winner.firstName} {winner.lastName}
-              </p>
-              <p><strong>Position:</strong> {winner.position}</p>
-              <p><strong>Votes:</strong> {winner.voteCount}</p>
-            </div>
+                  {/* Candidate Details */}
+                  {/* <div className="mt-8 text-left">
+                    <h3 className="text-lg font-semibold">Candidate Details</h3>
+                    <ul>
+                      {candidates.map((candidate, index) => (
+                        <li key={index} className="mt-2">
+                          <strong>
+                            {candidate.firstName} {candidate.lastName}
+                          </strong>{" "}
+                          - Votes: {candidate.voteCount}
+                        </li>
+                      ))}
+                    </ul>
+                  </div> */}
+                </>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -94,4 +149,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ResultPage;

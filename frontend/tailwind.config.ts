@@ -19,6 +19,7 @@ const config: Config = {
         logoBlue:'#004b84',
         popBlue:'#04d8f8',
         bgBlue:'#012b64',
+        resultBlue: '#2C4E8F',
 
       },
     },
