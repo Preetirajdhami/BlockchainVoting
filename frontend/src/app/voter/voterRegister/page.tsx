@@ -89,7 +89,7 @@ const Register = () => {
       <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-md rounded">
         <h2 className="text-2xl text-logoBlue font-bold mb-6">Register</h2>
 
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
           {/* Name Field */}
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium mb-1">

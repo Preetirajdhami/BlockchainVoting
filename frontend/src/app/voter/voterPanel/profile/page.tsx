@@ -18,7 +18,6 @@ const VoterProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
   useEffect(() => {
     const fetchVoterProfile = async () => {
       try {
@@ -53,8 +52,6 @@ const VoterProfilePage = () => {
     fetchVoterProfile();
   }, []);
 
-
-
   if (loading) {
     return (
       <VoterLayout>
@@ -85,42 +82,46 @@ const VoterProfilePage = () => {
     );
   }
 
-  return (
-    <VoterLayout>
-      <div className="min-h-screen  flex justify-center items-center pt-8 ">
-        <div className="max-w-lg w-full bg-white rounded-lg  p-6">
-          <h2 className="text-3xl font-bold mb-6 text-center">Voter Profile</h2>
+  // Log the image source to check its validity
+  const imageUrl = voterProfile.photo.startsWith('http')
+    ? voterProfile.photo
+    : `http://localhost:8000/uploads/${voterProfile.photo.split('\\').pop()}`;
 
+  console.log("Voter Profile Image URL:", imageUrl);
+
+  return (
+     <VoterLayout>
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 flex justify-center items-center p-6">
+        <div className="max-w-lg w-full bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-3xl lg:text-4xl font-bold text-bgBlue mb-6 text-center">Voter Profile</h2>
 
           <div className="mb-6 flex justify-center">
             <img
-              src={
-                voterProfile.photo.startsWith('http')
-                  ? voterProfile.photo
-                  : `http://localhost:8000/${voterProfile.photo.replace(/\\/g, '/')}`
-              }
+              src={imageUrl}
               alt="Voter Profile"
-              className="w-24 h-24 object-cover shadow-md"
+              className="w-28 h-28 object-cover rounded-full shadow-md transition-transform transform hover:scale-105"
+              onError={(e) => console.error("Error loading image:", e)}
             />
-
-
           </div>
 
           {[
             { label: "Name", value: voterProfile.name },
             { label: "Email", value: voterProfile.email },
-            
             { label: "Date of Birth", value: new Date(voterProfile.dob).toLocaleDateString() },
             { label: "Address", value: voterProfile.address },
             { label: "Mobile Number", value: voterProfile.mobile },
           ].map((item, index) => (
             <div className="mb-4" key={index}>
-              <label className="block text-gray-700 text-sm font-bold mb-2">{item.label}</label>
-              <p className="bg-gray-200 p-3 rounded">{item.value}</p>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                {item.label}
+              </label>
+              <p className="bg-gray-50 p-4 rounded-lg text-gray-800 shadow-sm">
+                {item.value}
+              </p>
             </div>
           ))}
 
-
+          
         </div>
       </div>
     </VoterLayout>

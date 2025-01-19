@@ -65,7 +65,7 @@ const AddCandidate = () => {
     <AdminLayout>
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="w-full max-w-md bg-white rounded-lg px-6 sm:px-8 py-8 shadow-lg">
-          <h2 className="text-2xl font-semibold text-center mb-6">Add Candidate</h2>
+          <h2 className="text-2xl lg:text-3xl font-semibold text-center text-bgBlue mb-6">Add Candidate</h2>
           <input
             type="text"
             name="firstName"
@@ -110,7 +110,7 @@ const AddCandidate = () => {
           />
           <button
             onClick={addCandidate}
-            className="w-full px-4 py-2 bg-popBlue text-logoBlue text-sm font-semibold rounded-md hover:bg-logoBlue hover:text-popBlue transition duration-300"
+            className="w-full px-4 py-2 bg-popBlue text-logoBlue text-lg  font-semibold rounded-md hover:bg-logoBlue hover:text-popBlue transition duration-300"
           >
             Add Candidate
           </button>

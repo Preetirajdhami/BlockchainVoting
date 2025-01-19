@@ -66,12 +66,17 @@ const CandidateList = () => {
   }
 
   if (candidates.length === 0) {
-    return <div>No candidates available.</div>;
+    return (
+      <AdminLayout>
+         <div className="text-center text-xl font-semibold text-gray-700 mt-8">
+          No candidates available.
+        </div>
+      </AdminLayout>
+    );
   }
-
   return (
     <AdminLayout>
-       <main className="flex-1 p-6  rounded-lg ">
+       <main className="flex-1 p-6   rounded-lg ">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-9 text-gray-800">
             Candidate List
           </h2>
@@ -79,7 +84,7 @@ const CandidateList = () => {
             {candidates.map((candidate, index) => (
              <div
              key={index}
-             className="p-6 bg-gray-50 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
+             className="p-6 bg-gray-100  rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
            >
              {/* Profile Image */}
              <div className="text-center mb-4">

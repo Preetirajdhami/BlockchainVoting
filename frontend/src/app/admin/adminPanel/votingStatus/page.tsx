@@ -199,7 +199,7 @@ const VotingStatusPage = () => {
         <AdminLayout>
             <div className="min-h-screen flex justify-center items-center md:justify-start md:items-start bg-gray-200 md:p-4">
                 <div className="max-w-md md:max-w-none w-full  rounded-lg p-6 text-center md:text-start md:px-10 md:py-11 ">
-                    <h2 className="text-3xl font-semibold text-bgBlue 2xl:px-48 2xl:text-4x mb-4">Voting Status</h2>
+                    <h2 className="text-3xl font-bold text-bgBlue 2xl:px-48 2xl:text-4x mb-4">Voting Status</h2>
 
                     <div className="flex justify-center items-center">
                         {/* Status Message */}
@@ -251,28 +251,34 @@ const VotingStatusPage = () => {
                             {winners.length > 0 && votesData.length > 0 && (
                                 <div className="mt-4">
                                     {/* Section Heading */}
-                                    <h3 className="text-2xl  xl:text-2xl font-bold text-center text-logoBlue mb-4">Winner Details</h3>
+                                    <h3 className="text-2xl  lg:text-3xl font-bold text-center text-logoBlue mb-8">Winner Details</h3>
 
                                     {/* Winner Details and Pie Chart */}
                                     <div className="flex flex-col md:flex-row 2xl:px-48 gap-6 justify-center">
                                         {/* Winner Details */}
-                                        <div className="bg-white py-6 border-2 rounded-lg shadow-lg text-center flex-1 px-4 sm:px-8">
-                                            {winners.map((winner: Winner, index: number) => (
-                                                <div key={index} className="mb-6">
-                                                    <img
-                                                        src={winner.profileImageHash ? `https://ipfs.io/ipfs/${winner.profileImageHash}` : "/default-avatar.png"}
-                                                        alt="Winner Avatar"
-                                                        className="w-32 h-32 rounded-full mx-auto mb-4"
-                                                    />
-                                                    <h4 className="text-xl font-semibold text-bgBlue mb-2">
-                                                        {winner.firstName} {winner.lastName}
-                                                    </h4>
-                                                    <p className="text-lg font-medium text-gray-700">{winner.location}</p>
-                                                    <p className="text-lg font-medium text-gray-700">{winner.position}</p>
-                                                    <p className="text-lg font-medium text-gray-700">Votes: {winner.voteCount}</p>
-                                                </div>
-                                            ))}
+                                        <div className="bg-white py-6  border-2 rounded-lg shadow-lg text-center flex-1 px-4 sm:px-8">
+                                            <h2 className="text-2xl font-bold text-bgBlue mb-6">
+                                                Congratulations to the Winner!
+                                            </h2>
+                                            <p className="text-lg text-gray-600 mb-6">
+                                                We are thrilled to announce the winner of this election! Their dedication, hard work, and the support of their community have earned them this prestigious title. Let's celebrate their achievement!
+                                            </p>
+
+                                            <div className="mb-6">
+                                                <img
+                                                    src={winners[0].profileImageHash ? `https://ipfs.io/ipfs/${winners[0].profileImageHash}` : "/default-avatar.png"}
+                                                    alt="Winner Avatar"
+                                                    className="w-32 h-32 rounded-full mx-auto mb-4"
+                                                />
+                                                <h4 className="text-xl font-semibold text-bgBlue mb-2">
+                                                    {winners[0].firstName} {winners[0].lastName}
+                                                </h4>
+                                                <p className="text-lg font-medium text-gray-700">{winners[0].location}</p>
+                                                <p className="text-lg font-medium text-gray-700">Position:{winners[0].position}</p>
+                                                <p className="text-lg font-medium text-gray-700">Votes: {winners[0].voteCount}</p>
+                                            </div>
                                         </div>
+
 
                                         {/* Pie Chart */}
                                         <div className="flex justify-center items-center bg-white border-2 rounded-lg shadow-lg flex-1 p-6">

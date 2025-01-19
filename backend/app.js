@@ -6,9 +6,10 @@ import cookieParser from 'cookie-parser';
 import connectDB from './config/connectdb.js';
 import passport from 'passport';
 import userRoutes from './routes/userRoutes.js';
-import adminRoutes from './routes/adminRoutes.js'
-import './config/passport-jwt-strategy.js';
+import adminRoutes from './routes/adminRoutes.js';
+import multer from 'multer';
 
+import './config/passport-jwt-strategy.js';
 
 import express from 'express';
 const app = express();
@@ -17,7 +18,7 @@ const DATABASE_URL = process.env.DATABASE_URL;
 
 // CORS policy setup
 const corsOptions = {
-  origin: process.env.FRONTEND_HOST, 
+  origin: process.env.FRONTEND_HOST,
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -25,28 +26,48 @@ app.use(cors(corsOptions));
 
 // Connect to the database
 connectDB(DATABASE_URL);
+
 // Cookie parser middleware
 app.use(cookieParser());
 
-
 // Passport middleware
 app.use(passport.initialize());
+
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Specify the uploads directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
+  },
+});
+const upload = multer({ storage });
+
+// File upload route
+app.post('/upload', upload.single('photo'), (req, res) => {
+  if (req.file) {
+    // If file uploaded successfully
+    res.json({
+      message: 'File uploaded successfully',
+      file: req.file,
+    });
+  } else {
+    // If file upload failed
+    res.status(400).json({ message: 'File upload failed' });
+  }
+});
 
 // Static Files - Serve uploads directory
 const __dirname = path.resolve(); // Ensure __dirname is defined
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
 // Express JSON parser
 app.use(express.json());
 
-
 // Load Routes
-app.use("/api/user", userRoutes);
-
+app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
-
-
 
 // Start server
 app.listen(port, () => {

@@ -176,10 +176,10 @@ const CandidateList = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col space-x-0 sm:space-x-2 mt-4 sm:mt-0">
+                <div className=" pl-6 flex flex-col space-x-0 sm:space-x-2 mt-4 sm:mt-0">
                   <button
                     onClick={() => setSelectedCandidate(index + 1)}
-                    className={`px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 ${
+                    className={`px-4 py-2 bg-logoBlue hover:bg-popBlue text-white transition duration-300 font-bold rounded-md  ${
                       voting === index + 1 ? "opacity-50 cursor-not-allowed" : ""
                     } sm:text-lg sm:px-6`}
                     disabled={voting === index + 1}
@@ -209,7 +209,7 @@ const CandidateList = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-4 py-2 bg-logoBlue hover:bg-popBlue text-white transition duration-300 font-bold rounded-md"
                 onClick={castVote}
               >
                 Vote

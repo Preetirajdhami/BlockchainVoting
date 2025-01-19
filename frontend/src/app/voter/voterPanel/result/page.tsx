@@ -186,7 +186,14 @@ const ResultPage = () => {
                       </h3>
 
                       <div className="grid gap-8 md:grid-cols-2">
-                        <div className="bg-white p-6 border-2 rounded-lg shadow-lg">
+                        <div className="bg-white p-6 border-2 border-popBlue rounded-lg shadow-lg">
+                        <h2 className="text-2xl  font-bold text-bgBlue mb-6">
+                                                Congratulations to the Winner!
+                                            </h2>
+                                            <p className="text-lg text-gray-600 mb-6">
+                                                We are thrilled to announce the winner of this election!  Let's celebrate their achievement!
+                                            </p>
+                          
                           {winners.map((winner: Winner, index: number) => (
                             <div key={index} className="mb-6 text-center flex flex-col items-center">
                               <img
@@ -198,6 +205,7 @@ const ResultPage = () => {
 
                               {/* Use flex to align text consistently */}
                               <div className="flex flex-col items-start ">
+                                
                                 <h4 className="text-xl lg:text-2xl font-semibold text-bgBlue mb-2">
                                   {winner.firstName} {winner.lastName}
                                 </h4>
