@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-const adminContractAddress = "0x964B8efd86C490D505522eF11B63Ff0451400CEE"; // Replace with actual admin contract address
+const adminContractAddress = "0x5020DCe39340e3792040F0a59e002F956416AF58"; // Replace with actual admin contract address
 const adminContractABI = [
   {
     "inputs": [],
@@ -315,32 +315,49 @@ const adminContractABI = [
   },
   {
     "inputs": [],
-    "name": "getWinner",
+    "name": "getWinners",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "winnerID",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "firstName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "lastName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "position",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "voteCount",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "string",
+            "name": "firstName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "lastName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "position",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "addressInfo",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "profileImageHash",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "logoImageHash",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "voteCount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct AdminPanel.Candidate[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",

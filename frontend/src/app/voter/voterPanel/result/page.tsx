@@ -2,31 +2,33 @@
 
 import React, { useState, useEffect } from "react";
 import VoterLayout from "../VoterLayout";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import getAdminContractInstance from "../../../utility/adminContract";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels, );
+
+interface Winner {
+  id: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  position: string;
+  voteCount: string;
+  profileImageHash?: string;
+}
 
 const ResultPage = () => {
   const [candidates, setCandidates] = useState<any[]>([]); // State to store all candidates
-  const [loading, setLoading] = useState<boolean>(false); // State for loading indicator
+  const [loading, setLoading] = useState<boolean>(true); // State for loading indicator
+  const [winners, setWinners] = useState<any[]>([]);
+  const [votesData, setVotesData] = useState<any[]>([]);
   const [isVotingActive, setIsVotingActive] = useState<boolean>(false); // State for voting status
   const [statusLoading, setStatusLoading] = useState<boolean>(true); // Loading state for voting status
 
-  // Fetch voting status
   const fetchVotingStatus = async () => {
     try {
-      setStatusLoading(true);
       const response = await fetch("http://localhost:8000/api/admin/voting-status");
       if (!response.ok) throw new Error("Failed to fetch voting status");
 
@@ -39,106 +41,192 @@ const ResultPage = () => {
     }
   };
 
-  // Fetch all candidates with votes from the smart contract
-  const fetchAllCandidates = async () => {
+  const fetchElectionData = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       const contract = await getAdminContractInstance();
-
-      // Fetch all candidates data
-      const candidateData: any[] = await contract.getAllCandidates();
-      const mappedCandidates = candidateData.map((data: any) => ({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        voteCount: Number(data.voteCount.toString()), // Ensure BigInt conversion
+      const winnersData = await contract.getWinners();
+      const formattedWinners = winnersData.map((winner: any) => ({
+        id: winner?.id?.toString() || "N/A",
+        firstName: winner?.firstName || "Unknown",
+        lastName: winner?.lastName || "Unknown",
+        position: winner?.position || "Unknown",
+        voteCount: winner?.voteCount?.toString() || "0",
+        profileImageHash: winner?.profileImageHash || "",
       }));
+      setWinners(formattedWinners);
 
-      setCandidates(mappedCandidates);
+      const candidatesData = await contract.getAllCandidates();
+      const votes = candidatesData.map((candidate: any) => ({
+        name: `${candidate?.firstName || "Unknown"} ${candidate?.lastName || "Unknown"}`,
+        votes: parseInt(candidate?.voteCount?.toString() || "0"),
+      }));
+      setVotesData(votes);
     } catch (error) {
-      console.error("Error fetching candidates:", error);
+      console.error("Error fetching election data:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Use useEffect to fetch data on mount
   useEffect(() => {
     fetchVotingStatus();
   }, []);
 
-  // Fetch candidates only if voting has ended
   useEffect(() => {
-    if (!isVotingActive) fetchAllCandidates();
+    if (!isVotingActive) {
+      fetchElectionData();
+    }
   }, [isVotingActive]);
 
-  // Prepare data for the chart
-  const chartData = {
-    labels: candidates.map(
-      (candidate) => `${candidate.firstName} ${candidate.lastName}`
-    ),
+  const maxVotes = Math.max(...votesData.map((candidate) => candidate.votes));
+  const minVotes = Math.min(...votesData.map((candidate) => candidate.votes));
+
+  const pieChartData = {
+    labels: votesData.map((candidate) => candidate.name),
     datasets: [
       {
-        label: "Votes",
-        data: candidates.map((candidate) => candidate.voteCount),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
+        data: votesData.map((candidate) => candidate.votes),
+        backgroundColor: votesData.map((candidate) => {
+          if (candidate.votes === maxVotes) {
+            return "#004b84";  // Dark blue for the winner
+          } else if (candidate.votes === minVotes) {
+            return "#207C9F";  // Blue for the candidate with the least votes
+          } else {
+            return "#012b64";  // Lighter blue for other candidates
+          }
+        }),
       },
     ],
   };
 
-  const chartOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+  const pieChartOptions = {
     plugins: {
       legend: {
-        display: false,
+        position: "right" as const,
+        labels: {
+          boxWidth: 20,
+          padding: 10,
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            const label = context.label || "";
+            const value = context.raw as number || 0;
+            const total = context.dataset.data.reduce((sum: number, curr: number) => sum + curr, 0);
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${label}: ${value} votes (${percentage}%)`;
+          },
+        },
+      },
+      datalabels: {
+        color: 'white',
+        font: {
+          weight: 'bold',
+          size: 16,
+        },
+        formatter: (value: number, context: any) => {
+          const total = context.dataset.data.reduce((sum: number, curr: number) => sum + curr, 0);
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        position: 'center',
+        anchor: 'center',
+        align: 'center',
+      },
+      customText: {
+        id: "customText",
+        afterDraw: (chart: any) => {
+          const { ctx, width, height } = chart;
+          ctx.save();
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "black";
+          ctx.textAlign = "center";
+          ctx.fillText(
+            "The pie chart below illustrates the distribution of votes among candidates.",
+            width / 2,
+            height - 20
+          );
+          ctx.restore();
+        },
       },
     },
   };
 
+
   return (
     <VoterLayout>
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="max-w-4xl w-full bg-white rounded-lg p-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">Election Results</h2>
+      <div className="min-h-screen flex justify-center items-center py-6 px-4 bg-gray-100">
+        <div className="max-w-4xl w-full   p-8">
+          <h2 className="text-3xl font-extrabold text-logoBlue text-center mb-8">
+            Election Results
+          </h2>
 
-          {/* Display loading or active voting status */}
           {statusLoading ? (
-            <p>Loading voting status...</p>
+            <p className="text-lg text-gray-600">Loading voting status...</p>
           ) : isVotingActive ? (
-            <p className="text-lg text-red-500 font-semibold mb-4">
+            <p className="text-lg text-red-600 font-semibold mb-6">
               Voting is still active. Results will be available after voting ends.
             </p>
           ) : (
             <>
-              {/* Show loading state for fetching candidates */}
               {loading ? (
-                <p>Loading results...</p>
+                <p className="text-lg text-gray-600">Loading results...</p>
               ) : (
                 <>
-                  {/* Bar Graph */}
-                  <div className="mt-6">
-                    <Bar data={chartData} options={chartOptions} />
-                  </div>
+                  {winners.length > 0 && votesData.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="text-2xl font-bold text-logoBlue text-center mb-6">
+                        Winner Details
+                      </h3>
 
-                  {/* Candidate Details */}
-                  {/* <div className="mt-8 text-left">
-                    <h3 className="text-lg font-semibold">Candidate Details</h3>
-                    <ul>
-                      {candidates.map((candidate, index) => (
-                        <li key={index} className="mt-2">
-                          <strong>
-                            {candidate.firstName} {candidate.lastName}
-                          </strong>{" "}
-                          - Votes: {candidate.voteCount}
-                        </li>
-                      ))}
-                    </ul>
-                  </div> */}
+                      <div className="grid gap-8 md:grid-cols-2">
+                        <div className="bg-white p-6 border-2 rounded-lg shadow-lg">
+                          {winners.map((winner: Winner, index: number) => (
+                            <div key={index} className="mb-6 text-center flex flex-col items-center">
+                              <img
+                                src={winner.profileImageHash ? `https://ipfs.io/ipfs/${winner.profileImageHash}` : "/default-avatar.png"}
+                                alt="Winner Avatar"
+                                className="w-32 h-32 rounded-full mx-auto mb-4"
+                              />
+
+
+                              {/* Use flex to align text consistently */}
+                              <div className="flex flex-col items-start ">
+                                <h4 className="text-xl lg:text-2xl font-semibold text-bgBlue mb-2">
+                                  {winner.firstName} {winner.lastName}
+                                </h4>
+
+                                <p className="text-lg font-medium text-gray-700">Position: {winner.position}</p>
+                                <p className="text-lg font-medium text-gray-700">Votes: {winner.voteCount}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+
+                        <div className="bg-white p-6 border-2 rounded-lg border-popBlue shadow-lg flex flex-col justify-center items-center">
+                          <h3 className="text-2xl font-semibold text-bgBlue">Voting Results</h3>
+
+                          <div className="w-full max-w-md">
+                            {/* <p className="text-sm text-gray-700 text-start mb-2">
+                              The pie chart below illustrates the distribution of votes among candidates.
+                            </p> */}
+                            <div className="w-full h-full">
+                              <Pie data={pieChartData} options={pieChartOptions as any} />
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </>

@@ -10,11 +10,22 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
+interface Winner {
+    id: string;
+    firstName: string;
+    lastName: string;
+    location: string,
+    position: string;
+    voteCount: string;
+    profileImageHash?: string;
+
+}
+
 
 const VotingStatusPage = () => {
     const [isVotingActive, setIsVotingActive] = useState<boolean>(false);
     const [votingStopped, setVotingStopped] = useState<boolean>(false);
-    const [winner, setWinner] = useState<any>(null);
+    const [winners, setWinners] = useState<any[]>([]);
     const [votesData, setVotesData] = useState<any[]>([]);
     const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
     const [showStartConfirmModal, setShowStartConfirmModal] = useState<boolean>(false);
@@ -63,20 +74,29 @@ const VotingStatusPage = () => {
         handleToggleVoting();
     };
 
-    const fetchWinner = async () => {
+    const fetchWinners = async () => {
         try {
             const contract = await getAdminContractInstance();
-            const winnerData = await contract.getWinner();
+            const winnersData = await contract.getWinners();
 
-            setWinner({
-                id: winnerData[0].toString(),
-                firstName: winnerData[1],
-                lastName: winnerData[2],
-                position: winnerData[3],
-                voteCount: winnerData[4].toString(),
-            });
+            if (!winnersData || winnersData.length === 0) {
+                console.warn("No winners found.");
+                setWinners([]);
+                return;
+            }
+
+            const formattedWinners = winnersData.map((winner: any) => ({
+                id: winner?.id?.toString() || "N/A",
+                firstName: winner?.firstName || "Unknown",
+                lastName: winner?.lastName || "Unknown",
+                position: winner?.position || "Unknown",
+                voteCount: winner?.voteCount?.toString() || "0",
+                profileImageHash: winner?.profileImageHash || "",
+            }));
+
+            setWinners(formattedWinners);
         } catch (error) {
-            console.error("Error fetching winner details:", error);
+            console.error("Error fetching winners:", error);
         }
     };
 
@@ -84,9 +104,16 @@ const VotingStatusPage = () => {
         try {
             const contract = await getAdminContractInstance();
             const candidates = await contract.getAllCandidates();
+
+            if (!candidates || candidates.length === 0) {
+                console.warn("No candidates found.");
+                setVotesData([]);
+                return;
+            }
+
             const votes = candidates.map((candidate: any) => ({
-                name: `${candidate.firstName} ${candidate.lastName}`,
-                votes: parseInt(candidate.voteCount.toString()),
+                name: `${candidate?.firstName || "Unknown"} ${candidate?.lastName || "Unknown"}`,
+                votes: parseInt(candidate?.voteCount?.toString() || "0"),
             }));
             setVotesData(votes);
         } catch (error) {
@@ -99,17 +126,28 @@ const VotingStatusPage = () => {
     }, []);
 
     const handleViewResults = async () => {
-        await fetchWinner();
+        await fetchWinners();
         await fetchVotesData();
     };
+
+    const maxVotes = Math.max(...votesData.map((candidate) => candidate.votes));
+    const minVotes = Math.min(...votesData.map((candidate) => candidate.votes));
 
     const pieChartData = {
         labels: votesData.map((candidate) => candidate.name),
         datasets: [
             {
                 data: votesData.map((candidate) => candidate.votes),
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
-                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
+                backgroundColor: votesData.map((candidate) => {
+                    if (candidate.votes === maxVotes) {
+                        return "#004b84";  // Dark blue for the winner
+                    } else if (candidate.votes === minVotes) {
+                        return "#207C9F";  // Blue for the candidate with the least votes
+                    } else {
+                        return "#012b64";  // Lighter blue for other candidates
+                    }
+                }),
+
             },
         ],
     };
@@ -157,17 +195,11 @@ const VotingStatusPage = () => {
 
 
 
-
-
-
-
-
-
     return (
         <AdminLayout>
-            <div className="min-h-screen flex justify-center items-center md:justify-start md:items-start md:p-4">
-                <div className="max-w-md md:max-w-none w-full bg-white rounded-lg p-6 text-center md:text-start md:px-10 md:py-11 ">
-                    <h2 className="text-3xl font-semibold text-bgBlue mb-4">Voting Status</h2>
+            <div className="min-h-screen flex justify-center items-center md:justify-start md:items-start bg-gray-200 md:p-4">
+                <div className="max-w-md md:max-w-none w-full  rounded-lg p-6 text-center md:text-start md:px-10 md:py-11 ">
+                    <h2 className="text-3xl font-semibold text-bgBlue 2xl:px-48 2xl:text-4x mb-4">Voting Status</h2>
 
                     <div className="flex justify-center items-center">
                         {/* Status Message */}
@@ -216,30 +248,42 @@ const VotingStatusPage = () => {
                                 </button>
                             </div>
 
-                            {winner && votesData.length > 0 && (
-                                <div className="mt-4 bg-blue-300 p-4">
+                            {winners.length > 0 && votesData.length > 0 && (
+                                <div className="mt-4">
                                     {/* Section Heading */}
-                                    <h3 className="text-lg font-semibold text-center mb-4">Winner Details</h3>
+                                    <h3 className="text-2xl  xl:text-2xl font-bold text-center text-logoBlue mb-4">Winner Details</h3>
 
                                     {/* Winner Details and Pie Chart */}
-                                    <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+                                    <div className="flex flex-col md:flex-row 2xl:px-48 gap-6 justify-center">
                                         {/* Winner Details */}
-                                        <div className="md:w-1/2">
-                                            <p>ID: {winner.id}</p>
-                                            <p>Name: {winner.firstName} {winner.lastName}</p>
-                                            <p>Position: {winner.position}</p>
-                                            <p>Votes: {winner.voteCount}</p>
+                                        <div className="bg-white py-6 border-2 rounded-lg shadow-lg text-center flex-1 px-4 sm:px-8">
+                                            {winners.map((winner: Winner, index: number) => (
+                                                <div key={index} className="mb-6">
+                                                    <img
+                                                        src={winner.profileImageHash ? `https://ipfs.io/ipfs/${winner.profileImageHash}` : "/default-avatar.png"}
+                                                        alt="Winner Avatar"
+                                                        className="w-32 h-32 rounded-full mx-auto mb-4"
+                                                    />
+                                                    <h4 className="text-xl font-semibold text-bgBlue mb-2">
+                                                        {winner.firstName} {winner.lastName}
+                                                    </h4>
+                                                    <p className="text-lg font-medium text-gray-700">{winner.location}</p>
+                                                    <p className="text-lg font-medium text-gray-700">{winner.position}</p>
+                                                    <p className="text-lg font-medium text-gray-700">Votes: {winner.voteCount}</p>
+                                                </div>
+                                            ))}
                                         </div>
 
                                         {/* Pie Chart */}
-                                        <div className="md:w-1/2 flex justify-center">
-                                            <div className="w-72 h-72"> {/* Adjust the width and height as needed */}
+                                        <div className="flex justify-center items-center bg-white border-2 rounded-lg shadow-lg flex-1 p-6">
+                                            <div className="w-full h-full max-w-md">
                                                 <Pie data={pieChartData} options={pieChartOptions as any} />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             )}
+
 
                         </>
                     )}

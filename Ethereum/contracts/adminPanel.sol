@@ -144,33 +144,37 @@ contract AdminPanel {
         return allCandidates;
     }
 
-    // Function to get the winner
-    function getWinner() public view returns (
-        uint256 winnerID,
-        string memory firstName,
-        string memory lastName,
-        string memory position,
-        uint256 voteCount
-    ) {
+    // Function to get all winners in case of a tie
+    function getWinners() public view returns (Candidate[] memory) {
         require(candidateCount > 0, "No candidates available.");
 
         uint256 maxVotes = 0;
-        uint256 winningCandidateID = 0;
 
+        // Find the highest vote count
         for (uint256 i = 1; i <= candidateCount; i++) {
             if (candidates[i].voteCount > maxVotes) {
                 maxVotes = candidates[i].voteCount;
-                winningCandidateID = i;
             }
         }
 
-        Candidate memory winner = candidates[winningCandidateID];
-        return (
-            winningCandidateID,
-            winner.firstName,
-            winner.lastName,
-            winner.position,
-            winner.voteCount
-        );
+        // Count candidates with the highest vote count
+        uint256 tieCount = 0;
+        for (uint256 i = 1; i <= candidateCount; i++) {
+            if (candidates[i].voteCount == maxVotes) {
+                tieCount++;
+            }
+        }
+
+        // Create an array to store tied candidates
+        Candidate[] memory winners = new Candidate[](tieCount);
+        uint256 index = 0;
+        for (uint256 i = 1; i <= candidateCount; i++) {
+            if (candidates[i].voteCount == maxVotes) {
+                winners[index] = candidates[i];
+                index++;
+            }
+        }
+
+        return winners;
     }
 }

@@ -71,7 +71,7 @@ const CandidateList = () => {
 
   return (
     <AdminLayout>
-       <main className="flex-1 p-6 bg-white rounded-lg ">
+       <main className="flex-1 p-6  rounded-lg ">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-9 text-gray-800">
             Candidate List
           </h2>

@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
-const voterContractAddress = "0xD19F079F46e8d362619870C4F110DAAFE3570c51"; // Replace with actual voter contract address
-const voterContractABI = [
+const voterContractAddress = "0x67b5249C033F6C724658e143C5E4C0e26F181759"; // Replace with actual voter contract address
+const voterContractABI =  [
   {
     "inputs": [
       {

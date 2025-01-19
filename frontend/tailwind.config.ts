@@ -20,6 +20,9 @@ const config: Config = {
         popBlue:'#04d8f8',
         bgBlue:'#012b64',
         resultBlue: '#2C4E8F',
+        featureBlue: '#315b87'
+        
+
 
       },
     },
