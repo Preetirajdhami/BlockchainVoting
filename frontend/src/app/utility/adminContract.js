@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-const adminContractAddress = "0x5020DCe39340e3792040F0a59e002F956416AF58"; // Replace with actual admin contract address
+const adminContractAddress = "0x5020DCe39340e3792040F0a59e002F956416AF58"; 
 const adminContractABI = [
   {
     "inputs": [],

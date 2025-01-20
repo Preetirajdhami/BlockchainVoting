@@ -119,28 +119,7 @@ export default function FeaturesPage() {
 
 
       </section>
-      <div className="flex bg-featureBlue border-2 rounded-lg shadow-lg">
-          {/* Left Side (Image) */}
-          <div className="w-1/3">
-            <img
-              src="/path-to-your-image.jpg" // Replace with your image path
-              alt="Anonymous Voting"
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
-
-          {/* Right Side (Text Points) */}
-          <div className="w-2/3 pl-6">
-            <h3 className="text-xl font-semibold text-bgBlue mb-2">Why Our Voting System is Anonymous</h3>
-            <ul className="list-disc pl-5">
-              <li className="text-lg text-gray-700">Votes are encrypted using secure methods.</li>
-              <li className="text-lg text-gray-700">Voters' identities are not stored or revealed.</li>
-              <li className="text-lg text-gray-700">Blockchain technology ensures data immutability.</li>
-              <li className="text-lg text-gray-700">Your vote cannot be traced back to you.</li>
-            </ul>
-          </div>
-        </div>
-
+     
 
 
 

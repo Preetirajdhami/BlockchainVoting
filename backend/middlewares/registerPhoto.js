@@ -1,13 +1,12 @@
 import multer from 'multer';
 import path from 'path';
 
-// Resolve __dirname manually for ES modules
+
 const __dirname = path.resolve();
 
 // Configure multer to store uploaded files in the 'uploads' directory
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // Save to "uploads" folder relative to the current directory
     cb(null, path.join(__dirname, 'uploads'));
   },
   filename: function (req, file, cb) {
@@ -20,16 +19,18 @@ const storage = multer.diskStorage({
 // Initialize multer with the storage configuration
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, 
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  },
   fileFilter: function (req, file, cb) {
-    const fileTypes = /jpeg|jpg|png|gif/; 
+    const fileTypes = /jpeg|jpg|png|gif/;
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimeType = fileTypes.test(file.mimetype);
 
     if (extname && mimeType) {
-      cb(null, true); // File is valid
+      cb(null, true);
     } else {
-      cb(new Error('Only images are allowed')); // Reject invalid file types
+      cb(new Error('Only images are allowed'));
     }
   },
 });
