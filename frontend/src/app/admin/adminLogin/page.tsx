@@ -5,11 +5,11 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Header from "@/app/components/Header";
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 const AdminLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   // Form validation schema using Yup

@@ -3,20 +3,20 @@ import { useSpring, animated } from '@react-spring/web';
 import Link from 'next/link';
 
 const Hero = () => {
-  const [isMounted, setIsMounted] = useState(false); // Track if the component is mounted on the client side
+  const [isMounted, setIsMounted] = useState(false); 
 
   useEffect(() => {
-    setIsMounted(true); // Set state to true when the component is mounted
-  }, []); // Only runs once on initial mount
+    setIsMounted(true); 
+  }, []); 
 
   const textAnimation = useSpring({
-    opacity: isMounted ? 1 : 0, // Animate opacity after mount
-    transform: isMounted ? 'translateY(0)' : 'translateY(20px)', // Animate transform after mount
+    opacity: isMounted ? 1 : 0, 
+    transform: isMounted ? 'translateY(0)' : 'translateY(20px)', 
     from: { opacity: 0, transform: 'translateY(20px)' },
-    config: { duration: 1000 }, // Animation duration (1 second)
+    config: { duration: 1000 }, 
   });
 
-  if (!isMounted) return null; // Prevent SSR from rendering the animation
+  if (!isMounted) return null; 
 
   return (
     <div className="lg:px-32 sm:px-6 md:px-8 mx-auto bg-bgBlue h-screen">
@@ -56,9 +56,9 @@ const Hero = () => {
 
           {/* Right Content (Image) */}
           <div className="w-full md:w-1/2 mt-8 md:mt-0 flex justify-center">
-            {/* Image placed here */}
+            
             <img
-              src="/mobile.png" // Replace with the actual path to your image
+              src="/mobile.png" 
               alt="Voting Illustration"
               className="max-w-full h-auto rounded-lg"
             />

@@ -18,7 +18,7 @@ const accessTokenAutoRefresh = async (req, res, next) => {
         if (accessToken && !isTokenExpired(accessToken)) {
             req.headers["authorization"] = `Bearer ${accessToken}`;
             console.log("authorization Header Set:", req.headers["authorization"]);
-            return next(); // Proceed to the next middleware
+            return next(); 
         }
 
         // Handle missing or expired access token
@@ -57,7 +57,7 @@ const accessTokenAutoRefresh = async (req, res, next) => {
         req.headers["authorization"] = `Bearer ${newAccessToken}`;
         console.log("Updated authorization Header Set:", req.headers["authorization"]);
 
-        return next(); // Proceed to the next middleware
+        return next(); 
     } catch (error) {
         console.error("Error in accessTokenAutoRefresh middleware:", error.message);
         return res.status(500).json({

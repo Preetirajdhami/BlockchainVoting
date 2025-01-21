@@ -59,7 +59,7 @@ app.post('/upload', upload.single('photo'), (req, res) => {
 });
 
 // Static Files - Serve uploads directory
-const __dirname = path.resolve(); // Ensure __dirname is defined
+const __dirname = path.resolve(); 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Express JSON parser

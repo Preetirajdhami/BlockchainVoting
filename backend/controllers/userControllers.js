@@ -55,7 +55,7 @@ class UserController {
             const hashedPassword = await bcrypt.hash(password, salt);
     
             // Ensure photo is uploaded correctly and get its path
-            const photoPath = photo.path; // Get the full path from multer
+            const photoPath = photo.path; 
     
             // Check if photoPath is defined
             if (!photoPath) {
