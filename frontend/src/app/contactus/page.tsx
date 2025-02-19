@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -48,7 +48,7 @@ function Contactus() {
         <div className="md:w-1/2 w-full bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl text-logoBlue font-semibold mb-4">Get in Touch</h2>
           <form
-            action="https://formspree.io/f/your-form-id" // Replace with your actual form handling URL
+            action="" 
             method="POST"
           >
             <div className="mb-4">
@@ -134,7 +134,6 @@ function Contactus() {
   );
 }
 
-// Combine both components
 export default function HomePage() {
   return (
     <>

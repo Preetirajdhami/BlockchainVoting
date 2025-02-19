@@ -2,15 +2,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; 
 import Header from "../../components/Header";
 import { useRouter } from "next/navigation";
 
 const VoterLogin = () => {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
-  const [isLoading, setIsLoading] = useState(false); // Loading state for API request
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false); 
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -46,7 +46,7 @@ const VoterLogin = () => {
 
         if (!response.ok) {
           const data = await response.json();
-          setIsLoading(false); // Set loading state to false after receiving response
+          setIsLoading(false); 
 
           // Handle specific error messages from the backend
           setErrorMessage(data.message || "Login failed. Please try again.");
@@ -54,11 +54,11 @@ const VoterLogin = () => {
         }
 
         // Successful login, redirect to voter panel profile
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
         router.push("/voter/voterPanel/profile");
       } catch (error) {
-        setIsLoading(false); // Stop loading on error
-        setErrorMessage("Unable to login, please try again"); // Set error for network issues
+        setIsLoading(false); 
+        setErrorMessage("Unable to login, please try again");
         console.error("Login Error:", error);
       }
     },

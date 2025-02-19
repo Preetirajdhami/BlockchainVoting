@@ -73,7 +73,7 @@ class UserController {
                 dob,
                 address,
                 mobile,
-                photo: photoPath // Store photo path
+                photo: photoPath
             }).save();
     
             // Send email verification OTP
@@ -284,11 +284,7 @@ class UserController {
         }
       };
       
-    //send password reset email
-
-    //password reset
-    //logout
-
+    
 
 
 

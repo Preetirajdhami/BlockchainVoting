@@ -24,7 +24,7 @@ const Hero = () => {
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
           {/* Left Content */}
           <div className="w-full md:w-1/2 text-left mb-8 md:mb-0">
-            {/* Apply the animation to the text using animated.div */}
+          
             <animated.h1 style={textAnimation} className="text-4xl md:text-5xl font-bold text-white">
               Quick Vote
             </animated.h1>
