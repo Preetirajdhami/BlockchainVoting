@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const connectDB = async(DATABASE_URL) =>{
+
+dotenv.config(); 
+
+const connectDB = async () => {
     try{
-        const DB_OPTIONS = {
-            dbname: "votingSystem"
-        }
-        await mongoose.connect(DATABASE_URL, DB_OPTIONS)
-        console.log('Connected Sucessfully.....')
-    } catch(error){
-        console.log(error)
+        console.log(process.env.DATABASE_URL);
+       const connectionInstance = await mongoose.connect(`${process.env.DATABASE_URL}/VotingSystem`);
+      console.log(`MONGODB connected !! DB HOST: ${connectionInstance.connection.host}`);
 
     }
-
-}
+    catch(error){
+        console.log("MONGO DB connection failed:  ",error);
+        process.exit(1);
+    }   
+};
 
 export default connectDB;

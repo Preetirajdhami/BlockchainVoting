@@ -5,11 +5,11 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineHowToVote, MdQueryStats } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi"; // Icons for menu toggle
+import { FiMenu, FiX } from "react-icons/fi"; 
 
 const VoterSidebar = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); // State to track menu toggle
+  const [isOpen, setIsOpen] = useState(false); 
 
   const handleLogout = async () => {
     router.push("/voter/voterLogin");
@@ -19,7 +19,7 @@ const VoterSidebar = () => {
 
   return (
     <>
-      {/* Mobile Navbar */}
+      
       <div className="lg:hidden  text-logoBlue fixed w-full top-0 left-0 z-10 flex items-center px-2 sm:px-8 py-4">
         <button onClick={toggleSidebar} className="text-3xl mr-4">
           {isOpen ? <FiX /> : <FiMenu />}
@@ -27,7 +27,7 @@ const VoterSidebar = () => {
        
       </div>
 
-      {/* Sidebar */}
+    
       <div
         className={`fixed top-0 left-0 w-64 h-screen bg-logoBlue text-white z-20 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"

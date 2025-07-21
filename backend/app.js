@@ -36,7 +36,7 @@ app.use(passport.initialize());
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the uploads directory
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
@@ -47,7 +47,7 @@ const upload = multer({ storage });
 // File upload route
 app.post('/upload', upload.single('photo'), (req, res) => {
   if (req.file) {
-    // If file uploaded successfully
+  
     res.json({
       message: 'File uploaded successfully',
       file: req.file,

@@ -1,8 +1,8 @@
 const VoterPanel = artifacts.require("VoterPanel");
 
 module.exports = async function (deployer, network, accounts) {
-  // Replace with your actual AdminPanel contract address
-  const adminPanelAddress = "0x5020DCe39340e3792040F0a59e002F956416AF58";
+  // Replace with  actual AdminPanel contract address
+  const adminPanelAddress = "0xC3D8F9101AE21728962D9FE91f46c337E171a1EB";
 
   console.log(`Deploying VoterPanel with AdminPanel address: ${adminPanelAddress}`);
 

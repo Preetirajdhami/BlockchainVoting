@@ -39,7 +39,7 @@ const CandidateList = () => {
         profileImageHash: data.profileImageHash,
         logoImageHash: data.logoImageHash,
         // Ensure voteCount is properly converted if it's BigInt
-        voteCount: Number(data.voteCount.toString()), // Convert BigInt to number
+        voteCount: Number(data.voteCount.toString()), 
       }));
 
       // Update state with the mapped candidate details
@@ -92,7 +92,7 @@ const CandidateList = () => {
                  src={
                    candidate.profileImageHash
                      ? `https://ipfs.io/ipfs/${candidate.profileImageHash}`
-                     : "https://via.placeholder.com/150" // Placeholder for no image
+                     : "https://via.placeholder.com/150" 
                  }
                  alt="Profile"
                  className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto"

@@ -21,8 +21,7 @@ interface FormValues {
 }
 
 const Register = () => {
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [serverSuccessMessage, setServerSuccessMessage] = useState("");
+ 
   const router = useRouter();
   const [createUser] = useCreateUserMutation();
   const [formError, setFormError] = useState<string | null>(null);

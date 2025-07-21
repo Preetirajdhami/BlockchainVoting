@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
-const voterContractAddress = "0x67b5249C033F6C724658e143C5E4C0e26F181759"; 
-const voterContractABI =  [
+const voterContractAddress = "0x7cdCF12a5fFdCCEDfF1A27eb3FA2D514f38a22C8"; 
+const voterContractABI = [
   {
     "inputs": [
       {
