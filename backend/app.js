@@ -69,6 +69,11 @@ app.use(express.json());
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 
+//  Root route
+app.get('/', (req, res) => {
+  res.send('✅ Backend is running successfully!');
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
