@@ -8,6 +8,7 @@ import passport from 'passport';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import multer from 'multer';
+import { swaggerUi, swaggerSpec } from './swagger.js';
 
 import './config/passport-jwt-strategy.js';
 
@@ -15,6 +16,8 @@ import express from 'express';
 const app = express();
 const port = process.env.PORT || 8000;
 const DATABASE_URL = process.env.DATABASE_URL;
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // CORS policy setup
 const corsOptions = {
@@ -68,6 +71,7 @@ app.use(express.json());
 // Load Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+ 
 
 //  Root route
 app.get('/', (req, res) => {
