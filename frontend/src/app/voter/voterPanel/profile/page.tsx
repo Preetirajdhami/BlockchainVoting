@@ -21,7 +21,7 @@ const VoterProfilePage = () => {
   useEffect(() => {
     const fetchVoterProfile = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/user/me", {
+        const response = await fetch("https://blockchainvoting-z1xf.onrender.com/api/user/me", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -85,7 +85,7 @@ const VoterProfilePage = () => {
   // Log the image source to check its validity
   const imageUrl = voterProfile.photo.startsWith('http')
     ? voterProfile.photo
-    : `http://localhost:8000/uploads/${voterProfile.photo.split('\\').pop()}`;
+    : `https://blockchainvoting-z1xf.onrender.com/uploads/${voterProfile.photo.split('\\').pop()}`;
 
   console.log("Voter Profile Image URL:", imageUrl);
 

@@ -5,9 +5,9 @@ import VoterLayout from "../VoterLayout";
 import getAdminContractInstance from "../../../utility/adminContract";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels, );
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface Winner {
   id: string;
@@ -29,7 +29,14 @@ const ResultPage = () => {
 
   const fetchVotingStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/admin/voting-status");
+      const response = await fetch(
+        "https://blockchainvoting-z1xf.onrender.com/api/admin/voting-status",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
       if (!response.ok) throw new Error("Failed to fetch voting status");
 
       const data = await response.json();
@@ -59,7 +66,9 @@ const ResultPage = () => {
 
       const candidatesData = await contract.getAllCandidates();
       const votes = candidatesData.map((candidate: any) => ({
-        name: `${candidate?.firstName || "Unknown"} ${candidate?.lastName || "Unknown"}`,
+        name: `${candidate?.firstName || "Unknown"} ${
+          candidate?.lastName || "Unknown"
+        }`,
         votes: parseInt(candidate?.voteCount?.toString() || "0"),
       }));
       setVotesData(votes);
@@ -90,11 +99,11 @@ const ResultPage = () => {
         data: votesData.map((candidate) => candidate.votes),
         backgroundColor: votesData.map((candidate) => {
           if (candidate.votes === maxVotes) {
-            return "#004b84";  // Dark blue for the winner
+            return "#004b84"; // Dark blue for the winner
           } else if (candidate.votes === minVotes) {
-            return "#207C9F";  // Blue for the candidate with the least votes
+            return "#207C9F"; // Blue for the candidate with the least votes
           } else {
-            return "#012b64";  // Lighter blue for other candidates
+            return "#012b64"; // Lighter blue for other candidates
           }
         }),
       },
@@ -117,27 +126,33 @@ const ResultPage = () => {
         callbacks: {
           label: function (context: any) {
             const label = context.label || "";
-            const value = context.raw as number || 0;
-            const total = context.dataset.data.reduce((sum: number, curr: number) => sum + curr, 0);
+            const value = (context.raw as number) || 0;
+            const total = context.dataset.data.reduce(
+              (sum: number, curr: number) => sum + curr,
+              0
+            );
             const percentage = ((value / total) * 100).toFixed(2);
             return `${label}: ${value} votes (${percentage}%)`;
           },
         },
       },
       datalabels: {
-        color: 'white',
+        color: "white",
         font: {
-          weight: 'bold',
+          weight: "bold",
           size: 16,
         },
         formatter: (value: number, context: any) => {
-          const total = context.dataset.data.reduce((sum: number, curr: number) => sum + curr, 0);
+          const total = context.dataset.data.reduce(
+            (sum: number, curr: number) => sum + curr,
+            0
+          );
           const percentage = ((value / total) * 100).toFixed(2);
           return `${percentage}%`;
         },
-        position: 'center',
-        anchor: 'center',
-        align: 'center',
+        position: "center",
+        anchor: "center",
+        align: "center",
       },
       customText: {
         id: "customText",
@@ -158,7 +173,6 @@ const ResultPage = () => {
     },
   };
 
-
   return (
     <VoterLayout>
       <div className="min-h-screen flex justify-center items-center py-6 px-4 bg-gray-100">
@@ -171,7 +185,8 @@ const ResultPage = () => {
             <p className="text-lg text-gray-600">Loading voting status...</p>
           ) : isVotingActive ? (
             <p className="text-lg text-red-600 font-semibold mb-6">
-              Voting is still active. Results will be available after voting ends.
+              Voting is still active. Results will be available after voting
+              ends.
             </p>
           ) : (
             <>
@@ -187,51 +202,63 @@ const ResultPage = () => {
 
                       <div className="grid gap-8 md:grid-cols-2">
                         <div className="bg-white p-6 border-2 border-popBlue rounded-lg shadow-lg">
-                        <h2 className="text-2xl  font-bold text-bgBlue mb-6">
-                                                Congratulations to the Winner!
-                                            </h2>
-                                            <p className="text-lg text-gray-600 mb-6">
-                                                We are thrilled to announce the winner of this election!  Let's celebrate their achievement!
-                                            </p>
-                          
+                          <h2 className="text-2xl  font-bold text-bgBlue mb-6">
+                            Congratulations to the Winner!
+                          </h2>
+                          <p className="text-lg text-gray-600 mb-6">
+                            We are thrilled to announce the winner of this
+                            election! Let's celebrate their achievement!
+                          </p>
+
                           {winners.map((winner: Winner, index: number) => (
-                            <div key={index} className="mb-6 text-center flex flex-col items-center">
+                            <div
+                              key={index}
+                              className="mb-6 text-center flex flex-col items-center"
+                            >
                               <img
-                                src={winner.profileImageHash ? `https://ipfs.io/ipfs/${winner.profileImageHash}` : "/default-avatar.png"}
+                                src={
+                                  winner.profileImageHash
+                                    ? `https://ipfs.io/ipfs/${winner.profileImageHash}`
+                                    : "/default-avatar.png"
+                                }
                                 alt="Winner Avatar"
                                 className="w-32 h-32 rounded-full mx-auto mb-4"
                               />
 
-
                               {/* Use flex to align text consistently */}
                               <div className="flex flex-col items-start ">
-                                
                                 <h4 className="text-xl lg:text-2xl font-semibold text-bgBlue mb-2">
                                   {winner.firstName} {winner.lastName}
                                 </h4>
 
-                                <p className="text-lg font-medium text-gray-700">Position: {winner.position}</p>
-                                <p className="text-lg font-medium text-gray-700">Votes: {winner.voteCount}</p>
+                                <p className="text-lg font-medium text-gray-700">
+                                  Position: {winner.position}
+                                </p>
+                                <p className="text-lg font-medium text-gray-700">
+                                  Votes: {winner.voteCount}
+                                </p>
                               </div>
                             </div>
                           ))}
                         </div>
 
-
                         <div className="bg-white p-6 border-2 rounded-lg border-popBlue shadow-lg flex flex-col justify-center items-center">
-                          <h3 className="text-2xl font-semibold text-bgBlue">Voting Results</h3>
+                          <h3 className="text-2xl font-semibold text-bgBlue">
+                            Voting Results
+                          </h3>
 
                           <div className="w-full max-w-md">
                             {/* <p className="text-sm text-gray-700 text-start mb-2">
                               The pie chart below illustrates the distribution of votes among candidates.
                             </p> */}
                             <div className="w-full h-full">
-                              <Pie data={pieChartData} options={pieChartOptions as any} />
+                              <Pie
+                                data={pieChartData}
+                                options={pieChartOptions as any}
+                              />
                             </div>
                           </div>
                         </div>
-
-
                       </div>
                     </div>
                   )}

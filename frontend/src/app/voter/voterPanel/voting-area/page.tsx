@@ -21,14 +21,18 @@ const CandidateList = () => {
   const [error, setError] = useState<string | null>(null);
   const [isVotingActive, setIsVotingActive] = useState<boolean>(false);
   const [statusLoading, setStatusLoading] = useState<boolean>(true);
-  const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null); // Tracks selected candidate for voting
+  const [selectedCandidate, setSelectedCandidate] = useState<number | null>(
+    null
+  ); // Tracks selected candidate for voting
   const [voting, setVoting] = useState<number | null>(null); // Tracks the ID of the candidate being voted for
 
   // Fetch voting status
   const fetchVotingStatus = async () => {
     try {
       setStatusLoading(true);
-      const response = await fetch("http://localhost:8000/api/admin/voting-status");
+      const response = await fetch(
+        "https://blockchainvoting-z1xf.onrender.com/api/admin/voting-status"
+      );
       if (!response.ok) throw new Error("Failed to fetch voting status");
 
       const data = await response.json();
@@ -63,7 +67,9 @@ const CandidateList = () => {
 
       setVoting(selectedCandidate);
 
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
       const voterAddress = accounts[0];
       console.log("Voter Address:", voterAddress);
       console.log("Voting for Candidate ID:", selectedCandidate);
@@ -76,10 +82,15 @@ const CandidateList = () => {
       }
       const contract = await getVoterContractInstance();
 
-      console.log("Submitting transaction for candidate ID:", selectedCandidate);
+      console.log(
+        "Submitting transaction for candidate ID:",
+        selectedCandidate
+      );
 
       // Submit the vote
-      const tx = await contract.castVote(selectedCandidate, { gasLimit: 100000 });
+      const tx = await contract.castVote(selectedCandidate, {
+        gasLimit: 100000,
+      });
       await tx.wait();
       alert("Vote successfully cast!");
 
@@ -112,7 +123,10 @@ const CandidateList = () => {
       <VoterLayout>
         <div className="p-6 bg-white rounded-lg text-center">
           <h2 className="text-2xl font-bold mb-4">No Candidates Available</h2>
-          <p className="text-gray-600">The voting process has not started yet. Please check back later for updates.</p>
+          <p className="text-gray-600">
+            The voting process has not started yet. Please check back later for
+            updates.
+          </p>
         </div>
       </VoterLayout>
     );
@@ -127,7 +141,9 @@ const CandidateList = () => {
       <VoterLayout>
         <div className="p-6 bg-white rounded-lg shadow-md text-center">
           <h2 className="text-2xl font-bold mb-4">No Candidates Available</h2>
-          <p className="text-gray-600">There are no candidates available for voting at this moment.</p>
+          <p className="text-gray-600">
+            There are no candidates available for voting at this moment.
+          </p>
         </div>
       </VoterLayout>
     );
@@ -137,7 +153,9 @@ const CandidateList = () => {
     <VoterLayout>
       <main className="w-full flex justify-center">
         <div className="w-full max-w-4xl">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 px-2 sm:px-8 mt-12">Candidate List</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 px-2 sm:px-8 mt-12">
+            Candidate List
+          </h2>
           <div className="space-y-4 sm:px-8 px-2">
             {candidates.map((candidate, index) => (
               <div
@@ -161,7 +179,9 @@ const CandidateList = () => {
                   <h3 className="text-sm sm:text-xl font-semibold">
                     {candidate.firstName} {candidate.lastName}
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-600">{candidate.position}</p>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    {candidate.position}
+                  </p>
                 </div>
                 <div className="flex-shrink-0 mr-2 sm:mb-0">
                   {candidate.logoImageHash ? (
@@ -180,7 +200,9 @@ const CandidateList = () => {
                   <button
                     onClick={() => setSelectedCandidate(index + 1)}
                     className={`px-4 py-2 bg-logoBlue hover:bg-popBlue text-white transition duration-300 font-bold rounded-md  ${
-                      voting === index + 1 ? "opacity-50 cursor-not-allowed" : ""
+                      voting === index + 1
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
                     } sm:text-lg sm:px-6`}
                     disabled={voting === index + 1}
                   >
@@ -199,7 +221,8 @@ const CandidateList = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-bold mb-4">Confirm Your Vote</h3>
             <p className="mb-4">
-              Are you sure you want to cast your vote? Once submitted, this action cannot be undone.
+              Are you sure you want to cast your vote? Once submitted, this
+              action cannot be undone.
             </p>
             <div className="flex justify-end space-x-4">
               <button

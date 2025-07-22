@@ -25,7 +25,8 @@ const VerifyEmail = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await fetch('http://localhost:8000/api/user/verify-email', {
+        const response = await fetch('https://blockchainvoting-z1xf.onrender.com/api/user/verify-email',
+          {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -33,7 +33,7 @@ const VotingStatusPage = () => {
     // Fetch voting status from the server
     const fetchVotingStatus = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/admin/voting-status");
+            const response = await fetch("https://blockchainvoting-z1xf.onrender.com/api/admin/voting-status");
             if (!response.ok) {
                 throw new Error("Failed to fetch voting status");
             }
@@ -47,7 +47,7 @@ const VotingStatusPage = () => {
     // Toggle voting status
     const handleToggleVoting = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/admin/voting-status/toggle", {
+            const response = await fetch("https://blockchainvoting-z1xf.onrender.com/api/admin/voting-status/toggle", {
                 method: "POST",
             });
             if (!response.ok) {
