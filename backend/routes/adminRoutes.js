@@ -1,3 +1,8 @@
+import express from 'express';
+import AdminController from '../controllers/adminControllers.js';
+const router = express.Router();
+
+
 /**
  * @swagger
  * /login:
@@ -46,3 +51,6 @@ router.get('/voting-status', AdminController.getVotingStatus);
  *         description: Voting status toggled
  */
 router.post('/voting-status/toggle', AdminController.toggleVotingStatus);
+
+
+export default router;
