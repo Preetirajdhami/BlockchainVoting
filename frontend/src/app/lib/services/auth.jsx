@@ -11,11 +11,8 @@ export const authApi = createApi({
         return {
           url: 'register', 
           method: 'POST',   
-          body: userData,   // Sending user data in the request body
-          // Remove the Content-Type header so the browser can set it automatically
-          // headers: {
-          //   'Content-type': 'application/json'
-          // }
+          body: userData,   
+          
         };
       },
     }),
