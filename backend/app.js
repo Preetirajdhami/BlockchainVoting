@@ -24,7 +24,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // ✅ Allow multiple origins
-const allowedOrigins = (process.env.FRONTEND_HOSTS || "").split(",");
+const allowedOrigins = (process.env.FRONTEND_HOST || "").split(",");
 
 const corsOptions = {
   origin: function (origin, callback) {
