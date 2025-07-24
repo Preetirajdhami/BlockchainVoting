@@ -1,23 +1,32 @@
-const setTokensCookies = (res, accessToken, refreshToken,
-     newAccessTokenExp, newRefreshTokenExp) =>{
-        const accessTokenMaxAge = (newAccessTokenExp - Math.floor(Date.now()/1000))*1000;
-        const refreshTokenMaxAge = (newRefreshTokenExp - Math.floor(Date.now()/1000))*1000;
+const setTokensCookies = (
+  res,
+  accessToken,
+  refreshToken,
+  newAccessTokenExp,
+  newRefreshTokenExp
+) => {
+  const isProduction = process.env.NODE_ENV === 'production';
 
-        //Set Cookie for Access Token 
-        res.cookie('accessToken', accessToken,{
-           
-            httpOnly: true,
-            secure: true,
-            maxAge: accessTokenMaxAge,
-        });
+  const accessTokenMaxAge =
+    (newAccessTokenExp - Math.floor(Date.now() / 1000)) * 1000;
+  const refreshTokenMaxAge =
+    (newRefreshTokenExp - Math.floor(Date.now() / 1000)) * 1000;
 
-        //Set Cookie for Refresh Token 
-        res.cookie('refreshToken', refreshToken,{
-           
-            httpOnly: true,
-            secure: true,
-            maxAge: refreshTokenMaxAge,
-        });
+  // Set Cookie for Access Token
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: isProduction,      
+    sameSite: "None",          
+    maxAge: accessTokenMaxAge,
+  });
 
-} 
- export default setTokensCookies
+  // Set Cookie for Refresh Token
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: "None",
+    maxAge: refreshTokenMaxAge,
+  });
+};
+
+export default setTokensCookies;
