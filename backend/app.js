@@ -1,32 +1,34 @@
-// Load ENV
 import dotenv from 'dotenv';
 dotenv.config();
-
-// Imports
 import cors from 'cors';
 import path from 'path';
-import express from 'express';
 import cookieParser from 'cookie-parser';
-import passport from 'passport';
-import multer from 'multer';
-
 import connectDB from './config/connectdb.js';
+import passport from 'passport';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import { swaggerUi, swaggerSpec } from './swagger.js';
+import multer from 'multer';
+import {
+  swaggerUi,
+  swaggerSpec
+} from './swagger.js';
+
 import './config/passport-jwt-strategy.js';
 
+import express from 'express';
 const app = express();
 const port = process.env.PORT || 8000;
 const DATABASE_URL = process.env.DATABASE_URL;
 
-// CORS setup
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://quickvote-beta.vercel.app",
-];
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+// ✅ Allow multiple origins
+const allowedOrigins = (process.env.FRONTEND_HOSTS || "").split(",");
+
 const corsOptions = {
   origin: function (origin, callback) {
+    // allow requests with no origin (like Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -34,49 +36,68 @@ const corsOptions = {
     }
   },
   credentials: true,
+  optionsSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // <- Optional for preflight
 
-// Middleware
-app.use(express.json());
-app.use(cookieParser());
-app.use(passport.initialize());
 
-// Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// DB connection
+// Connect to the database
 connectDB(DATABASE_URL);
 
-// Multer setup
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
-});
-const upload = multer({ storage });
+// Cookie parser middleware
+app.use(cookieParser());
 
-// Upload route
+// Passport middleware
+app.use(passport.initialize());
+
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`); // Use a unique filename
+  },
+});
+const upload = multer({
+  storage
+});
+
+// File upload route
 app.post('/upload', upload.single('photo'), (req, res) => {
   if (req.file) {
-    res.json({ message: 'File uploaded successfully', file: req.file });
+
+    res.json({
+      message: 'File uploaded successfully',
+      file: req.file,
+    });
   } else {
-    res.status(400).json({ message: 'File upload failed' });
+    // If file upload failed
+    res.status(400).json({
+      message: 'File upload failed'
+    });
   }
 });
 
-// Serve uploads
+// Static Files - Serve uploads directory
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// Express JSON parser
+app.use(express.json());
+
+// Load Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Root
-app.get('/', (req, res) => res.send('✅ Backend is running successfully!'));
 
-// Listen
+//  Root route
+app.get('/', (req, res) => {
+  res.send('✅ Backend is running successfully!');
+});
+
+// Start server
 app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });
