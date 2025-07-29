@@ -42,7 +42,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -61,7 +62,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -93,7 +95,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_adminPanelAddress\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"voter\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"candidateID\",\"type\":\"uint256\"}],\"name\":\"VoteCast\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"adminPanel\",\"outputs\":[{\"internalType\":\"contract AdminPanel\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"candidateID\",\"type\":\"uint256\"}],\"name\":\"castVote\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"voter\",\"type\":\"address\"}],\"name\":\"checkIfVoted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"hasVoted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/VoterPanel.sol\":\"VoterPanel\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/AdminPanel.sol\":{\"keccak256\":\"0x0676a27f940432829ebbeb27a72279d627b123adadca4ea516e373f55603949d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a43b6205eba33c56327981aab279611f2871bc039ec46009e9063b85bde47b82\",\"dweb:/ipfs/QmUyQEnCVaAboENWx4kUfj7zGSu65zcWJ7YqfS9pGUdut2\"]},\"project:/contracts/VoterPanel.sol\":{\"keccak256\":\"0x38999fe43449273894d4c92d33132611e24483d73b0e615ca515d14d3d7acec7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://22b37a24882206d97420b6e0d4b684422c4bfbc1db8c1807bc8a34fc8752202e\",\"dweb:/ipfs/QmYsggjgMEC9gAG1dkfKwuLL1hTWC3eh14Gqr2pKiYwzSM\"]}},\"version\":1}",
@@ -4490,10 +4493,17 @@
       "links": {},
       "address": "0x7cdCF12a5fFdCCEDfF1A27eb3FA2D514f38a22C8",
       "transactionHash": "0xcf8f58ff29e08f86eb53955a3bd9ab8bc9cdbbe2ece9c30b35e1cdcbf3e112f5"
+    },
+    "11155111": {
+      "events": {},
+      "links": {},
+      "address": "0x7cdCF12a5fFdCCEDfF1A27eb3FA2D514f38a22C8",
+      "transactionHash": "0xac36097aae4d8f3f463e50043d4888ea502671265c16a550aa3e4e5548db01f2"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-07-27T16:21:55.571Z",
+  "updatedAt": "2025-07-29T18:06:00.496Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
