@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import Link from 'next/link';
+import Image from "next/image";
 
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false); 
@@ -57,11 +58,13 @@ const Hero = () => {
           {/* Right Content (Image) */}
           <div className="w-full md:w-1/2 mt-8 md:mt-0 flex justify-center">
             
-            <img
-              src="/mobile.png" 
-              alt="Voting Illustration"
-              className="max-w-full h-auto rounded-lg"
-            />
+            <Image
+  src="/mobile.png"
+  alt="Voting Illustration"
+  width={800} // Adjust based on the expected image size
+  height={600} // Maintain aspect ratio
+  className="max-w-full h-auto rounded-lg"
+/>
           </div>
         </div>
       </div>

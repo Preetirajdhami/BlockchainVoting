@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import getAdminContractInstance from "../../../utility/adminContract";
 import getVoterContractInstance from "../../../utility/voterContract";
 import VoterLayout from "../VoterLayout";
+import Image from "next/image";
 
 interface Candidate {
   firstName: string;
@@ -164,9 +165,11 @@ const CandidateList = () => {
               >
                 <div className="flex-shrink-0">
                   {candidate.profileImageHash ? (
-                    <img
+                    <Image
                       src={`https://ipfs.io/ipfs/${candidate.profileImageHash}`}
                       alt="Profile"
+                      width={96} // Approx. for w-24 (24 * 4 = 96px)
+                      height={96} // Approx. for h-24
                       className="w-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 h-16 rounded-lg"
                     />
                   ) : (
@@ -185,11 +188,13 @@ const CandidateList = () => {
                 </div>
                 <div className="flex-shrink-0 mr-2 sm:mb-0">
                   {candidate.logoImageHash ? (
-                    <img
-                      src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
-                      alt="Logo"
-                      className="w-16 h-16 rounded-full"
-                    />
+                    <Image
+  src={`https://ipfs.io/ipfs/${candidate.logoImageHash}`}
+  alt="Logo"
+  width={64}  // 16 * 4 = 64px
+  height={64}
+  className="rounded-full"
+/>
                   ) : (
                     <div className="w-16 h-16 bg-gray-300 flex items-center justify-center">
                       No Logo

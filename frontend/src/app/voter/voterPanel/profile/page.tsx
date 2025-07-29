@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import VoterLayout from "../VoterLayout";
+import Image from "next/image";
 
 interface VoterProfile {
   name: string;
@@ -21,19 +22,24 @@ const VoterProfilePage = () => {
   useEffect(() => {
     const fetchVoterProfile = async () => {
       try {
-        const response = await fetch("https://blockchainvoting-z1xf.onrender.com/api/user/me", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://blockchainvoting-z1xf.onrender.com/api/user/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           if (response.status === 401) {
             throw new Error("Unauthorized: Please log in again.");
           }
-          throw new Error(`Error ${response.status}: Failed to fetch voter profile.`);
+          throw new Error(
+            `Error ${response.status}: Failed to fetch voter profile.`
+          );
         }
 
         const data = await response.json();
@@ -83,31 +89,39 @@ const VoterProfilePage = () => {
   }
 
   // Log the image source to check its validity
-  const imageUrl = voterProfile.photo.startsWith('http')
+  const imageUrl = voterProfile.photo.startsWith("http")
     ? voterProfile.photo
-    : `https://blockchainvoting-z1xf.onrender.com/uploads/${voterProfile.photo.split('\\').pop()}`;
+    : `https://blockchainvoting-z1xf.onrender.com/uploads/${voterProfile.photo
+        .split("\\")
+        .pop()}`;
 
   console.log("Voter Profile Image URL:", imageUrl);
 
   return (
-     <VoterLayout>
+    <VoterLayout>
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 flex justify-center items-center p-6">
         <div className="max-w-lg w-full bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-bgBlue mb-6 text-center">Voter Profile</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-bgBlue mb-6 text-center">
+            Voter Profile
+          </h2>
 
           <div className="mb-6 flex justify-center">
-            <img
+            <Image
               src={imageUrl}
               alt="Voter Profile"
+              width={112}
+              height={112}
               className="w-28 h-28 object-cover rounded-full shadow-md transition-transform transform hover:scale-105"
-              onError={(e) => console.error("Error loading image:", e)}
             />
           </div>
 
           {[
             { label: "Name", value: voterProfile.name },
             { label: "Email", value: voterProfile.email },
-            { label: "Date of Birth", value: new Date(voterProfile.dob).toLocaleDateString() },
+            {
+              label: "Date of Birth",
+              value: new Date(voterProfile.dob).toLocaleDateString(),
+            },
             { label: "Address", value: voterProfile.address },
             { label: "Mobile Number", value: voterProfile.mobile },
           ].map((item, index) => (
@@ -120,8 +134,6 @@ const VoterProfilePage = () => {
               </p>
             </div>
           ))}
-
-          
         </div>
       </div>
     </VoterLayout>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,12 @@ const Header = () => {
     <header className="sticky top-0 bg-white shadow-md z-50 h-20">
       <div className="lg:px-32 sm:px-7 md:px-8 mx-auto flex items-center justify-between py-4 px-4 relative">
         <Link href="/" className="text-2xl font-bold flex items-center space-x-2">
-          <img src="/quick.png" alt="logo" className="h-12" />
+          <Image
+  src="/quick.png"
+  alt="logo"
+  width={48}    // h-12 in Tailwind is 3rem, which equals 48px
+  height={48}
+/>
         </Link>
 
         <div className="md:hidden">

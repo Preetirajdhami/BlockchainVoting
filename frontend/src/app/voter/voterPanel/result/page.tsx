@@ -6,6 +6,7 @@ import getAdminContractInstance from "../../../utility/adminContract";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import Image from "next/image";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -207,7 +208,7 @@ const ResultPage = () => {
                           </h2>
                           <p className="text-lg text-gray-600 mb-6">
                             We are thrilled to announce the winner of this
-                            election! Let's celebrate their achievement!
+                            election! Let&apos;s celebrate their achievement!
                           </p>
 
                           {winners.map((winner: Winner, index: number) => (
@@ -215,15 +216,17 @@ const ResultPage = () => {
                               key={index}
                               className="mb-6 text-center flex flex-col items-center"
                             >
-                              <img
-                                src={
-                                  winner.profileImageHash
-                                    ? `https://ipfs.io/ipfs/${winner.profileImageHash}`
-                                    : "/default-avatar.png"
-                                }
-                                alt="Winner Avatar"
-                                className="w-32 h-32 rounded-full mx-auto mb-4"
-                              />
+                              <Image
+  src={
+    winner.profileImageHash
+      ? `https://ipfs.io/ipfs/${winner.profileImageHash}`
+      : "/default-avatar.png"
+  }
+  alt="Winner Avatar"
+  width={128}
+  height={128}
+  className="w-32 h-32 rounded-full mx-auto mb-4"
+/>
 
                               {/* Use flex to align text consistently */}
                               <div className="flex flex-col items-start ">
