@@ -1,33 +1,30 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Link from "next/link";
+import { useState } from "react"
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import Link from "next/link"
 import Header from "@/app/components/Header";
-import { useCreateUserMutation } from "@/app/lib/services/auth";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
+import { User, Mail, Lock, Calendar, MapPin, Phone, Upload, ArrowRight } from "lucide-react"
 
-// Define form values types
 interface FormValues {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-  dob: string;
-  address: string;
-  mobile: string;
-  photo: File | null;
+  name: string
+  email: string
+  password: string
+  password_confirmation: string
+  dob: string
+  address: string
+  mobile: string
+  photo: File | null
 }
 
-const Register = () => {
- 
-  const router = useRouter();
-  const [createUser] = useCreateUserMutation();
-  const [formError, setFormError] = useState<string | null>(null);
-  const [formSuccess, setFormSuccess] = useState<string | null>(null);
+export default function VoterRegister() {
+  const router = useRouter()
+  const [formError, setFormError] = useState<string | null>(null)
+  const [formSuccess, setFormSuccess] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  // Formik form handler
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -48,220 +45,171 @@ const Register = () => {
         .required("Password confirmation is required"),
       dob: Yup.date().required("Date of birth is required"),
       address: Yup.string().required("Address is required"),
-      mobile: Yup.string().matches(/^\d{10}$/, "Mobile number must be 10 digits").required("Mobile number is required"),
+      mobile: Yup.string()
+        .matches(/^\d{10}$/, "Mobile number must be 10 digits")
+        .required("Mobile number is required"),
       photo: Yup.mixed().required("Photo is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("email", values.email);
-        formData.append("password", values.password);
-        formData.append("password_confirmation", values.password_confirmation);
-        formData.append("dob", values.dob);
-        formData.append("address", values.address);
-        formData.append("mobile", values.mobile);
-        if (values.photo) formData.append("photo", values.photo);
+        setIsLoading(true)
+        setFormError(null)
 
-        const response = await createUser(formData);
-        console.log(response);
+        const formData = new FormData()
+        formData.append("name", values.name)
+        formData.append("email", values.email)
+        formData.append("password", values.password)
+        formData.append("password_confirmation", values.password_confirmation)
+        formData.append("dob", values.dob)
+        formData.append("address", values.address)
+        formData.append("mobile", values.mobile)
+        if (values.photo) formData.append("photo", values.photo)
 
-        // Clear error and set success message on successful registration
-        setFormError(null);
-        setFormSuccess("Registration successful!");
-        resetForm(); // Reset form fields after success
-        router.push('/voter/verify-email');
+        // Replace with your actual API call
+        const response = await fetch("/api/register", {
+          method: "POST",
+          body: formData,
+        })
 
+        if (!response.ok) {
+          throw new Error("Registration failed")
+        }
+
+        setFormSuccess("Registration successful!")
+        resetForm()
         setTimeout(() => {
-          setFormSuccess(null); // Clear success message after a delay
-        }, 3000);
+          router.push("/voter/verify-email")
+        }, 2000)
       } catch (error) {
-        console.error(error); // Log the error for debugging
-        setFormError("Failed to register. Please try again.");
+        console.error(error)
+        setFormError("Failed to register. Please try again.")
+      } finally {
+        setIsLoading(false)
       }
     },
-  });
+  })
+
+  const formFields = [
+    { name: "name", label: "Full Name", type: "text", icon: User, placeholder: "Enter your full name" },
+    { name: "email", label: "Email Address", type: "email", icon: Mail, placeholder: "Enter your email" },
+    { name: "password", label: "Password", type: "password", icon: Lock, placeholder: "Create a password" },
+    {
+      name: "password_confirmation",
+      label: "Confirm Password",
+      type: "password",
+      icon: Lock,
+      placeholder: "Confirm your password",
+    },
+    { name: "dob", label: "Date of Birth", type: "date", icon: Calendar },
+    { name: "address", label: "Address", type: "text", icon: MapPin, placeholder: "Enter your address" },
+    { name: "mobile", label: "Mobile Number", type: "tel", icon: Phone, placeholder: "Enter 10-digit mobile number" },
+  ]
 
   return (
     <>
       <Header />
-      <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-md rounded">
-        <h2 className="text-2xl text-logoBlue font-bold mb-6">Register</h2>
-
-        <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-          {/* Name Field */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.name && formik.errors.name ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("name")}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
-            )}
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
+        <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-bgBlue mb-2">Create Your Account</h1>
+            <p className="text-gray-600">Join the secure voting platform</p>
           </div>
 
-          {/* Email Field */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.email && formik.errors.email ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("email")}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
-            )}
-          </div>
-
-          {/* Password Field */}
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.password && formik.errors.password ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("password")}
-            />
-            {formik.touched.password && formik.errors.password && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
-            )}
-          </div>
-
-          {/* Password Confirmation Field */}
-          <div className="mb-4">
-            <label htmlFor="password_confirmation" className="block text-sm font-medium mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="password_confirmation"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.password_confirmation && formik.errors.password_confirmation
-                  ? "border-red-500"
-                  : ""
-              }`}
-              {...formik.getFieldProps("password_confirmation")}
-            />
-            {formik.touched.password_confirmation && formik.errors.password_confirmation && (
-              <div className="text-red-500 text-sm mt-1">
-                {formik.errors.password_confirmation}
+          {/* Registration Card */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+            {/* Status Messages */}
+            {formError && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <p className="text-red-600 text-sm text-center">{formError}</p>
               </div>
             )}
-          </div>
-
-          {/* Date of Birth Field */}
-          <div className="mb-4">
-            <label htmlFor="dob" className="block text-sm font-medium mb-1">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              id="dob"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.dob && formik.errors.dob ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("dob")}
-            />
-            {formik.touched.dob && formik.errors.dob && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.dob}</div>
+            {formSuccess && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <p className="text-green-600 text-sm text-center">{formSuccess}</p>
+              </div>
             )}
+
+            <form onSubmit={formik.handleSubmit} className="space-y-6">
+              {/* Form Fields */}
+              {formFields.map((field) => (
+                <div key={field.name}>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
+                  <div className="relative">
+                    <field.icon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      placeholder={field.placeholder}
+                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-logoBlue focus:border-transparent transition-all ${
+                        formik.touched[field.name as keyof FormValues] && formik.errors[field.name as keyof FormValues]
+                          ? "border-red-300 bg-red-50"
+                          : "border-gray-300 bg-white"
+                      }`}
+                      value={formik.values[field.name as keyof FormValues] as string}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  {formik.touched[field.name as keyof FormValues] && formik.errors[field.name as keyof FormValues] && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors[field.name as keyof FormValues] as string}
+                    </p>
+                  )}
+                </div>
+              ))}
+
+              {/* Photo Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Profile Photo</label>
+                <div className="relative">
+                  <Upload className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <input
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-logoBlue focus:border-transparent transition-all"
+                    onChange={(event) => {
+                      if (event.currentTarget.files) {
+                        formik.setFieldValue("photo", event.currentTarget.files[0])
+                      }
+                    }}
+                  />
+                </div>
+                {formik.touched.photo && formik.errors.photo && (
+                  <p className="text-red-500 text-sm mt-1">{formik.errors.photo}</p>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-logoBlue text-white py-3 px-4 rounded-lg hover:bg-navBlue focus:ring-2 focus:ring-logoBlue focus:ring-offset-2 transition-all font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                ) : (
+                  <>
+                    <span>Create Account</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <div className="mt-6 text-center">
+              <p className="text-gray-600 text-sm">
+                Already have an account?{" "}
+                <Link href="/voter/voterLogin" className="text-logoBlue hover:text-navBlue font-medium">
+                  Sign in here
+                </Link>
+              </p>
+            </div>
           </div>
-
-          {/* Address Field */}
-          <div className="mb-4">
-            <label htmlFor="address" className="block text-sm font-medium mb-1">
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.address && formik.errors.address ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("address")}
-            />
-            {formik.touched.address && formik.errors.address && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.address}</div>
-            )}
-          </div>
-
-          {/* Mobile Field */}
-          <div className="mb-4">
-            <label htmlFor="mobile" className="block text-sm font-medium mb-1">
-              Mobile
-            </label>
-            <input
-              type="text"
-              id="mobile"
-              className={`w-full p-2 border border-gray-300 rounded ${
-                formik.touched.mobile && formik.errors.mobile ? "border-red-500" : ""
-              }`}
-              {...formik.getFieldProps("mobile")}
-            />
-            {formik.touched.mobile && formik.errors.mobile && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.mobile}</div>
-            )}
-          </div>
-
-          {/* Upload Photo Field */}
-          <div className="mb-4">
-            <label htmlFor="photo" className="block text-sm font-medium mb-1">
-              Upload Photo
-            </label>
-            <input
-              type="file"
-              id="photo"
-              className="w-full p-2 border border-gray-300 rounded"
-              onChange={(event) => {
-                if (event.currentTarget.files) {
-                  formik.setFieldValue("photo", event.currentTarget.files[0]);
-                }
-              }}
-            />
-            {formik.touched.photo && formik.errors.photo && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.photo}</div>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full p-2 bg-logoBlue text-white font-bold rounded hover:bg-popBlue transition duration-300 mt-4"
-            disabled={formik.isSubmitting}
-          >
-            Register
-          </button>
-
-          {/* Display form error or success messages */}
-          {formError && <div className="text-red-500 text-sm mt-2">{formError}</div>}
-          {formSuccess && <div className="text-green-500 text-sm mt-2">{formSuccess}</div>}
-        </form>
-
-        <div className="mt-4">
-          Already have an account?{" "}
-          <Link href="/voter/voterLogin" className="text-blue-500 hover:text-popBlue">
-            Login
-          </Link>
         </div>
       </div>
     </>
-  );
-};
-
-export default Register;
+  )
+}

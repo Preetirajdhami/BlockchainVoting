@@ -1,97 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+"use client"
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentPath, setCurrentPath] = useState('');
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { Menu, X } from "lucide-react"
+
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentPath, setCurrentPath] = useState("")
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const { pathname } = window.location; // Fallback to window.location for SSR
-      setCurrentPath(pathname);
+    if (typeof window !== "undefined") {
+      setCurrentPath(window.location.pathname)
     }
-  }, []);
+  }, [])
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   return (
-    <header className="sticky top-0 bg-white shadow-md z-50 h-20">
-      <div className="lg:px-32 sm:px-7 md:px-8 mx-auto flex items-center justify-between py-4 px-4 relative">
-        <Link href="/" className="text-2xl font-bold flex items-center space-x-2">
+    <header className="sticky top-0 bg-white shadow-md z-50 h-16 border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-3">
+        {/* Logo */}
+        <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
           <Image
-  src="/quick.png"
-  alt="logo"
-  width={48}    // h-12 in Tailwind is 3rem, which equals 48px
-  height={48}
-/>
+            src="/quick.png"
+            alt="QuickVote Logo"
+            width={40}
+            height={40}
+            className="rounded-lg"
+          />
+          <span className="text-xl font-bold text-bgBlue">QuickVote</span>
         </Link>
 
+        {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button onClick={toggleDropdown} className="focus:outline-none">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
+          <button
+            onClick={toggleDropdown}
+            className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-logoBlue"
+          >
+            {isOpen ? <X className="w-6 h-6 text-bgBlue" /> : <Menu className="w-6 h-6 text-bgBlue" />}
           </button>
         </div>
 
+        {/* Navigation */}
         <nav
-          className={`${
-            isOpen ? 'block' : 'hidden'
-          } md:flex md:items-center md:space-x-8 absolute md:static top-16 right-0 md:right-auto bg-white text-black w-48 md:w-auto z-20 shadow-lg md:shadow-none`}
+          className={`
+            ${
+              isOpen ? "block" : "hidden"
+            } md:flex md:items-center md:space-x-6 absolute md:static top-16 left-0 right-0 bg-white md:bg-transparent w-full md:w-auto z-20 shadow-lg md:shadow-none rounded-b-lg md:rounded-none border md:border-0 border-gray-200 px-4 md:px-0 py-4 md:py-0
+          `}
         >
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <Link
-              href="/"
-              className={`${
-                currentPath === '/' ? 'text-popBlue' : 'text-gray-900'
-              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
-            >
-              HOME
-            </Link>
-            <Link
-              href="/feature"
-              className={`${
-                currentPath === '/feature' ? 'text-popBlue' : 'text-gray-900'
-              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
-            >
-              FEATURES
-            </Link>
-            <Link
-              href="/aboutus"
-              className={`${
-                currentPath === '/aboutus' ? 'text-popBlue' : 'text-gray-900'
-              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
-            >
-              ABOUT US
-            </Link>
-            <Link
-              href="/contactus"
-              className={`${
-                currentPath === '/contactus' ? 'text-popBlue' : 'text-gray-900'
-              } font-bold hover:text-popBlue block py-2 px-4 md:py-0 md:px-0`}
-            >
-              CONTACT US
-            </Link>
+          <div className="flex flex-col md:flex-row md:space-x-6">
+            {[
+              { name: "Home", href: "/" },
+              { name: "Features", href: "/feature" },
+              { name: "About Us", href: "/aboutus" },
+              { name: "Contact Us", href: "/contactus" },
+            ].map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`
+                  flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
+                  ${
+                    currentPath === item.href
+                      ? "bg-logoBlue text-white md:bg-transparent md:text-popBlue"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-logoBlue md:hover:bg-transparent"
+                  }
+                `}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </nav>
       </div>
     </header>
-  );
-};
-
-export default Header;
+  )
+}
