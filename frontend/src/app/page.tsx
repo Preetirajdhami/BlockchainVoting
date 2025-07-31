@@ -7,31 +7,36 @@ import Hero from "./components/Hero"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import { Users, User, ChevronDown, ChevronUp } from "lucide-react"
+import security from "../../public/security.png"
+import easeofuse from "../../public/easeofuse.png"
+import customerservice from "../../public/customerservice.png"
+import team from "../../public/team.jpeg"
+
 
 export default function Home() {
   const [openQuestion, setOpenQuestion] = useState<number | null>(null)
 
   const features = [
     {
-      image: "/security.png",
+      image: security,
       title: "Advanced Security",
       description:
         "QuickVote leverages cutting-edge blockchain technology to guarantee the safety of your votes. Each vote is encrypted and securely recorded, preventing tampering or unauthorized access. Our system is designed to uphold trust and ensure fair election outcomes.",
     },
     {
-      image: "/easeofuse.png",
+      image: easeofuse,
       title: "Ease of Use",
       description:
-        "QuickVote’s intuitive interface makes online voting accessible to everyone, regardless of their technical expertise. Whether you’re a tech-savvy user or a first-time voter, our platform ensures a smooth and seamless voting experience.",
+        "QuickVote's intuitive interface makes online voting accessible to everyone, regardless of their technical expertise. Whether you’re a tech-savvy user or a first-time voter, our platform ensures a smooth and seamless voting experience.",
     },
     {
-      image: "/customerservice.png",
+      image: customerservice,
       title: "24/7 Customer Service",
       description:
         "We pride ourselves on our exceptional customer support. Our team is available around the clock to resolve any issues and answer your queries, ensuring a hassle-free voting experience from start to finish.",
       button: (
         <Link href="/contactus">
-          <button className="mt-6 flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-logoBlue text-white rounded-lg hover:bg-navBlue transition-colors font-medium">
+          <button className="mt-6 flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-logoBlue text-white rounded-xl hover:bg-navBlue transition-colors font-medium">
             <User className="h-5 w-5" />
             Contact Us
           </button>
@@ -111,7 +116,7 @@ export default function Home() {
       </section>
 
       {/* Who We Are Section */}
-      <section id="who-we-are" className="bg-gradient-to-br from-logoBlue to-navBlue py-20">
+      <section id="who-we-are" className="bg-logoBlue py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -125,7 +130,7 @@ export default function Home() {
               </p>
               <div className="mt-6">
                 <Link href="/aboutus">
-                  <button className="flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-white text-logoBlue rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                  <button className="flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-white text-navBlue text-semibold rounded-xl hover:bg-navBlue hover:text-white transition-colors font-medium">
                     <Users className="h-5 w-5" />
                     Meet Our Team
                   </button>
@@ -135,7 +140,7 @@ export default function Home() {
             <div className="order-1 lg:order-2">
               <div className="relative">
                 <Image
-                  src="/team.jpeg"
+                  src={team}
                   alt="QuickVote Team"
                   width={500}
                   height={400}
@@ -185,7 +190,7 @@ export default function Home() {
             today.
           </p>
           <Link href="/voter/voterLogin">
-            <button className="bg-logoBlue text-white px-8 py-3 rounded-lg hover:bg-navBlue transition-colors font-medium">
+            <button className="bg-logoBlue text-white px-8 py-3 rounded-xl hover:bg-navBlue transition-colors font-medium">
               Start Voting Now
             </button>
           </Link>

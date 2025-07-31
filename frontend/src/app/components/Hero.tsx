@@ -5,6 +5,7 @@ import { useSpring, animated } from "@react-spring/web"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Shield, Users } from "lucide-react"
+import mobile from "../../../public/mobile.png"
 
 export default function Hero() {
   const [isMounted, setIsMounted] = useState(false)
@@ -48,8 +49,7 @@ export default function Hero() {
               </div>
 
               <h1 className="text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Quick
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-popBlue to-navBlue"> Vote</span>
+                Quick Vote
               </h1>
 
               <h2 className="text-2xl lg:text-3xl font-semibold text-popBlue">Your Vote, Your Power</h2>
@@ -100,7 +100,7 @@ export default function Hero() {
           <div className="flex justify-center lg:justify-end">
             <animated.div style={imageAnimation} className="relative">
               <Image
-                src="/mobile.png"
+                src={mobile}
                 alt="Voting Platform Illustration"
                 width={600}
                 height={700}

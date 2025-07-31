@@ -45,7 +45,7 @@ export default function About() {
                 it accessible to everyone.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                Our mission is to foster engagement, trust, and integrity in elections, whether it's for a community
+                Our mission is to foster engagement, trust, and integrity in elections, whether it&apos;s for a community
                 event, corporate decision-making, or large-scale governmental elections. We believe that every vote
                 counts, and through innovation, we aim to strengthen the democratic process.
               </p>

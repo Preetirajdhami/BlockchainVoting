@@ -1,9 +1,11 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import Footer from "../components/Footer"
 import Header from "../components/Header"
+import preeti from "../../../public/preeti.jpg"
+import manoj from "../../../public/manoj.jpg"
+import sohit from "../../../public/sohit.jpg"
 
 export default function AboutUsPage() {
   return (
@@ -15,7 +17,7 @@ export default function AboutUsPage() {
           {/* About Us */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
             <div className="order-2 lg:order-1">
-              <h1 className="text-4xl font-bold text-bgBlue mb-6">About QuickVote</h1>
+              <h1 className="text-4xl font-bold text-navBlue mb-6">About QuickVote</h1>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Welcome to QuickVote, where innovation meets democracy. We are a dedicated team of technology enthusiasts
                 and visionaries committed to transforming the way elections are conducted. Our mission is to build a
@@ -102,15 +104,15 @@ export default function AboutUsPage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Team Member 1 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
                 <div className="w-40 h-40 mx-auto mb-4 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-lg opacity-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-xl opacity-10"></div>
                   <Image
-                    src="/preeti.jpg"
+                    src={preeti}
                     alt="Preeti Rajdhami"
                     width={160}
                     height={150}
-                    className="rounded-lg"
+                    className="rounded-xl"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-bgBlue mb-2">Preeti Rajdhami</h3>
@@ -123,15 +125,15 @@ export default function AboutUsPage() {
               </div>
 
               {/* Team Member 2 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
                 <div className="w-40 h-40 mx-auto mb-4 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-lg opacity-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-xl opacity-10"></div>
                   <Image
-                    src="/manoj.jpg"
+                    src={manoj}
                     alt="Manoj Shrestha"
                     width={160}
                     height={150}
-                    className="rounded-lg"
+                    className="rounded-xl"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-bgBlue mb-2">Manoj Shrestha</h3>
@@ -143,15 +145,15 @@ export default function AboutUsPage() {
               </div>
 
               {/* Team Member 3 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-md">
                 <div className="w-40 h-40 mx-auto mb-4 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-lg opacity-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-logoBlue to-navBlue rounded-xl opacity-10"></div>
                   <Image
-                    src="/sohit.jpg"
+                    src={sohit}
                     alt="Sohit Sharma Tiwari"
                     width={160}
                     height={150}
-                    className="rounded-lg"
+                    className="rounded-xl"
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-bgBlue mb-2">Sohit Sharma Tiwari</h3>
@@ -165,18 +167,6 @@ export default function AboutUsPage() {
             </div>
           </div>
 
-          {/* Call to Action */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-            <h3 className="text-2xl font-semibold text-bgBlue mb-4">Ready to Get Started?</h3>
-            <p className="text-gray-600 text-lg mb-6">
-              Join thousands of organizations already using QuickVote to empower their elections.
-            </p>
-            <Link href="/voter/voterLogin">
-              <button className="bg-logoBlue text-white px-8 py-3 rounded-lg hover:bg-navBlue transition-colors font-medium">
-                Start Voting Now
-              </button>
-            </Link>
-          </div>
         </div>
       </section>
       <Footer />

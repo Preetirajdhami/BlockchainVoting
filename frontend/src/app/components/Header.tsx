@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
+import logo from "../../../public/logo.png"
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -25,7 +26,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
           <Image
-            src="/quick.png"
+            src={logo}
             alt="QuickVote Logo"
             width={40}
             height={40}

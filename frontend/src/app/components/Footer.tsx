@@ -1,5 +1,7 @@
 import { Facebook, Twitter, Instagram, Mail, ChevronRight, Phone } from "lucide-react"
 import Image from "next/image"
+import qr from "../../../public/qr.png"
+import quick from "../../../public/quick.png"
 
 export default function Footer() {
   return (
@@ -11,10 +13,9 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex flex-col items-center lg:items-start">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-logoBlue to-navBlue rounded-xl flex items-center justify-center">
-                  <Image src="/whitelogo.png" alt="QuickVote Logo" width={32} height={32} className="rounded-lg" />
+                <div className="w-28 h-16 bg-white rounded-xl flex items-center justify-center">
+                  <Image src={quick} alt="QuickVote Logo" width={100} height={32} className="rounded-lg" />
                 </div>
-                <span className="text-2xl font-bold text-white">QuickVote</span>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed mb-6 text-center lg:text-left">
                 QuickVote is a blockchain platform ensuring secure, transparent, and accessible voting with real-time
@@ -23,28 +24,28 @@ export default function Footer() {
               <div className="flex justify-center lg:justify-start space-x-4">
                 <a
                   href="https://www.facebook.com/share/1EzbvPcRPT/?mibextid=wwXIfr"
-                  className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-popBlue transition-colors"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-popBlue transition-colors"
                   aria-label="Facebook"
                 >
                   <Facebook className="h-5 w-5" />
                 </a>
                 <a
                   href="https://x.com/quickvote450"
-                  className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-popBlue transition-colors"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-popBlue transition-colors"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a
                   href="https://www.instagram.com/quickvote450/"
-                  className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-popBlue transition-colors"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-popBlue transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
                   href="mailto:quickvote450@gmail.com"
-                  className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-popBlue transition-colors"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-popBlue transition-colors"
                   aria-label="Email"
                 >
                   <Mail className="h-5 w-5" />
@@ -78,18 +79,18 @@ export default function Footer() {
 
           {/* Useful Links Section */}
           <div className="lg:col-span-1">
-            <h3 className="font-semibold text-lg mb-6 text-center lg:text-left">Quick Access</h3>
+            <h3 className="font-semibold text-lg mb-6 text-center lg:text-left">Useful Links</h3>
             <div className="flex flex-col items-center lg:items-start">
               <div className="bg-white p-4 rounded-xl mb-4">
                 <Image
-                  src="/qr.png"
+                  src={qr}
                   alt="QR Code for quick access"
                   width={120}
                   height={120}
                   className="object-contain"
                 />
               </div>
-              <p className="text-gray-300 text-xs text-center lg:text-left">Scan for quick access to our platform</p>
+              <p className="text-gray-300 text-xs text-center lg:text-left">Scan to access official election information</p>
             </div>
           </div>
 
