@@ -533,7 +533,7 @@ const VotingStatusPage = () => {
           </div>
         )}
 
-        {/* Confirmation Modals */}
+        {/* Confirmation Modal for stopping voting */}
         {showConfirmModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl">
@@ -547,6 +547,40 @@ const VotingStatusPage = () => {
                 <p className="text-gray-600 mb-8 leading-relaxed">
                   Stopping the voting process will finalize the election and you won&apos;t be able to restart it. 
                   Are you sure you want to proceed?
+                </p>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => setShowConfirmModal(false)}
+                    className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors duration-200 font-semibold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmToggle}
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
+                  >
+                    Yes, Stop Voting
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Confirmation Modal for starting voting */}
+        {showStartConfirmModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl">
+              <div className="bg-gradient-to-r from-logoBlue to-bgBlue px-8 py-6 text-white text-center">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FaCheckCircle className="text-3xl" />
+                </div>
+                <h3 className="text-2xl font-bold">Start Voting?</h3>
+              </div>
+              <div className="p-8 text-center">
+                <p className="text-gray-600 mb-8 leading-relaxed">
+                  Starting the voting process will allow voters to cast their votes. 
+                  Are you ready to begin the election?
                 </p>
                 <div className="flex space-x-4">
                   <button
@@ -572,4 +606,3 @@ const VotingStatusPage = () => {
 };
 
 export default VotingStatusPage;
-                  

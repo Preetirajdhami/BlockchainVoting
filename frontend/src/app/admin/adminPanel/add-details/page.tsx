@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ethers } from "ethers";
 import getAdminContractInstance from "../../../utility/adminContract.js";
 import { uploadToIPFS } from "@/app/utility/uploadToIpfs.js";
@@ -30,6 +30,10 @@ const AddCandidatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Refs for file inputs
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -251,7 +255,7 @@ const AddCandidatePage = () => {
                     <span>Profile Image</span>
                   </label>
                   
-                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-logoBlue transition-colors duration-300">
+                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-logoBlue transition-colors duration-300 relative">
                     {profilePreview ? (
                       <div className="space-y-4">
                         <div className="w-24 h-24 mx-auto rounded-full overflow-hidden border-4 border-logoBlue/20">
@@ -263,19 +267,35 @@ const AddCandidatePage = () => {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setProfileImage(null);
-                            setProfilePreview(null);
-                          }}
-                          className="text-red-600 hover:text-red-700 text-sm font-medium"
-                        >
-                          Remove Image
-                        </button>
+                        <div className="flex gap-3 justify-center">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setProfileImage(null);
+                              setProfilePreview(null);
+                            }}
+                            className="text-red-600 hover:text-red-700 text-sm font-medium px-3 py-1 rounded-lg hover:bg-red-50 transition-colors"
+                          >
+                            Remove Image
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              profileInputRef.current?.click();
+                            }}
+                            className="text-logoBlue hover:text-logoBlue/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-logoBlue/10 transition-colors"
+                          >
+                            Change Image
+                          </button>
+                        </div>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div 
+                        className="space-y-4 cursor-pointer"
+                        onClick={() => profileInputRef.current?.click()}
+                      >
                         <div className="w-16 h-16 bg-logoBlue/10 rounded-full flex items-center justify-center mx-auto">
                           <FaCamera className="text-2xl text-logoBlue" />
                         </div>
@@ -286,11 +306,13 @@ const AddCandidatePage = () => {
                       </div>
                     )}
                     
+                    {/* Hidden file input */}
                     <input
+                      ref={profileInputRef}
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleFileChange(e, setProfileImage, setProfilePreview)}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      className="hidden"
                     />
                   </div>
                 </div>
@@ -302,7 +324,7 @@ const AddCandidatePage = () => {
                     <span>Logo Image</span>
                   </label>
                   
-                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-logoBlue transition-colors duration-300">
+                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-logoBlue transition-colors duration-300 relative">
                     {logoPreview ? (
                       <div className="space-y-4">
                         <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden border-4 border-logoBlue/20">
@@ -314,19 +336,35 @@ const AddCandidatePage = () => {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setLogoImage(null);
-                            setLogoPreview(null);
-                          }}
-                          className="text-red-600 hover:text-red-700 text-sm font-medium"
-                        >
-                          Remove Image
-                        </button>
+                        <div className="flex gap-3 justify-center">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLogoImage(null);
+                              setLogoPreview(null);
+                            }}
+                            className="text-red-600 hover:text-red-700 text-sm font-medium px-3 py-1 rounded-lg hover:bg-red-50 transition-colors"
+                          >
+                            Remove Image
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              logoInputRef.current?.click();
+                            }}
+                            className="text-logoBlue hover:text-logoBlue/80 text-sm font-medium px-3 py-1 rounded-lg hover:bg-logoBlue/10 transition-colors"
+                          >
+                            Change Image
+                          </button>
+                        </div>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div 
+                        className="space-y-4 cursor-pointer"
+                        onClick={() => logoInputRef.current?.click()}
+                      >
                         <div className="w-16 h-16 bg-logoBlue/10 rounded-2xl flex items-center justify-center mx-auto">
                           <FaImage className="text-2xl text-logoBlue" />
                         </div>
@@ -337,11 +375,13 @@ const AddCandidatePage = () => {
                       </div>
                     )}
                     
+                    {/* Hidden file input */}
                     <input
+                      ref={logoInputRef}
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleFileChange(e, setLogoImage, setLogoPreview)}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      className="hidden"
                     />
                   </div>
                 </div>
