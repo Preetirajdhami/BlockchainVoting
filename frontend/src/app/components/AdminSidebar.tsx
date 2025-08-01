@@ -1,105 +1,169 @@
-"use client"
+"use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { 
+  FaUsers, 
+  FaUserPlus, 
+  FaChartBar, 
+  FaUndo, 
+  FaSignOutAlt, 
+  FaUserShield,
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaCrown
+} from "react-icons/fa";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { UserCheck, Plus, BarChart3, RotateCcw, LogOut, Menu, X, Shield } from "lucide-react"
-
-const navigation = [
-  { name: "Candidate Details", href: "/admin/adminPanel/candidate-details", icon: UserCheck },
-  { name: "Add Candidate", href: "/admin/adminPanel/add-details", icon: Plus },
-  { name: "Voting Status", href: "/admin/adminPanel/votingStatus", icon: BarChart3 },
-  { name: "Reset", href: "/admin/adminPanel/reset", icon: RotateCcw },
-]
-
-export default function AdminSidebar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const router = useRouter()
+const AdminSidebar = () => {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
-    router.push("/admin/adminLogin")
-  }
+    localStorage.removeItem("adminToken");
+    router.push("/admin/adminLogin");
+  };
+
+  const toggleSidebar = () => setIsOpen(!isOpen);
+
+  const menuItems = [
+    {
+      icon: <FaUsers className="text-lg" />,
+      label: "Candidate Details",
+      href: "/admin/adminPanel/candidate-details",
+    },
+    {
+      icon: <FaUserPlus className="text-lg" />,
+      label: "Add Candidate",
+      href: "/admin/adminPanel/add-details",
+    },
+    {
+      icon: <FaChartBar className="text-lg" />,
+      label: "Voting Status",
+      href: "/admin/adminPanel/votingStatus",
+    },
+    {
+      icon: <FaUndo className="text-lg" />,
+      label: "Reset Election",
+      href: "/admin/adminPanel/reset",
+    },
+  ];
 
   return (
     <>
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg bg-white shadow-lg border border-gray-200"
-        >
-          {isMobileMenuOpen ? <X className="h-6 w-6 text-bgBlue" /> : <Menu className="h-6 w-6 text-bgBlue" />}
-        </button>
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-logoBlue rounded-lg flex items-center justify-center">
+              <FaUserShield className="text-white text-sm" />
+            </div>
+            <span className="text-lg font-bold text-logoBlue">Admin Panel</span>
+          </div>
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-lg text-logoBlue hover:bg-logoBlue/10 transition-colors duration-200"
+          >
+            {isOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
+          </button>
+        </div>
       </div>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
 
       {/* Sidebar */}
       <div
-        className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:inset-0
-        ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
+        className={`fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center px-6 py-8 border-b border-gray-100">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-logoBlue to-navBlue rounded-lg flex items-center justify-center">
-                <Shield className="h-6 w-6 text-white" />
+        {/* Header */}
+        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-logoBlue/5 to-bgBlue/5">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-logoBlue to-bgBlue rounded-2xl flex items-center justify-center shadow-lg">
+              <FaUserShield className="text-white text-xl" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h1 className="text-xl font-bold text-logoBlue">Admin Panel</h1>
+                <FaCrown className="text-yellow-500 text-sm" />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-bgBlue">VoteSecure</h1>
-                <p className="text-sm text-orange">Admin Panel</p>
-              </div>
+              <p className="text-sm text-gray-500">Election Management</p>
             </div>
           </div>
+        </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`
-                    flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200
-                    ${
-                      isActive
-                        ? "bg-logoBlue text-white shadow-lg"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-logoBlue"
-                    }
-                  `}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <item.icon className={`mr-3 h-5 w-5 ${isActive ? "text-white" : "text-gray-400"}`} />
-                  {item.name}
-                </Link>
-              )
-            })}
-          </nav>
+        {/* Navigation */}
+        <nav className="flex-1 p-4">
+          <div className="space-y-2">
+            {/* Home Link */}
+            <Link
+              href="/"
+              onClick={() => setIsOpen(false)}
+              className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-logoBlue hover:bg-logoBlue/5 transition-all duration-200"
+            >
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-logoBlue/10 flex items-center justify-center transition-colors duration-200">
+                <FaHome className="text-lg" />
+              </div>
+              <span className="font-medium">Home</span>
+            </Link>
 
-          {/* Logout */}
-          <div className="px-4 py-6 border-t border-gray-100">
+            {/* Admin Menu Items */}
+            {menuItems.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-logoBlue hover:bg-logoBlue/5 transition-all duration-200"
+              >
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-logoBlue/10 flex items-center justify-center transition-colors duration-200">
+                  {item.icon}
+                </div>
+                <span className="font-medium">{item.label}</span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Logout Button */}
+          <div className="mt-8 pt-4 border-t border-gray-200">
             <button
               onClick={handleLogout}
-              className="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+              className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all duration-200 w-full"
             >
-              <LogOut className="mr-3 h-5 w-5" />
-              Sign Out
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-red-100 flex items-center justify-center transition-colors duration-200">
+                <FaSignOutAlt className="text-lg" />
+              </div>
+              <span className="font-medium">Logout</span>
             </button>
+          </div>
+        </nav>
+
+        {/* Admin Badge */}
+        <div className="p-4 border-t border-gray-200">
+          <div className="bg-gradient-to-r from-logoBlue/10 to-bgBlue/10 rounded-xl p-4 border border-logoBlue/20">
+            <div className="text-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-logoBlue to-bgBlue rounded-lg flex items-center justify-center mx-auto mb-2">
+                <FaUserShield className="text-white text-sm" />
+              </div>
+              <p className="text-xs font-medium text-logoBlue">QuickVote Admin</p>
+              <p className="text-xs text-gray-500">Secure Management</p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
+      {/* Main Content Spacer */}
+      <div className="lg:ml-72 min-h-screen pt-16 lg:pt-0">
+        {/* This div ensures proper spacing for the main content */}
+      </div>
     </>
-  )
-}
+  );
+};
+
+export default AdminSidebar;

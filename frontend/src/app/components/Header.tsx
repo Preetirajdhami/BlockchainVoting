@@ -1,84 +1,107 @@
-"use client"
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { HiMenu, HiX } from 'react-icons/hi';
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Menu, X } from "lucide-react"
-import logo from "../../../public/logo.png"
-
-export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [currentPath, setCurrentPath] = useState("")
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentPath(window.location.pathname)
+    if (typeof window !== 'undefined') {
+      const { pathname } = window.location;
+      setCurrentPath(pathname);
     }
-  }, [])
+  }, []);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
+
+  const navItems = [
+    { name: 'HOME', path: '/' },
+    { name: 'FEATURES', path: '/feature' },
+    { name: 'ABOUT US', path: '/aboutus' },
+    { name: 'CONTACT US', path: '/contactus' }
+  ];
 
   return (
-    <header className="sticky top-0 bg-white shadow-md z-50 h-16 border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-3">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-          <Image
-            src={logo}
-            alt="QuickVote Logo"
-            width={40}
-            height={40}
-            className="rounded-lg"
-          />
-          <span className="text-xl font-bold text-bgBlue">QuickVote</span>
-        </Link>
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <Image
+                src="/logo.png"
+                alt="QuickVote Logo"
+                width={48}
+                height={48}
+                className="transition-transform duration-300 group-hover:scale-110"
+              />
+            </div>
+            <span className="text-2xl font-bold text-logoBlue opacity-0 md:opacity-100 transition-opacity duration-300">
+              QuickVote
+            </span>
+          </Link>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.path}
+                className={`relative px-6 py-3 font-semibold text-sm tracking-wider transition-all duration-300 rounded-full ${
+                  currentPath === item.path
+                    ? 'text-white bg-logoBlue shadow-lg'
+                    : 'text-gray-700 hover:text-logoBlue hover:bg-logoBlue/5'
+                }`}
+              >
+                {item.name}
+                {currentPath === item.path && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-popBlue rounded-full" />
+                )}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Button */}
           <button
             onClick={toggleDropdown}
-            className="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-logoBlue"
+            className="md:hidden p-3 rounded-xl text-logoBlue hover:bg-logoBlue/10 transition-all duration-300"
           >
-            {isOpen ? <X className="w-6 h-6 text-bgBlue" /> : <Menu className="w-6 h-6 text-bgBlue" />}
+            {isOpen ? (
+              <HiX className="w-6 h-6" />
+            ) : (
+              <HiMenu className="w-6 h-6" />
+            )}
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav
-          className={`
-            ${
-              isOpen ? "block" : "hidden"
-            } md:flex md:items-center md:space-x-6 absolute md:static top-16 left-0 right-0 bg-white md:bg-transparent w-full md:w-auto z-20 shadow-lg md:shadow-none rounded-b-lg md:rounded-none border md:border-0 border-gray-200 px-4 md:px-0 py-4 md:py-0
-          `}
-        >
-          <div className="flex flex-col md:flex-row md:space-x-6">
-            {[
-              { name: "Home", href: "/" },
-              { name: "Features", href: "/feature" },
-              { name: "About Us", href: "/aboutus" },
-              { name: "Contact Us", href: "/contactus" },
-            ].map((item) => (
+        {/* Mobile Navigation */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        } overflow-hidden`}>
+          <nav className="py-6 space-y-2">
+            {navItems.map((item) => (
               <Link
                 key={item.name}
-                href={item.href}
-                className={`
-                  flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-                  ${
-                    currentPath === item.href
-                      ? "bg-logoBlue text-white md:bg-transparent md:text-popBlue"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-logoBlue md:hover:bg-transparent"
-                  }
-                `}
+                href={item.path}
                 onClick={() => setIsOpen(false)}
+                className={`block px-6 py-4 font-semibold text-sm tracking-wider transition-all duration-300 rounded-2xl ${
+                  currentPath === item.path
+                    ? 'text-white bg-logoBlue shadow-lg'
+                    : 'text-gray-700 hover:text-logoBlue hover:bg-logoBlue/5'
+                }`}
               >
                 {item.name}
               </Link>
             ))}
-          </div>
-        </nav>
+          </nav>
+        </div>
       </div>
     </header>
-  )
-}
+  );
+};
+
+export default Header;
