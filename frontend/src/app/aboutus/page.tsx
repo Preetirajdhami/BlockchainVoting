@@ -35,13 +35,13 @@ export default function AboutUsPage() {
       role: "Backend Developer",
       image: preeti,
       description: "Preeti is an expert backend developer with a strong focus on building secure and efficient systems. She ensures the QuickVote platform operates seamlessly, maintaining the highest standards of performance, integrity, and trust.",
-      skills: ["Node.js", "Blockchain", "Security", "Database Design"],
+      skills: ["Node.js", "Blockchain", "Database"],
       icon: <FaServer className="text-2xl" />,
       color: "from-blue-500 to-blue-600",
       social: {
-        linkedin: "#",
+        linkedin: "https://www.linkedin.com/in/preeti-rajdhami-103803244/",
         github: "https://github.com/Preetirajdhami",
-        email: "mailto:preeti@quickvote.com"
+        email: "mailto:preetirajdhami@gmail.com"
       }
     },
     {
@@ -49,13 +49,13 @@ export default function AboutUsPage() {
       role: "Frontend Developer",
       image: manoj,
       description: "Manoj brings a user-centered design approach to QuickVote. He ensures that our platform is intuitive, visually appealing, and accessible to users of all backgrounds and technical skill levels.",
-      skills: ["React", "Next.js", "UI/UX", "TypeScript"],
+      skills: [ "Next.js", "TypeScript", "Tailwind CSS"],
       icon: <FaCode className="text-2xl" />,
       color: "from-green-500 to-green-600",
       social: {
         linkedin: "https://www.linkedin.com/in/manoj-shrestha-43a64b177/",
         github: "https://github.com/ManojScripts-dot",
-        email: "mailto:manoj@quickvote.com"
+        email: "mailto:stha8841@gmail.com"
       }
     },
     {
@@ -63,13 +63,13 @@ export default function AboutUsPage() {
       role: "UI/UX Designer",
       image: sohit,
       description: "Sohit focuses on enhancing the platform's UI/UX. He designs intuitive and user-friendly interfaces to ensure a seamless voting experience while maintaining accessibility and clarity across all user interactions.",
-      skills: ["Figma", "Design Systems", "User Research", "Prototyping"],
+      skills: ["Figma", "Design Systems", "Prototyping"],
       icon: <FaPaintBrush className="text-2xl" />,
       color: "from-purple-500 to-purple-600",
       social: {
-        linkedin: "#",
+        linkedin: "https://www.linkedin.com/in/sohit-tiwari-4b8704244/",
         github: "https://github.com/MrSOHIT",
-        email: "mailto:sohit@quickvote.com"
+        email: "mailto:tiwarisohit76@gmail.com"
       }
     }
   ];
@@ -105,7 +105,7 @@ export default function AboutUsPage() {
     { year: "2024", title: "QuickVote Founded", description: "Started with a vision to revolutionize voting" },
     { year: "2024", title: "First Beta Release", description: "Launched our initial platform for testing" },
     { year: "2024", title: "Blockchain Integration", description: "Implemented advanced blockchain security" },
-    { year: "2024", title: "Growing Community", description: "Expanding our reach across organizations" }
+    { year: "2025", title: "Growing Community", description: "Expanding our reach across organizations" }
   ];
 
   return (
@@ -340,42 +340,12 @@ export default function AboutUsPage() {
                     </div>
                   </div>
                   
-                  <div className="w-8 h-8 bg-logoBlue rounded-full border-4 border-white shadow-lg z-10 flex items-center justify-center">
-                    <div className="w-3 h-3 bg-popBlue rounded-full"></div>
+                  <div className="w-6 h-6 bg-logoBlue rounded-full border-4 border-white shadow-lg z-10 flex items-center justify-center">
                   </div>
                   
                   <div className="w-1/2"></div>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-24 bg-gradient-to-r from-logoBlue to-bgBlue text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold">
-              Join Our Mission
-            </h2>
-            <p className="text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-              Ready to be part of the future of democratic voting? Whether you&apos;re an organization 
-              looking to implement secure voting or a developer interested in contributing to our cause, 
-              we&apos;d love to hear from you.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8">
-              <Link href="/contactus">
-                <button className="px-10 py-4 bg-popBlue text-bgBlue rounded-2xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105 font-bold text-lg">
-                  Get In Touch
-                </button>
-              </Link>
-              <Link href="/feature">
-                <button className="px-10 py-4 bg-transparent border-2 border-white text-white rounded-2xl hover:bg-white hover:text-logoBlue transition-all duration-300 transform hover:scale-105 font-bold text-lg">
-                  Explore Features
-                </button>
-              </Link>
             </div>
           </div>
         </div>

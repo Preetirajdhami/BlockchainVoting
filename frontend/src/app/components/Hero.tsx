@@ -61,24 +61,26 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 pt-8">
-              <Link href="/voter/voterLogin">
-                <button className="group px-8 py-4 bg-popBlue text-bgBlue font-bold text-lg rounded-2xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+            {/* CTA Buttons - Modified for mobile side-by-side layout */}
+            <div className="flex flex-row gap-4 pt-8">
+              <Link href="/voter/voterLogin" className="flex-1">
+                <button className="group w-full px-6 sm:px-8 py-4 bg-popBlue text-bgBlue font-bold text-base sm:text-lg rounded-2xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                   <span className="flex items-center justify-center">
-                    Voter Login
-                    <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="hidden sm:inline">Voter Login</span>
+                    <span className="sm:hidden">Voter</span>
+                    <svg className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </span>
                 </button>
               </Link>
               
-              <Link href="/admin/adminLogin">
-                <button className="group px-8 py-4 bg-transparent border-2 border-white text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-bgBlue transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
+              <Link href="/admin/adminLogin" className="flex-1">
+                <button className="group w-full px-6 sm:px-8 py-4 bg-transparent border-2 border-white text-white font-bold text-base sm:text-lg rounded-2xl hover:bg-white hover:text-bgBlue transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                   <span className="flex items-center justify-center">
-                    Admin Login
-                    <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="hidden sm:inline">Admin Login</span>
+                    <span className="sm:hidden">Admin</span>
+                    <svg className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </span>
@@ -89,6 +91,10 @@ const Hero = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-12">
               <div className="text-center">
+                <div className="text-3xl font-bold text-popBlue">8+</div>
+                <div className="text-sm text-gray-300 font-medium">Features</div>
+              </div>
+              <div className="text-center">
                 <div className="text-3xl font-bold text-popBlue">100%</div>
                 <div className="text-sm text-gray-300 font-medium">Secure</div>
               </div>
@@ -96,15 +102,11 @@ const Hero = () => {
                 <div className="text-3xl font-bold text-popBlue">24/7</div>
                 <div className="text-sm text-gray-300 font-medium">Available</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">∞</div>
-                <div className="text-sm text-gray-300 font-medium">Scalable</div>
-              </div>
             </div>
           </animated.div>
 
-          {/* Right Content (Image) */}
-          <animated.div style={imageAnimation} className="relative">
+          {/* Right Content (Image) - Hidden on mobile */}
+          <animated.div style={imageAnimation} className="relative hidden lg:block">
             <div className="relative">
               {/* Decorative Elements */}
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-popBlue/20 rounded-3xl blur-xl" />

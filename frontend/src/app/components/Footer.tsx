@@ -2,7 +2,6 @@ import React from "react";
 import {
   FaFacebook,
   FaXTwitter,
-  FaLinkedin,
   FaInstagram,
   FaEnvelope,
   FaPhone,
@@ -12,7 +11,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import qr from "../../../public/qr.png"
-import quick from "../../../public/quick.png"
+import quick from "../../../public/icon.png"
 
 
 const Footer = () => {
@@ -53,7 +52,7 @@ const Footer = () => {
   const contactInfo = [
     {
       icon: <FaMapMarkerAlt className="text-lg" />,
-      text: "Brother's Complex, Sangeet Chowk, Itahari-06, Sunsari"
+      text: "Itahari, Sunsari, Nepal"
     },
     {
       icon: <FaPhone className="text-lg" />,
@@ -68,7 +67,7 @@ const Footer = () => {
   return (
     <footer className="bg-bgBlue text-white">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-6">
@@ -78,8 +77,10 @@ const Footer = () => {
                 alt="QuickVote Logo"
                 width={70}
                 height={10}
-                className="rounded-xl bg-white"
               />
+               <span className="text-xl font-bold text-white">
+              Quick <br/>Vote
+            </span>
             </div>
             
             <p className="text-gray-300 leading-relaxed text-lg">
@@ -145,7 +146,7 @@ const Footer = () => {
                   />
                 </div>
                 <p className="text-sm text-gray-300 mt-3">
-                  Scan for quick access to our platform
+                  Scan to access official election information
                 </p>
               </div>
             </div>
@@ -197,7 +198,7 @@ const Footer = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
             <div className="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-6 text-gray-300">
               <p className="text-center lg:text-left">

@@ -1,22 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import React from "react";
 import { 
   FaShieldAlt, 
   FaGlobe, 
   FaFileAlt, 
-  FaChartLine, 
+  FaChartLine,
   FaMobile, 
   FaUserSecret,
-  FaLanguage,
   FaExpand,
   FaCogs,
   FaLeaf,
-  FaArrowRight,
   FaCheckCircle
 } from "react-icons/fa";
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
@@ -49,7 +47,7 @@ export default function FeaturesPage() {
       icon: <FaChartLine className="text-4xl" />,
       title: "Real-Time Vote Counting",
       description: "Instant vote processing and live result updates eliminate delays and reduce human error in result computation and announcement.",
-      color: "from-orange-500 to-orange-600",
+      color: "from-gray-500 to-gray-600",
       stats: "Live Updates"
     },
     {
@@ -133,8 +131,8 @@ export default function FeaturesPage() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto pt-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">10+</div>
-                <div className="text-sm text-gray-300">Core Features</div>
+                <div className="text-3xl font-bold text-popBlue">8+</div>
+                <div className="text-sm text-gray-300">Features</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-popBlue">100%</div>
@@ -143,10 +141,6 @@ export default function FeaturesPage() {
               <div className="text-center">
                 <div className="text-3xl font-bold text-popBlue">24/7</div>
                 <div className="text-sm text-gray-300">Support</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">∞</div>
-                <div className="text-sm text-gray-300">Scalable</div>
               </div>
             </div>
           </div>
@@ -208,10 +202,6 @@ export default function FeaturesPage() {
                 {/* Hover Effect Indicator */}
                 <div className={`mt-6 h-1 bg-gradient-to-r ${feature.color} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
                 
-                {/* Animated Arrow */}
-                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                  <FaArrowRight className="text-logoBlue" />
-                </div>
               </div>
             ))}
           </div>
@@ -288,33 +278,6 @@ export default function FeaturesPage() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-logoBlue to-bgBlue text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold">
-              Ready to Transform Your Voting Process?
-            </h2>
-            <p className="text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-              Join thousands of organizations worldwide who trust QuickVote for their 
-              democratic processes. Experience the future of secure voting today.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8">
-              <button className="px-10 py-4 bg-popBlue text-bgBlue rounded-2xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:scale-105 font-bold text-lg">
-                <div className="flex items-center justify-center space-x-2">
-                  <span>Get Started Now</span>
-                  <FaArrowRight />
-                </div>
-              </button>
-              <button className="px-10 py-4 bg-transparent border-2 border-white text-white rounded-2xl hover:bg-white hover:text-logoBlue transition-all duration-300 transform hover:scale-105 font-bold text-lg">
-                Schedule Demo
-              </button>
             </div>
           </div>
         </div>

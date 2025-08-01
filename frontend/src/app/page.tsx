@@ -23,7 +23,7 @@ export default function Home() {
       title: "Advanced Security",
       description:
         "QuickVote leverages cutting-edge blockchain technology to guarantee the safety of your votes. Each vote is encrypted and securely recorded, preventing tampering or unauthorized access.",
-      icon: <FaShieldAlt className="text-2xl text-logoBlue" />,
+      icon: <FaShieldAlt className="text-4xl text-white" />,
       stats: "256-bit Encryption"
     },
     {
@@ -31,7 +31,7 @@ export default function Home() {
       title: "Ease of Use",
       description:
         "Our intuitive interface makes online voting accessible to everyone, regardless of their technical expertise. Simple, clean design ensures a smooth voting experience for all users.",
-      icon: <FaRegUser className="text-2xl text-logoBlue" />,
+      icon: <FaRegUser className="text-4xl text-white" />,
       stats: "3-Step Process"
     },
     {
@@ -39,8 +39,8 @@ export default function Home() {
       title: "24/7 Customer Service",
       description:
         "We provide exceptional customer support around the clock. Our dedicated team is always available to resolve issues and ensure a hassle-free voting experience.",
-      icon: <FaHeadset className="text-2xl text-logoBlue" />,
-      stats: "< 2min Response",
+      icon: <FaHeadset className="text-4xl text-white" />,
+      stats: "Quick Response",
       button: (
         <div className="mt-6">
           <Link href="/contactus">
@@ -179,14 +179,14 @@ export default function Home() {
                   innovators committed to transforming the voting process through blockchain technology, 
                   cybersecurity, and user experience design.
                 </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className="text-lg text-gray-300 leading-relaxed pb-3">
                   Our mission is to empower voters and uphold the integrity of democratic systems worldwide 
                   through secure, transparent, and inclusive voting solutions.
                 </p>
               </div>
               
               <Link href="/aboutus">
-                <button className="inline-flex items-center px-8 py-4 bg-popBlue text-bgBlue font-bold text-lg rounded-xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                <button className="inline-flex items-center px-4 py-2 bg-popBlue text-bgBlue font-bold text-lg rounded-xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                   <FaUsers className="mr-3" />
                   Meet Our Team
                 </button>

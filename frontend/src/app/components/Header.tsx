@@ -41,7 +41,7 @@ const Header = () => {
               />
             </div>
             <span className="text-2xl font-bold text-logoBlue opacity-0 md:opacity-100 transition-opacity duration-300">
-              QuickVote
+              Quick Vote
             </span>
           </Link>
 
@@ -58,9 +58,6 @@ const Header = () => {
                 }`}
               >
                 {item.name}
-                {currentPath === item.path && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-popBlue rounded-full" />
-                )}
               </Link>
             ))}
           </nav>
