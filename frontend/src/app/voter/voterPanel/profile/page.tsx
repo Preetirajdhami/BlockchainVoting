@@ -269,18 +269,6 @@ const VoterProfilePage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-logoBlue text-white rounded-xl hover:bg-bgBlue transition-colors duration-200 font-semibold">
-                  <FaEdit />
-                  <span>Edit Profile</span>
-                </button>
-                <button className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors duration-200 font-semibold">
-                  <FaIdCard />
-                  <span>Download ID</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
