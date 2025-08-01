@@ -5,39 +5,48 @@ import Link from "next/link";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { FaUsers, FaRegUser } from "react-icons/fa";
+import { FaUsers, FaRegUser, FaShieldAlt, FaHeadset, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Image from "next/image";
+import security from "../../public/security.png"
+import easeofuse from "../../public/easeofuse.png"
+import customerservice from "../../public/customerservice.png"
+import team from "../../public/team.jpeg"
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openQuestion, setOpenQuestion] = useState<number | null>(null); // Specify that openQuestion can be a number or null
+  const [openQuestion, setOpenQuestion] = useState<number | null>(null);
 
-  // Points for "Why Choose QuickVote?"
   const features = [
     {
-      image: "/security.png",
+      image: security,
       title: "Advanced Security",
       description:
-        "QuickVote leverages cutting-edge blockchain technology to guarantee the safety of your votes. Each vote is encrypted and securely recorded, preventing tampering or unauthorized access. Our system is designed to uphold trust and ensure fair election outcomes.",
+        "QuickVote leverages cutting-edge blockchain technology to guarantee the safety of your votes. Each vote is encrypted and securely recorded, preventing tampering or unauthorized access.",
+      icon: <FaShieldAlt className="text-4xl text-white" />,
+      stats: "256-bit Encryption"
     },
     {
-      image: "/easeofuse.png",
+      image: easeofuse, 
       title: "Ease of Use",
       description:
-        "QuickVote&apos;s intuitive interface makes online voting accessible to everyone, regardless of their technical expertise. Whether you&apos;re a tech-savvy user or a first-time voter, our platform ensures a smooth and seamless voting experience.",
+        "Our intuitive interface makes online voting accessible to everyone, regardless of their technical expertise. Simple, clean design ensures a smooth voting experience for all users.",
+      icon: <FaRegUser className="text-4xl text-white" />,
+      stats: "3-Step Process"
     },
     {
-      image: "/customerservice.png",
+      image: customerservice,
       title: "24/7 Customer Service",
       description:
-        "We pride ourselves on our exceptional customer support. Our team is available around the clock to resolve any issues and answer your queries, ensuring a hassle-free voting experience from start to finish.",
+        "We provide exceptional customer support around the clock. Our dedicated team is always available to resolve issues and ensure a hassle-free voting experience.",
+      icon: <FaHeadset className="text-4xl text-white" />,
+      stats: "Quick Response",
       button: (
         <div className="mt-6">
           <Link href="/contactus">
-            <button className="flex items-center justify-center gap-2 w-full md:w-auto px-4 py-2 border-[2px] border-popBlue bg-popBlue text-logoBlue text-sm font-semibold rounded-full hover:bg-white hover:text-popBlue transition duration-300">
-              <FaRegUser className="text-lg" />
-              Contact us
+            <button className="inline-flex items-center px-6 py-3 bg-logoBlue text-white font-semibold rounded-xl hover:bg-bgBlue hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <FaRegUser className="mr-2" />
+              Contact Us
             </button>
           </Link>
         </div>
@@ -45,36 +54,34 @@ export default function Home() {
     },
   ];
 
-  // FAQ Items
   const faqItems = [
     {
       question: "What is QuickVote?",
       answer:
-        "QuickVote is an innovative online voting platform designed to provide secure, transparent, and efficient elections. It uses advanced blockchain technology to ensure that every vote is tamper-proof and verifiable, making it an ideal solution for student councils, corporate elections, and other organizational voting needs.",
+        "QuickVote is an innovative blockchain-powered voting platform designed to provide secure, transparent, and efficient elections for organizations of all sizes.",
     },
     {
-      question: "How does QuickVote ensure the security of votes?",
+      question: "How does QuickVote ensure vote security?",
       answer:
-        "QuickVote employs cutting-edge blockchain encryption to securely record and store votes. Blockchain technology creates an immutable ledger that prevents tampering, unauthorized access, or vote manipulation. Each vote is securely encrypted, guaranteeing its authenticity and confidentiality.",
+        "We employ cutting-edge blockchain encryption to create tamper-proof, verifiable votes. Each vote is secured with cryptographic methods that prevent manipulation.",
     },
     {
       question: "Can QuickVote handle large-scale elections?",
       answer:
-        "Yes, QuickVote is designed to be scalable, making it suitable for elections of all sizes. Whether it’s a small student council election or a nationwide corporate vote, QuickVote’s infrastructure can handle high voter turnout seamlessly and without delays.",
+        "Yes, QuickVote is designed to scale seamlessly from small organization votes to large-scale elections with thousands of participants.",
     },
     {
       question: "Is QuickVote easy to use for first-time voters?",
       answer:
-        "Absolutely. QuickVote features an intuitive and user-friendly interface, ensuring a smooth voting experience for everyone, even first-time users. The platform guides voters through the process step-by-step, making it simple and accessible.",
+        "Absolutely. Our platform features an intuitive, user-friendly interface that guides voters through the process step-by-step.",
     },
     {
       question: "What kind of support does QuickVote provide?",
       answer:
-        "QuickVote offers 24/7 customer support to address any issues or questions. Our dedicated team is available around the clock to ensure a hassle-free voting experience, from setup to result declaration. You can contact us anytime for assistance.",
+        "QuickVote offers 24/7 customer support with dedicated assistance for setup, voting, and result declaration. Our team is always available to help.",
     },
   ];
 
-  // Toggle function for FAQ
   const toggleQuestion = (index: number) => {
     setOpenQuestion((prevOpenQuestion) =>
       prevOpenQuestion === index ? null : index
@@ -87,142 +94,175 @@ export default function Home() {
       <Hero />
 
       {/* Why Choose QuickVote Section */}
-      <section
-        id="why-choose-quickvote"
-        className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-8 mx-auto py-8"
-      >
-        <h1 className="text-logoBlue text-3xl md:text-4xl font-semibold mb-6 text-left">
-          Why Choose QuickVote?
-        </h1>
-        <p className="text-gray-900 text-lg mb-6 text-left">
-          QuickVote is the next-generation online voting platform that
-          prioritizes security, accessibility, and efficiency. Designed for
-          organizations of all sizes, from student councils to corporate teams,
-          QuickVote provides a seamless voting experience with a focus on trust,
-          transparency, and innovation. Here&apos;s why QuickVote stands out:
-        </p>
-
-        <div className="flex flex-col gap-6">
-          {features.map(({ image, title, description, button }, index) => (
-            <div
-              key={index}
-              className={`flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-lg shadow-md max-w-4xl mx-auto ${
-                index % 2 === 0 ? "" : "md:flex-row-reverse"
-              }`}
-            >
-              {/* Image */}
-              <div className="w-full md:w-1/4">
-                <Image
-                  src={image}
-                  alt={title}
-                  width={800} // Adjust based on expected layout
-                  height={500} // Adjust based on expected aspect ratio
-                  className="rounded-lg w-full h-auto object-cover"
-                />
-              </div>
-              {/* Content */}
-              <div className="w-full md:w-3/4 text-left">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  {title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {description}
-                </p>
-
-                {button}
-              </div>
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-6 py-3 mb-6">
+              <FaShieldAlt className="text-logoBlue" />
+              <span className="text-logoBlue font-semibold">Why Choose Us</span>
             </div>
-          ))}
+            <h2 className="text-4xl lg:text-5xl font-bold text-logoBlue mb-6">
+              Why Choose QuickVote?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Experience the next-generation voting platform that prioritizes security, 
+              accessibility, and efficiency for organizations of all sizes.
+            </p>
+          </div>
+
+          {/* Features */}
+          <div className="space-y-16">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className={`grid lg:grid-cols-2 gap-12 items-center ${
+                  index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
+                }`}
+              >
+                {/* Image */}
+                <div className={`relative ${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
+                  <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                    <div className="absolute -top-6 -left-6 w-16 h-16 bg-logoBlue rounded-2xl flex items-center justify-center shadow-lg">
+                      {feature.icon}
+                    </div>
+                    <Image
+                      src={feature.image}
+                      alt={feature.title}
+                      width={500}
+                      height={300}
+                      className="w-full h-auto rounded-2xl"
+                    />
+                    {feature.stats && (
+                      <div className="absolute -bottom-4 -right-4 bg-popBlue text-bgBlue px-4 py-2 rounded-xl font-bold shadow-lg">
+                        {feature.stats}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
+                  <div className="space-y-4">
+                    <h3 className="text-3xl font-bold text-logoBlue">
+                      {feature.title}
+                    </h3>
+                    <p className="text-lg text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                  
+                  {feature.button && feature.button}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Who We Are Section */}
-      <section
-        id="who-we-are"
-        className="bg-logoBlue lg:px-24 md:px-8 sm:px-6 px-4 mx-auto py-12"
-      >
-        <div className="flex flex-wrap items-center justify-between">
-          {/* Left Image */}
-          <div className="w-full lg:w-1/2 mb-8 lg:mb-0 flex justify-center">
-            <Image
-              src="/team.jpeg"
-              alt="QuickVote Team"
-              width={800} // adjust width as needed
-              height={500} // adjust height to match aspect ratio
-              className="rounded-lg shadow-lg w-full max-w-lg sm:max-w-xl"
-            />
-          </div>
-
-          {/* Right Text */}
-          <div className="w-full lg:w-1/2 text-left">
-            <h2 className="text-white text-2xl md:text-3xl font-semibold mb-4">
-              Who We Are?
-            </h2>
-            <p className="text-white text-sm leading-relaxed">
-              At <strong>QuickVote</strong>, we are a team of passionate
-              innovators committed to transforming the voting process. Combining
-              expertise in blockchain technology, cybersecurity, and user
-              experience design, we aim to create a secure, transparent, and
-              inclusive platform for modern elections. Guided by the principles
-              of trust, accessibility, and innovation, our mission is to empower
-              voters and uphold the integrity of democratic systems.
-            </p>
-            <div className="mt-6">
+      <section className="py-24 bg-logoBlue">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Content */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-6 py-3">
+                  <FaUsers className="text-popBlue" />
+                  <span className="text-white font-semibold">Our Story</span>
+                </div>
+                <h2 className="text-4xl lg:text-5xl font-bold text-white">
+                  Who We Are?
+                </h2>
+                <p className="text-xl text-gray-200 leading-relaxed">
+                  At <strong className="text-popBlue">QuickVote</strong>, we are a team of passionate 
+                  innovators committed to transforming the voting process through blockchain technology, 
+                  cybersecurity, and user experience design.
+                </p>
+                <p className="text-lg text-gray-300 leading-relaxed pb-3">
+                  Our mission is to empower voters and uphold the integrity of democratic systems worldwide 
+                  through secure, transparent, and inclusive voting solutions.
+                </p>
+              </div>
+              
               <Link href="/aboutus">
-                <button className="flex items-center justify-center gap-2 w-full md:w-auto px-4 py-2 border-[2px] border-popBlue bg-popBlue text-logoBlue text-sm font-semibold rounded-full hover:bg-logoBlue hover:text-popBlue transition duration-300">
-                  <FaUsers className="text-lg" />
+                <button className="inline-flex items-center px-4 py-2 bg-popBlue text-bgBlue font-bold text-lg rounded-xl hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                  <FaUsers className="mr-3" />
                   Meet Our Team
                 </button>
               </Link>
+            </div>
+
+            {/* Team Image */}
+            <div className="relative">
+              <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+                <Image
+                  src={team}
+                  alt="QuickVote Team"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto rounded-2xl"
+                />
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 bg-popBlue text-bgBlue px-4 py-2 rounded-xl font-bold shadow-lg">
+                  Innovation Team
+                </div>
+                <div className="absolute -bottom-4 -left-4 bg-white text-logoBlue px-4 py-2 rounded-xl font-bold shadow-lg">
+                  Est. 2024
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section
-        id="faq"
-        className="bg-gray-100 lg:px-24 md:px-8 sm:px-6 px-4 mx-auto py-12"
-      >
-        {/* FAQ Content */}
-        <div className="flex flex-col lg:flex-row-reverse gap-10 items-start">
-          {/* FAQ Image */}
-          <div className="w-full lg:w-1/4 mb-6 lg:mb-0 flex justify-center">
-            <Image
-              src="/faq.png"
-              alt="FAQ Illustration"
-              width={320} // approximate width for max-w-xs
-              height={240} // adjust height to maintain aspect ratio
-              className="rounded-lg shadow-lg object-contain w-full max-w-xs sm:max-w-sm"
-            />
-          </div>
-          {/* FAQ List */}
-          <div className="w-full lg:w-3/4">
-            <h2 className="text-logoBlue text-2xl md:text-4xl font-semibold mb-6 text-left">
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-6 py-3 mb-6">
+              <FiChevronDown className="text-logoBlue" />
+              <span className="text-logoBlue font-semibold">FAQ</span>
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-bold text-logoBlue mb-6">
               Frequently Asked Questions
             </h2>
-            <div className="space-y-6">
-              {faqItems.map((item, index) => (
-                <div key={index}>
-                  <div
-                    className="flex border-b items-center justify-between cursor-pointer"
-                    onClick={() => toggleQuestion(index)}
-                  >
-                    <h3 className="font-medium text-lg text-gray-800">
-                      {item.question}
-                    </h3>
+            <p className="text-xl text-gray-600">
+              Everything you need to know about QuickVote
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqItems.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
+              >
+                <button
+                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => toggleQuestion(index)}
+                >
+                  <h3 className="text-lg font-semibold text-logoBlue pr-4">
+                    {item.question}
+                  </h3>
+                  <div className="flex-shrink-0">
                     {openQuestion === index ? (
-                      <FiChevronUp className="text-gray-600" />
+                      <FiChevronUp className="text-logoBlue text-xl" />
                     ) : (
-                      <FiChevronDown className="text-gray-600" />
+                      <FiChevronDown className="text-logoBlue text-xl" />
                     )}
                   </div>
-                  {openQuestion === index && (
-                    <p className="text-gray-600 mt-2">{item.answer}</p>
-                  )}
+                </button>
+                
+                <div className={`px-8 transition-all duration-300 ease-in-out ${
+                  openQuestion === index ? 'max-h-96 pb-6' : 'max-h-0'
+                } overflow-hidden`}>
+                  <p className="text-gray-600 leading-relaxed border-t border-gray-100 pt-6">
+                    {item.answer}
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

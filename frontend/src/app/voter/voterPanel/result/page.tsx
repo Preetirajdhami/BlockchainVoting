@@ -1,12 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import VoterLayout from "../VoterLayout";
+import VoterSidebar from "@/app/components/VoterSidebar";
 import getAdminContractInstance from "../../../utility/adminContract";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Image from "next/image";
+import { 
+  FaTrophy, 
+  FaChartPie, 
+  FaCrown, 
+  FaUsers, 
+  FaVoteYea, 
+  FaExclamationTriangle,
+  FaSpinner
+} from "react-icons/fa";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -20,13 +29,13 @@ interface Winner {
   profileImageHash?: string;
 }
 
-const ResultPage = () => {
-  const [candidates, setCandidates] = useState<any[]>([]); // State to store all candidates
-  const [loading, setLoading] = useState<boolean>(true); // State for loading indicator
+const VoterResultPage = () => {
+  const [candidates, setCandidates] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [winners, setWinners] = useState<any[]>([]);
   const [votesData, setVotesData] = useState<any[]>([]);
-  const [isVotingActive, setIsVotingActive] = useState<boolean>(false); // State for voting status
-  const [statusLoading, setStatusLoading] = useState<boolean>(true); // Loading state for voting status
+  const [isVotingActive, setIsVotingActive] = useState<boolean>(false);
+  const [statusLoading, setStatusLoading] = useState<boolean>(true);
 
   const fetchVotingStatus = async () => {
     try {
@@ -55,6 +64,13 @@ const ResultPage = () => {
     try {
       const contract = await getAdminContractInstance();
       const winnersData = await contract.getWinners();
+
+      if (!winnersData || winnersData.length === 0) {
+        console.warn("No winners found.");
+        setWinners([]);
+        return;
+      }
+
       const formattedWinners = winnersData.map((winner: any) => ({
         id: winner?.id?.toString() || "N/A",
         firstName: winner?.firstName || "Unknown",
@@ -63,6 +79,7 @@ const ResultPage = () => {
         voteCount: winner?.voteCount?.toString() || "0",
         profileImageHash: winner?.profileImageHash || "",
       }));
+
       setWinners(formattedWinners);
 
       const candidatesData = await contract.getAllCandidates();
@@ -107,23 +124,34 @@ const ResultPage = () => {
             return "#012b64"; // Lighter blue for other candidates
           }
         }),
+        borderWidth: 0,
+        hoverBorderWidth: 3,
+        hoverBorderColor: "#fff",
       },
     ],
   };
 
   const pieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "right" as const,
+        position: "bottom" as const,
         labels: {
-          boxWidth: 20,
-          padding: 10,
+          boxWidth: 15,
+          padding: 20,
           font: {
-            size: 14,
+            size: 12,
           },
+          usePointStyle: true,
         },
       },
       tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: '#004b84',
+        borderWidth: 1,
         callbacks: {
           label: function (context: any) {
             const label = context.label || "";
@@ -132,7 +160,7 @@ const ResultPage = () => {
               (sum: number, curr: number) => sum + curr,
               0
             );
-            const percentage = ((value / total) * 100).toFixed(2);
+            const percentage = ((value / total) * 100).toFixed(1);
             return `${label}: ${value} votes (${percentage}%)`;
           },
         },
@@ -140,139 +168,332 @@ const ResultPage = () => {
       datalabels: {
         color: "white",
         font: {
-          weight: "bold",
-          size: 16,
+          weight: "bold" as const,
+          size: 14,
         },
         formatter: (value: number, context: any) => {
           const total = context.dataset.data.reduce(
             (sum: number, curr: number) => sum + curr,
             0
           );
-          const percentage = ((value / total) * 100).toFixed(2);
-          return `${percentage}%`;
-        },
-        position: "center",
-        anchor: "center",
-        align: "center",
-      },
-      customText: {
-        id: "customText",
-        afterDraw: (chart: any) => {
-          const { ctx, width, height } = chart;
-          ctx.save();
-          ctx.font = "16px Arial";
-          ctx.fillStyle = "black";
-          ctx.textAlign = "center";
-          ctx.fillText(
-            "The pie chart below illustrates the distribution of votes among candidates.",
-            width / 2,
-            height - 20
-          );
-          ctx.restore();
+          const percentage = ((value / total) * 100).toFixed(1);
+          return total > 0 ? `${percentage}%` : '0%';
         },
       },
     },
   };
 
-  return (
-    <VoterLayout>
-      <div className="min-h-screen flex justify-center items-center py-6 px-4 bg-gray-100">
-        <div className="max-w-4xl w-full   p-8">
-          <h2 className="text-3xl font-extrabold text-logoBlue text-center mb-8">
-            Election Results
-          </h2>
-
-          {statusLoading ? (
-            <p className="text-lg text-gray-600">Loading voting status...</p>
-          ) : isVotingActive ? (
-            <p className="text-lg text-red-600 font-semibold mb-6">
-              Voting is still active. Results will be available after voting
-              ends.
-            </p>
-          ) : (
-            <>
-              {loading ? (
-                <p className="text-lg text-gray-600">Loading results...</p>
-              ) : (
-                <>
-                  {winners.length > 0 && votesData.length > 0 && (
-                    <div className="mt-6">
-                      <h3 className="text-2xl font-bold text-logoBlue text-center mb-6">
-                        Winner Details
-                      </h3>
-
-                      <div className="grid gap-8 md:grid-cols-2">
-                        <div className="bg-white p-6 border-2 border-popBlue rounded-lg shadow-lg">
-                          <h2 className="text-2xl  font-bold text-bgBlue mb-6">
-                            Congratulations to the Winner!
-                          </h2>
-                          <p className="text-lg text-gray-600 mb-6">
-                            We are thrilled to announce the winner of this
-                            election! Let&apos;s celebrate their achievement!
-                          </p>
-
-                          {winners.map((winner: Winner, index: number) => (
-                            <div
-                              key={index}
-                              className="mb-6 text-center flex flex-col items-center"
-                            >
-                              <Image
-  src={
-    winner.profileImageHash
-      ? `https://ipfs.io/ipfs/${winner.profileImageHash}`
-      : "/default-avatar.png"
+  if (statusLoading) {
+    return (
+      <div className="flex">
+        <VoterSidebar />
+        <div className="flex-1 min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 border-4 border-logoBlue border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-gray-600 text-lg">Loading voting status...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
-  alt="Winner Avatar"
-  width={128}
-  height={128}
-  className="w-32 h-32 rounded-full mx-auto mb-4"
-/>
 
-                              {/* Use flex to align text consistently */}
-                              <div className="flex flex-col items-start ">
-                                <h4 className="text-xl lg:text-2xl font-semibold text-bgBlue mb-2">
-                                  {winner.firstName} {winner.lastName}
-                                </h4>
+  if (isVotingActive) {
+    return (
+      <div className="flex">
+        <VoterSidebar />
+        <div className="flex-1 min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="max-w-md text-center p-8">
+            <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8">
+              <FaSpinner className="text-4xl text-logoBlue animate-spin" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Voting in Progress</h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-8">
+              Voting is currently active. Results will be available once the voting period ends.
+            </p>
+            <div className="bg-logoBlue/5 rounded-2xl p-6 border border-logoBlue/10">
+              <div className="flex items-center space-x-3">
+                <FaVoteYea className="text-logoBlue flex-shrink-0" />
+                <div className="text-left">
+                  <h3 className="font-semibold text-logoBlue text-sm mb-1">Check Back Later</h3>
+                  <p className="text-xs text-gray-600">
+                    Results will be automatically updated when voting concludes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-                                <p className="text-lg font-medium text-gray-700">
-                                  Position: {winner.position}
-                                </p>
-                                <p className="text-lg font-medium text-gray-700">
-                                  Votes: {winner.voteCount}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
+  if (loading) {
+    return (
+      <div className="flex">
+        <VoterSidebar />
+        <div className="flex-1 min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 border-4 border-logoBlue border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-gray-600 text-lg">Loading election results...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex">
+      <VoterSidebar />
+      <div className="flex-1 min-h-screen bg-gray-50 py-8 px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-6 py-3 mb-6">
+              <FaTrophy className="text-logoBlue" />
+              <span className="text-logoBlue font-semibold">Election Results</span>
+            </div>
+            <h1 className="text-4xl font-bold text-logoBlue mb-4">Final Results</h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              The voting has concluded. Here are the official results powered by blockchain transparency.
+            </p>
+          </div>
+
+          {winners.length > 0 && votesData.length > 0 ? (
+            <div className="space-y-12">
+              {/* Winner Announcement */}
+              <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+                <div className="bg-gradient-to-r from-logoBlue to-bgBlue px-8 py-12 text-white text-center relative">
+                  {/* Decorative elements */}
+                  <div className="absolute top-4 left-4 w-8 h-8 border-2 border-white/20 rounded-lg rotate-45" />
+                  <div className="absolute top-4 right-4 w-6 h-6 bg-popBlue/30 rounded-full animate-pulse" />
+                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/5 rounded-full" />
+                  <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-white/5 rounded-full" />
+                  
+                  <div className="relative">
+                    <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                      <FaCrown className="text-3xl text-yellow-900" />
+                    </div>
+                    <h2 className="text-3xl font-bold mb-3">🎉 We Have a Winner! 🎉</h2>
+                    <p className="text-blue-100 text-lg">Congratulations to our elected representative</p>
+                  </div>
+                </div>
+
+                <div className="p-8">
+                  {winners.map((winner: Winner, index: number) => (
+                    <div key={index} className="text-center">
+                      {/* Winner Profile */}
+                      <div className="mb-8">
+                        <div className="relative inline-block mb-6">
+                          <div className="w-32 h-32 rounded-full border-4 border-yellow-400 overflow-hidden bg-gray-100 shadow-xl">
+                            <Image
+                              src={
+                                winner.profileImageHash
+                                  ? `https://ipfs.io/ipfs/${winner.profileImageHash}`
+                                  : "/default-avatar.png"
+                              }
+                              alt="Winner Avatar"
+                              width={128}
+                              height={128}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                            <FaCrown className="text-yellow-900 text-lg" />
+                          </div>
                         </div>
 
-                        <div className="bg-white p-6 border-2 rounded-lg border-popBlue shadow-lg flex flex-col justify-center items-center">
-                          <h3 className="text-2xl font-semibold text-bgBlue">
-                            Voting Results
+                        <div className="space-y-3">
+                          <h3 className="text-3xl font-bold text-logoBlue">
+                            {winner.firstName} {winner.lastName}
                           </h3>
-
-                          <div className="w-full max-w-md">
-                            {/* <p className="text-sm text-gray-700 text-start mb-2">
-                              The pie chart below illustrates the distribution of votes among candidates.
-                            </p> */}
-                            <div className="w-full h-full">
-                              <Pie
-                                data={pieChartData}
-                                options={pieChartOptions as any}
-                              />
-                            </div>
+                          <div className="inline-flex items-center space-x-2 bg-logoBlue/10 text-logoBlue px-4 py-2 rounded-full font-semibold">
+                            <FaUsers className="text-sm" />
+                            <span>{winner.position}</span>
+                          </div>
+                          <div className="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-lg">
+                            <FaVoteYea className="text-sm" />
+                            <span>{winner.voteCount} Votes</span>
                           </div>
                         </div>
                       </div>
+
+                      {/* Congratulatory Message */}
+                      <div className="bg-gradient-to-r from-logoBlue/5 to-bgBlue/5 rounded-2xl p-6 border border-logoBlue/10">
+                        <h4 className="text-xl font-bold text-logoBlue mb-3">
+                          Congratulations! 🎊
+                        </h4>
+                        <p className="text-gray-600 leading-relaxed">
+                          Thank you to everyone who participated in this democratic process. 
+                          Your voice has been heard and counted through our secure blockchain voting system.
+                        </p>
+                      </div>
                     </div>
-                  )}
-                </>
-              )}
-            </>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detailed Results */}
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Vote Distribution Chart */}
+                <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-8">
+                  <div className="text-center mb-6">
+                    <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-4 py-2 mb-4">
+                      <FaChartPie className="text-logoBlue" />
+                      <span className="text-logoBlue font-semibold">Vote Distribution</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-logoBlue">Election Statistics</h3>
+                  </div>
+                  
+                  <div className="relative h-80">
+                    <Pie data={pieChartData} options={pieChartOptions as any} />
+                  </div>
+                  
+                  <div className="mt-6 text-center text-sm text-gray-600">
+                    <p>Total votes cast: <span className="font-semibold text-logoBlue">
+                      {votesData.reduce((sum, candidate) => sum + candidate.votes, 0)}
+                    </span></p>
+                  </div>
+                </div>
+
+                {/* Detailed Vote Breakdown */}
+                <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-8">
+                  <div className="text-center mb-6">
+                    <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-4 py-2 mb-4">
+                      <FaUsers className="text-logoBlue" />
+                      <span className="text-logoBlue font-semibold">Vote Breakdown</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-logoBlue">Candidate Results</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    {votesData
+                      .sort((a, b) => b.votes - a.votes)
+                      .map((candidate, index) => {
+                        const totalVotes = votesData.reduce((sum, c) => sum + c.votes, 0);
+                        const percentage = totalVotes > 0 ? ((candidate.votes / totalVotes) * 100).toFixed(1) : '0';
+                        const isWinner = candidate.votes === maxVotes;
+                        
+                        return (
+                          <div
+                            key={index}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
+                              isWinner 
+                                ? 'border-yellow-400 bg-yellow-50' 
+                                : 'border-gray-200 bg-gray-50 hover:bg-white'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3">
+                                {isWinner && (
+                                  <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                    <FaCrown className="text-yellow-900 text-sm" />
+                                  </div>
+                                )}
+                                <div>
+                                  <p className={`font-semibold ${isWinner ? 'text-yellow-800' : 'text-gray-900'}`}>
+                                    {candidate.name}
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    Rank #{index + 1}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className={`text-lg font-bold ${isWinner ? 'text-yellow-800' : 'text-logoBlue'}`}>
+                                  {candidate.votes} votes
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                  {percentage}%
+                                </p>
+                              </div>
+                            </div>
+                            
+                            {/* Vote percentage bar */}
+                            <div className="mt-3">
+                              <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div
+                                  className={`h-2 rounded-full transition-all duration-1000 ${
+                                    isWinner ? 'bg-yellow-500' : 'bg-logoBlue'
+                                  }`}
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Election Summary */}
+              <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-logoBlue mb-4">Election Summary</h3>
+                  <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                    This election was conducted using QuickVote&apos;s secure blockchain technology, 
+                    ensuring complete transparency and immutability of all votes cast.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-4 gap-6">
+                  <div className="text-center p-6 bg-logoBlue/5 rounded-2xl border border-logoBlue/10">
+                    <div className="w-12 h-12 bg-logoBlue rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <FaUsers className="text-white" />
+                    </div>
+                    <div className="text-2xl font-bold text-logoBlue mb-1">
+                      {votesData.length}
+                    </div>
+                    <div className="text-sm text-gray-600">Candidates</div>
+                  </div>
+
+                  <div className="text-center p-6 bg-green-50 rounded-2xl border border-green-200">
+                    <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <FaVoteYea className="text-white" />
+                    </div>
+                    <div className="text-2xl font-bold text-green-600 mb-1">
+                      {votesData.reduce((sum, candidate) => sum + candidate.votes, 0)}
+                    </div>
+                    <div className="text-sm text-gray-600">Total Votes</div>
+                  </div>
+
+                  <div className="text-center p-6 bg-yellow-50 rounded-2xl border border-yellow-200">
+                    <div className="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <FaCrown className="text-yellow-900" />
+                    </div>
+                    <div className="text-2xl font-bold text-yellow-600 mb-1">
+                      {maxVotes}
+                    </div>
+                    <div className="text-sm text-gray-600">Winning Votes</div>
+                  </div>
+
+                  <div className="text-center p-6 bg-purple-50 rounded-2xl border border-purple-200">
+                    <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <FaChartPie className="text-white" />
+                    </div>
+                    <div className="text-2xl font-bold text-purple-600 mb-1">
+                      {votesData.length > 0 ? ((maxVotes / votesData.reduce((sum, candidate) => sum + candidate.votes, 0)) * 100).toFixed(1) : '0'}%
+                    </div>
+                    <div className="text-sm text-gray-600">Win Margin</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center p-12">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                <FaExclamationTriangle className="text-4xl text-gray-400" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">No Results Available</h2>
+              <p className="text-lg text-gray-600">
+                Election results are not available at this time. Please check back later.
+              </p>
+            </div>
           )}
         </div>
       </div>
-    </VoterLayout>
+    </div>
   );
 };
 
-export default ResultPage;
+export default VoterResultPage;

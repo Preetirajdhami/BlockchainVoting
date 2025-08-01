@@ -1,101 +1,167 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaRegAddressCard } from "react-icons/fa6";
-import { IoAddCircleOutline, IoStatsChartSharp } from "react-icons/io5";
-import { IoIosLogOut } from "react-icons/io";
-import { GrPowerReset } from "react-icons/gr";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { 
+  FaUsers, 
+  FaUserPlus, 
+  FaChartBar, 
+  FaUndo, 
+  FaSignOutAlt, 
+  FaUserShield,
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaCrown
+} from "react-icons/fa";
 
 const AdminSidebar = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); // State to track menu toggle
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
+    localStorage.removeItem("adminToken");
     router.push("/admin/adminLogin");
   };
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  const menuItems = [
+    {
+      icon: <FaUsers className="text-lg" />,
+      label: "Candidate Details",
+      href: "/admin/adminPanel/candidate-details",
+    },
+    {
+      icon: <FaUserPlus className="text-lg" />,
+      label: "Add Candidate",
+      href: "/admin/adminPanel/add-details",
+    },
+    {
+      icon: <FaChartBar className="text-lg" />,
+      label: "Voting Status",
+      href: "/admin/adminPanel/votingStatus",
+    },
+    {
+      icon: <FaUndo className="text-lg" />,
+      label: "Reset Election",
+      href: "/admin/adminPanel/reset",
+    },
+  ];
+
   return (
     <>
-      {/* Mobile Navbar */}
-      <div className="lg:hidden text-logoBlue fixed w-full top-0 left-0 z-10 flex items-center px-4 sm:px-8 py-4">
-        <button onClick={toggleSidebar} className="text-3xl mr-4">
-          {isOpen ? <FiX /> : <FiMenu />}
-        </button>
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-logoBlue rounded-lg flex items-center justify-center">
+              <FaUserShield className="text-white text-sm" />
+            </div>
+            <span className="text-lg font-bold text-logoBlue">Admin Panel</span>
+          </div>
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-lg text-logoBlue hover:bg-logoBlue/10 transition-colors duration-200"
+          >
+            {isOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
+          </button>
+        </div>
       </div>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-64 h-screen bg-logoBlue text-white z-20 transform ${
+        className={`fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 transition-transform duration-300`}
+        }`}
       >
-        <div className="p-6 text-left">
-          <h2 className="text-2xl text-popBlue font-bold">Admin Panel</h2>
+        {/* Header */}
+        <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-logoBlue/5 to-bgBlue/5">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-logoBlue to-bgBlue rounded-2xl flex items-center justify-center shadow-lg">
+              <FaUserShield className="text-white text-xl" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h1 className="text-xl font-bold text-logoBlue">Admin Panel</h1>
+                <FaCrown className="text-yellow-500 text-sm" />
+              </div>
+              <p className="text-sm text-gray-500">Election Management</p>
+            </div>
+          </div>
         </div>
-        <nav className="mt-8">
-          <ul className="space-y-4">
-            <li>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-4">
+          <div className="space-y-2">
+            {/* Home Link */}
+            <Link
+              href="/"
+              onClick={() => setIsOpen(false)}
+              className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-logoBlue hover:bg-logoBlue/5 transition-all duration-200"
+            >
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-logoBlue/10 flex items-center justify-center transition-colors duration-200">
+                <FaHome className="text-lg" />
+              </div>
+              <span className="font-medium">Home</span>
+            </Link>
+
+            {/* Admin Menu Items */}
+            {menuItems.map((item, index) => (
               <Link
-                href="/admin/adminPanel/candidate-details"
-                className="flex items-center py-2 px-4 hover:bg-popBlue"
+                key={index}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-logoBlue hover:bg-logoBlue/5 transition-all duration-200"
               >
-                <FaRegAddressCard className="mr-3 text-2xl" />
-                <span>Candidate Details</span>
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-logoBlue/10 flex items-center justify-center transition-colors duration-200">
+                  {item.icon}
+                </div>
+                <span className="font-medium">{item.label}</span>
               </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/adminPanel/add-details"
-                className="flex items-center py-2 px-4 hover:bg-popBlue"
-              >
-                <IoAddCircleOutline className="mr-3 text-2xl" />
-                <span>Add Candidate</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/adminPanel/votingStatus"
-                className="flex items-center py-2 px-4 hover:bg-popBlue"
-              >
-                <IoStatsChartSharp className="mr-3 text-xl" />
-                <span>Voting Status</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/adminPanel/reset"
-                className="flex items-center py-2 px-4 hover:bg-popBlue"
-              >
-                <GrPowerReset className="mr-3 text-xl" />
-                <span>Reset</span>
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center py-2 px-4 text-left hover:bg-popBlue"
-              >
-                <IoIosLogOut className="mr-3 text-2xl" />
-                <span>Logout</span>
-              </button>
-            </li>
-          </ul>
+            ))}
+          </div>
+
+          {/* Logout Button */}
+          <div className="mt-8 pt-4 border-t border-gray-200">
+            <button
+              onClick={handleLogout}
+              className="group flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:text-red-600 hover:bg-red-50 transition-all duration-200 w-full"
+            >
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-red-100 flex items-center justify-center transition-colors duration-200">
+                <FaSignOutAlt className="text-lg" />
+              </div>
+              <span className="font-medium">Logout</span>
+            </button>
+          </div>
         </nav>
+
+        {/* Admin Badge */}
+        <div className="p-4 border-t border-gray-200">
+          <div className="bg-gradient-to-r from-logoBlue/10 to-bgBlue/10 rounded-xl p-4 border border-logoBlue/20">
+            <div className="text-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-logoBlue to-bgBlue rounded-lg flex items-center justify-center mx-auto mb-2">
+                <FaUserShield className="text-white text-sm" />
+              </div>
+              <p className="text-xs font-medium text-logoBlue">QuickVote Admin</p>
+              <p className="text-xs text-gray-500">Secure Management</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Overlay for mobile view */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
-          onClick={toggleSidebar}
-        ></div>
-      )}
-
-      <div className={`lg:ml-64 min-h-screen`}></div>
+      {/* Main Content Spacer */}
+      <div className="lg:ml-72 min-h-screen pt-16 lg:pt-0">
+        {/* This div ensures proper spacing for the main content */}
+      </div>
     </>
   );
 };
