@@ -44,10 +44,6 @@ const FAQ = () => {
     <section className="py-24 bg-gray-50">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-logoBlue/10 rounded-full px-6 py-3 mb-6">
-            <FiChevronDown className="text-logoBlue" />
-            <span className="text-logoBlue font-semibold">FAQ</span>
-          </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-logoBlue mb-6">
             Frequently Asked Questions
           </h2>

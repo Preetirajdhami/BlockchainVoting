@@ -78,7 +78,7 @@ const Footer = () => {
                 width={70}
                 height={10}
               />
-               <span className="text-xl font-bold text-white">
+               <span className="text-xl text-center font-bold text-white">
               Quick <br/>Vote
             </span>
             </div>
@@ -132,7 +132,7 @@ const Footer = () => {
 
           {/* Useful Links */}
           <div className="space-y-6">
-            <h4 className="text-xl font-semibold text-popBlue">Resources</h4>
+            <h4 className="text-xl text-center font-semibold text-popBlue">Resources</h4>
             <div className="space-y-4">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <h5 className="font-semibold text-white mb-3">QR Code</h5>

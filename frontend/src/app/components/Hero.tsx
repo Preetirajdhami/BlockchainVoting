@@ -140,14 +140,14 @@ const Hero = () => {
             </div>
           </animated.div>
         </div>
+      </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="text-white/60 text-sm font-medium">Scroll to explore</div>
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse" />
-            </div>
+      {/* Scroll Indicator */}
+      <div className="hidden lg:block absolute bottom-8 right-8 animate-bounce">
+        <div className="flex flex-col items-center space-y-2">
+          <div className="text-white/60 text-sm font-medium">Scroll to explore</div>
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse" />
           </div>
         </div>
       </div>
