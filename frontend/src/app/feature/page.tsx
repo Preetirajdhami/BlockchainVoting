@@ -129,18 +129,20 @@ export default function FeaturesPage() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto pt-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">8+</div>
-                <div className="text-sm text-gray-300">Features</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">100%</div>
-                <div className="text-sm text-gray-300">Secure</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-popBlue">24/7</div>
-                <div className="text-sm text-gray-300">Support</div>
+            <div className="flex justify-center pt-8">
+              <div className="grid grid-cols-3 gap-16 max-w-md">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-popBlue">8+</div>
+                  <div className="text-sm text-gray-300">Features</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-popBlue">100%</div>
+                  <div className="text-sm text-gray-300">Secure</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-popBlue">24/7</div>
+                  <div className="text-sm text-gray-300">Support</div>
+                </div>
               </div>
             </div>
           </div>
